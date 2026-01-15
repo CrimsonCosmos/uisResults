@@ -508,44 +508,189 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description='UIS Athletics Results Tracker')
-    parser.add_argument('--year', type=int, default=2025,
-                        help='Season year to check (default: 2025)')
-    parser.add_argument('--sport', choices=['xc', 'indoor', 'outdoor'], default='xc',
-                        help='Sport: xc (cross country), indoor, outdoor')
     parser.add_argument('--days', type=int, default=5,
                         help='Number of days back to check (default: 5)')
     parser.add_argument('--visible', action='store_true',
                         help='Run browser in visible mode')
     args = parser.parse_args()
 
-    sport_names = {
-        'xc': 'Cross Country',
-        'indoor': 'Indoor Track & Field',
-        'outdoor': 'Outdoor Track & Field'
-    }
-
     print("=" * 70)
-    print(f"UIS {sport_names[args.sport]} Results Tracker")
-    print(f"Season: {args.year} | Checking last {args.days} days")
+    print("UIS Athletics Results Tracker")
+    print(f"Checking all sports for results in the last {args.days} days")
     print("=" * 70)
     print()
 
-    scraper = AthleticNetScraper(
-        headless=not args.visible,
-        year=args.year,
-        sport=args.sport,
-        days_back=args.days
-    )
-    result = scraper.run()
+    all_results = []
 
-    if result:
-        print("\n" + "=" * 70)
-        print("SUCCESS! Check the spreadsheet for results.")
-        print("=" * 70)
-    else:
+    # Determine which year/season to check for each sport based on current date
+    now = datetime.now()
+
+    # XC season: Aug-Nov
+    # Indoor: Dec-Mar (spans two calendar years)
+    # Outdoor: Mar-Jun
+
+    sports_to_check = []
+
+    # Figure out relevant seasons based on current month
+    if now.month in [8, 9, 10, 11]:  # Aug-Nov: XC season
+        sports_to_check.append(('xc', now.year))
+    if now.month in [12, 1, 2, 3]:  # Dec-Mar: Indoor season
+        # Indoor season year is the year it ends (e.g., Dec 2025 = 2026 indoor)
+        indoor_year = now.year if now.month <= 3 else now.year + 1
+        sports_to_check.append(('indoor', indoor_year))
+    if now.month in [3, 4, 5, 6]:  # Mar-Jun: Outdoor season
+        sports_to_check.append(('outdoor', now.year))
+
+    # Also check adjacent seasons in case of overlap or recent meets
+    # Always check all three to be safe
+    current_year = now.year
+    all_sport_years = [
+        ('xc', current_year),
+        ('indoor', current_year),
+        ('outdoor', current_year),
+    ]
+
+    # Use a set to avoid duplicates
+    sports_to_check = list(set(sports_to_check + all_sport_years))
+
+    for sport, year in sports_to_check:
+        sport_name = {
+            'xc': 'Cross Country',
+            'indoor': 'Indoor Track & Field',
+            'outdoor': 'Outdoor Track & Field'
+        }[sport]
+
+        print(f"\n{'='*50}")
+        print(f"Checking {sport_name} {year}...")
+        print('='*50)
+
+        try:
+            scraper = AthleticNetScraper(
+                headless=not args.visible,
+                year=year,
+                sport=sport,
+                days_back=args.days
+            )
+            scraper.start_browser()
+
+            # Get roster
+            roster = scraper.get_roster()
+
+            if not roster:
+                print(f"No roster found for {sport_name} {year}")
+                scraper.close_browser()
+                continue
+
+            print(f"Checking {len(roster)} athletes...")
+
+            for i, athlete in enumerate(roster):
+                print(f"  [{i+1}/{len(roster)}] {athlete['name']}...", end=' ', flush=True)
+
+                results, bests = scraper.get_athlete_results_and_bests(athlete['id'], athlete['name'])
+
+                if results:
+                    print(f"found {len(results)} recent result(s)")
+
+                    for result in results:
+                        event = result['event']
+                        current_time = result['time']
+                        result['sport'] = sport_name
+
+                        # Calculate improvements
+                        if event in bests:
+                            pr_best = bests[event].get('pr')
+                            sr_best = bests[event].get('sr')
+
+                            if result['record_type'] == 'PR' and pr_best:
+                                result['pr_improvement'] = scraper.calculate_improvement(current_time, pr_best)
+                                result['previous_pr'] = pr_best
+
+                            if result['record_type'] == 'SR' and sr_best:
+                                result['sr_improvement'] = scraper.calculate_improvement(current_time, sr_best)
+                                result['previous_sr'] = sr_best
+
+                            if not result['record_type'] and sr_best:
+                                current_seconds = scraper.time_to_seconds(current_time)
+                                sr_seconds = bests[event].get('sr_seconds', float('inf'))
+                                if sr_seconds != float('inf'):
+                                    result['sr_distance'] = (current_seconds - sr_seconds) / sr_seconds * 100
+                                    result['current_sr'] = sr_best
+
+                        all_results.append(result)
+                else:
+                    print("no recent results")
+
+            scraper.close_browser()
+
+        except Exception as e:
+            print(f"Error checking {sport_name}: {e}")
+            continue
+
+    if not all_results:
         print("\n" + "=" * 70)
         print("No results found in the specified time period.")
         print("=" * 70)
+        return
+
+    # Sort results: PRs by improvement, SRs by improvement, others by closeness to SR
+    print(f"\nFound {len(all_results)} total results. Sorting...")
+
+    prs = [r for r in all_results if r.get('record_type') == 'PR']
+    srs = [r for r in all_results if r.get('record_type') == 'SR']
+    others = [r for r in all_results if not r.get('record_type')]
+
+    prs.sort(key=lambda x: x.get('pr_improvement', 0), reverse=True)
+    srs.sort(key=lambda x: x.get('sr_improvement', 0), reverse=True)
+    others.sort(key=lambda x: x.get('sr_distance', float('inf')))
+
+    sorted_results = prs + srs + others
+
+    # Save to spreadsheet
+    data = []
+    for r in sorted_results:
+        row = {
+            'Name': r['athlete_name'],
+            'Type': r.get('record_type', '-'),
+            'Sport': r.get('sport', ''),
+            'Event': r['event'],
+            'Time/Mark': r['time'],
+            'Place': r['place'],
+            'Date': r['date_str'],
+            'Meet': r['meet_name'],
+        }
+
+        if r.get('record_type') == 'PR':
+            row['Previous Best'] = r.get('previous_pr', 'N/A')
+            row['Improvement %'] = f"{r.get('pr_improvement', 0):.2f}%"
+        elif r.get('record_type') == 'SR':
+            row['Previous Best'] = r.get('previous_sr', 'N/A')
+            row['Improvement %'] = f"{r.get('sr_improvement', 0):.2f}%"
+        else:
+            row['Previous Best'] = r.get('current_sr', 'N/A')
+            if r.get('sr_distance') is not None:
+                row['Improvement %'] = f"+{r.get('sr_distance', 0):.2f}% from SR"
+            else:
+                row['Improvement %'] = 'N/A'
+
+        data.append(row)
+
+    df = pd.DataFrame(data)
+    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Improvement %']
+    df = df[columns]
+
+    today = datetime.now().strftime('%Y%m%d')
+    filename = f"results_{today}.xlsx"
+    filepath = f"/Users/dylangehl/uisResults/{filename}"
+    df.to_excel(filepath, index=False, sheet_name='Results')
+
+    print(f"\nResults saved to: {filepath}")
+    print(f"  PRs: {len(prs)}")
+    print(f"  SRs: {len(srs)}")
+    print(f"  Others: {len(others)}")
+
+    print("\n" + "=" * 70)
+    print("SUCCESS! Check the spreadsheet for results.")
+    print("=" * 70)
 
 
 if __name__ == "__main__":
