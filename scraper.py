@@ -83,9 +83,9 @@ class AthleticNetScraper:
         print(f"Fetching roster from: {self.team_url}")
         self.driver.get(self.team_url)
 
-        # Wait for athlete links to appear (max 10 seconds, but usually faster)
+        # Wait for athlete links to appear (max 5 seconds)
         try:
-            WebDriverWait(self.driver, 10).until(
+            WebDriverWait(self.driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='/athlete/']"))
             )
         except:
@@ -179,9 +179,9 @@ class AthleticNetScraper:
         athlete_url = f"{self.BASE_URL}/athlete/{athlete_id}/{self.sport_config['athlete_path']}"
         self.driver.get(athlete_url)
 
-        # Wait for tables to load (max 5 seconds)
+        # Wait for tables to load (max 3 seconds)
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, 3).until(
                 EC.presence_of_element_located((By.TAG_NAME, "table"))
             )
         except:
@@ -552,37 +552,67 @@ class AthleticNetScraper:
 
 
 def get_relevant_sports(days_back):
-    """Determine which sport/year combos are relevant based on current date."""
+    """
+    Determine which sport/year combos are relevant based on NCAA D2 schedule.
+
+    NCAA D2 Championship dates (approximate):
+    - Cross Country: Early November (season: Aug-Nov)
+    - Indoor Track: Early March (season: Dec-Mar)
+    - Outdoor Track: Late May (season: Mar-Jun)
+
+    We only check sports where meets could have happened in the last N days.
+    """
     now = datetime.now()
     current_year = now.year
     month = now.month
+    lookback_start = now - timedelta(days=days_back)
 
     sports = []
 
-    # Cross Country: Aug-Nov (check previous year's season if within days_back of Nov)
-    if 8 <= month <= 11:
+    # Cross Country: Season Aug-Nov
+    # Check current year if in season, or last year if lookback reaches into last season
+    xc_current_start = datetime(current_year, 8, 1)
+    xc_current_end = datetime(current_year, 11, 30)
+    xc_last_start = datetime(current_year - 1, 8, 1)
+    xc_last_end = datetime(current_year - 1, 11, 30)
+
+    if xc_current_start <= now <= xc_current_end:
+        # Currently in XC season
         sports.append(('xc', current_year))
-    elif month <= 2 and days_back > 30:
-        # Early year, might still want last year's XC if looking far back
+    elif lookback_start <= xc_last_end and now >= xc_last_start:
+        # Lookback window overlaps with last year's XC season
         sports.append(('xc', current_year - 1))
+
+    # Indoor Track: Season Dec-Mar (spans calendar years)
+    # "Indoor 2026" = Dec 2025 through Mar 2026
+    if month <= 6:
+        # First half of year: current indoor season is this year
+        indoor_year = current_year
+        indoor_start = datetime(current_year - 1, 12, 1)
+        indoor_end = datetime(current_year, 3, 15)
     else:
-        sports.append(('xc', current_year - 1))  # Off-season, check last year
+        # Second half of year: next indoor season starts in Dec
+        indoor_year = current_year + 1
+        indoor_start = datetime(current_year, 12, 1)
+        indoor_end = datetime(current_year + 1, 3, 15)
 
-    # Indoor Track: Dec-Mar (spans two calendar years)
-    if month <= 3:
-        sports.append(('indoor', current_year))
-        if days_back > 15:  # Check previous year too for Dec meets
-            sports.append(('indoor', current_year - 1))
-    elif month == 12:
-        sports.append(('indoor', current_year + 1))  # Dec is start of next year's indoor
-        sports.append(('indoor', current_year))
+    if indoor_start <= now <= indoor_end:
+        # Currently in indoor season
+        sports.append(('indoor', indoor_year))
+    elif month <= 6 and lookback_start <= indoor_end:
+        # Lookback might catch end of indoor season
+        sports.append(('indoor', indoor_year))
 
-    # Outdoor Track: Mar-Jun
-    if 3 <= month <= 6:
+    # Outdoor Track: Season Mar-Jun
+    outdoor_start = datetime(current_year, 3, 1)
+    outdoor_end = datetime(current_year, 6, 15)
+    outdoor_last_end = datetime(current_year - 1, 6, 15)
+
+    if outdoor_start <= now <= outdoor_end:
+        # Currently in outdoor season
         sports.append(('outdoor', current_year))
-    elif month <= 2 and days_back > 30:
-        sports.append(('outdoor', current_year - 1))
-    else:
+    elif lookback_start <= outdoor_last_end and month <= 2:
+        # Very long lookback into last year's outdoor (unlikely but possible)
         sports.append(('outdoor', current_year - 1))
 
     # Remove duplicates while preserving order
