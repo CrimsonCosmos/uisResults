@@ -256,37 +256,62 @@ class AthleticNetScraper:
             if not re.search(r'\d{4}\s+(?:Indoor|Outdoor)', table_text):
                 continue
 
-            # Find all times with their PR markers
-            # Pattern: time followed by optional PR marker
-            time_entries = re.findall(r'(\d{1,2}:\d{2}\.\d+|\d+\.\d+)\s*(PR)?', table_text)
+            # Find all times with context (year, sport type)
+            # Pattern: "2025 Indoor Jr 16:37.46" or "2024 Outdoor So 17:13.53PR"
+            time_entries = re.findall(
+                r'(\d{4})\s+(Indoor|Outdoor)\s+\w{2}\s+(\d{1,2}:\d{2}\.\d+|\d+\.\d+)\s*(PR)?',
+                table_text
+            )
 
             if time_entries:
-                # Find best (PR) and current season best (SR)
+                # Collect all times with metadata
                 all_times = []
-                for t, is_pr in time_entries:
-                    secs = self.time_to_seconds(t)
+                current_season_times = []
+                sport_label = 'Indoor' if self.sport == 'indoor' else 'Outdoor'
+
+                for year_str, sport_type, time_str, is_pr in time_entries:
+                    secs = self.time_to_seconds(time_str)
                     if secs != float('inf'):
-                        all_times.append((secs, t, is_pr == 'PR'))
+                        entry = {
+                            'year': int(year_str),
+                            'sport': sport_type,
+                            'time': time_str,
+                            'seconds': secs,
+                            'is_pr': is_pr == 'PR'
+                        }
+                        all_times.append(entry)
+
+                        # Check if this is current season
+                        if int(year_str) == self.year and sport_type == sport_label:
+                            current_season_times.append(entry)
 
                 if all_times:
-                    # Sort to get best
-                    all_times.sort(key=lambda x: x[0])
+                    # Sort all times to find PR and previous PR
+                    all_times.sort(key=lambda x: x['seconds'])
                     best = all_times[0]
 
                     bests[event] = {
-                        'pr': best[1],
-                        'pr_seconds': best[0]
+                        'pr': best['time'],
+                        'pr_seconds': best['seconds'],
+                        'all_times': [t['time'] for t in all_times]  # Keep all times for reference
                     }
 
-                    # Try to find current year's SR for this sport
-                    # Pattern: "2025 Indoor Sr 16:37.46" or similar
-                    sport_label = 'Indoor' if self.sport == 'indoor' else 'Outdoor'
-                    sr_pattern = re.compile(rf'{self.year}\s+{sport_label}\s+\w{{2}}\s+(\d{{1,2}}:\d{{2}}\.\d+|\d+\.\d+)')
-                    sr_match = sr_pattern.search(table_text)
-                    if sr_match:
-                        sr_time = sr_match.group(1)
-                        bests[event]['sr'] = sr_time
-                        bests[event]['sr_seconds'] = self.time_to_seconds(sr_time)
+                    # Previous PR is the second-best all-time
+                    if len(all_times) > 1:
+                        bests[event]['previous_pr'] = all_times[1]['time']
+                        bests[event]['previous_pr_seconds'] = all_times[1]['seconds']
+
+                    # Current season record (SR)
+                    if current_season_times:
+                        current_season_times.sort(key=lambda x: x['seconds'])
+                        sr = current_season_times[0]
+                        bests[event]['sr'] = sr['time']
+                        bests[event]['sr_seconds'] = sr['seconds']
+
+                        # Previous SR is second-best this season
+                        if len(current_season_times) > 1:
+                            bests[event]['previous_sr'] = current_season_times[1]['time']
+                            bests[event]['previous_sr_seconds'] = current_season_times[1]['seconds']
 
         return results, bests
 
@@ -382,22 +407,28 @@ class AthleticNetScraper:
 
                         # Calculate improvements
                         if event in bests:
-                            pr_best = bests[event].get('pr')
+                            # For PRs: use previous_pr (second-best all-time) since current PR IS the new time
+                            previous_pr = bests[event].get('previous_pr')
+                            # For SRs: use previous_sr (second-best this season) since current SR IS the new time
+                            previous_sr = bests[event].get('previous_sr')
+                            # Current SR for non-PR/SR results
                             sr_best = bests[event].get('sr')
 
                             # For PRs, calculate improvement vs old PR
-                            if result['record_type'] == 'PR' and pr_best:
-                                # If this IS the PR, we need the previous PR
-                                # Since this result set the new PR, the old PR was slightly slower
-                                # We estimate old PR as current time + small delta
-                                # Or we could look at other results... for now, use stored PR
-                                result['pr_improvement'] = self.calculate_improvement(current_time, pr_best)
-                                result['previous_pr'] = pr_best
+                            if result['record_type'] == 'PR' and previous_pr:
+                                current_seconds = self.time_to_seconds(current_time)
+                                prev_pr_seconds = self.time_to_seconds(previous_pr)
+                                if prev_pr_seconds != float('inf') and 0.5 < prev_pr_seconds / current_seconds < 2.0:
+                                    result['pr_improvement'] = self.calculate_improvement(current_time, previous_pr)
+                                    result['previous_pr'] = previous_pr
 
                             # For SRs, calculate improvement vs old SR
-                            if result['record_type'] == 'SR' and sr_best:
-                                result['sr_improvement'] = self.calculate_improvement(current_time, sr_best)
-                                result['previous_sr'] = sr_best
+                            if result['record_type'] == 'SR' and previous_sr:
+                                current_seconds = self.time_to_seconds(current_time)
+                                prev_sr_seconds = self.time_to_seconds(previous_sr)
+                                if prev_sr_seconds != float('inf') and 0.5 < prev_sr_seconds / current_seconds < 2.0:
+                                    result['sr_improvement'] = self.calculate_improvement(current_time, previous_sr)
+                                    result['previous_sr'] = previous_sr
 
                             # For non-PR/SR, calculate distance from current SR
                             if not result['record_type'] and sr_best:
@@ -585,21 +616,29 @@ def main():
 
                         # Calculate improvements
                         if event in bests:
-                            pr_best = bests[event].get('pr')
+                            # For PRs: use previous_pr (second-best all-time) since current PR IS the new time
+                            previous_pr = bests[event].get('previous_pr')
+                            # For SRs: use previous_sr (second-best this season) since current SR IS the new time
+                            previous_sr = bests[event].get('previous_sr')
+                            # Current SR for non-PR/SR results
                             sr_best = bests[event].get('sr')
 
-                            if result['record_type'] == 'PR' and pr_best:
+                            if result['record_type'] == 'PR' and previous_pr:
                                 # Validate that previous best is reasonable (similar magnitude to current)
                                 current_secs = scraper.time_to_seconds(current_time)
-                                pr_secs = scraper.time_to_seconds(pr_best)
+                                prev_pr_secs = scraper.time_to_seconds(previous_pr)
                                 # Previous best should be within 50% of current time to be valid
-                                if pr_secs != float('inf') and 0.5 < pr_secs / current_secs < 2.0:
-                                    result['pr_improvement'] = scraper.calculate_improvement(current_time, pr_best)
-                                    result['previous_pr'] = pr_best
+                                if prev_pr_secs != float('inf') and 0.5 < prev_pr_secs / current_secs < 2.0:
+                                    result['pr_improvement'] = scraper.calculate_improvement(current_time, previous_pr)
+                                    result['previous_pr'] = previous_pr
 
-                            if result['record_type'] == 'SR' and sr_best:
-                                result['sr_improvement'] = scraper.calculate_improvement(current_time, sr_best)
-                                result['previous_sr'] = sr_best
+                            if result['record_type'] == 'SR' and previous_sr:
+                                # Validate that previous SR is reasonable
+                                current_secs = scraper.time_to_seconds(current_time)
+                                prev_sr_secs = scraper.time_to_seconds(previous_sr)
+                                if prev_sr_secs != float('inf') and 0.5 < prev_sr_secs / current_secs < 2.0:
+                                    result['sr_improvement'] = scraper.calculate_improvement(current_time, previous_sr)
+                                    result['previous_sr'] = previous_sr
 
                             if not result['record_type'] and sr_best:
                                 current_seconds = scraper.time_to_seconds(current_time)
