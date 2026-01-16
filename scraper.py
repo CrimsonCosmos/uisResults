@@ -524,34 +524,21 @@ def main():
 
     # Determine which year/season to check for each sport based on current date
     now = datetime.now()
-
-    # XC season: Aug-Nov
-    # Indoor: Dec-Mar (spans two calendar years)
-    # Outdoor: Mar-Jun
-
-    sports_to_check = []
-
-    # Figure out relevant seasons based on current month
-    if now.month in [8, 9, 10, 11]:  # Aug-Nov: XC season
-        sports_to_check.append(('xc', now.year))
-    if now.month in [12, 1, 2, 3]:  # Dec-Mar: Indoor season
-        # Indoor season year is the year it ends (e.g., Dec 2025 = 2026 indoor)
-        indoor_year = now.year if now.month <= 3 else now.year + 1
-        sports_to_check.append(('indoor', indoor_year))
-    if now.month in [3, 4, 5, 6]:  # Mar-Jun: Outdoor season
-        sports_to_check.append(('outdoor', now.year))
-
-    # Also check adjacent seasons in case of overlap or recent meets
-    # Always check all three to be safe
     current_year = now.year
-    all_sport_years = [
+
+    # Check current year and previous year for each sport to catch all recent results
+    # Indoor track spans Dec-Mar so we need both years
+    sports_to_check = [
         ('xc', current_year),
+        ('xc', current_year - 1),
         ('indoor', current_year),
+        ('indoor', current_year - 1),
         ('outdoor', current_year),
+        ('outdoor', current_year - 1),
     ]
 
-    # Use a set to avoid duplicates
-    sports_to_check = list(set(sports_to_check + all_sport_years))
+    # Remove duplicates
+    sports_to_check = list(set(sports_to_check))
 
     for sport, year in sports_to_check:
         sport_name = {
@@ -602,8 +589,13 @@ def main():
                             sr_best = bests[event].get('sr')
 
                             if result['record_type'] == 'PR' and pr_best:
-                                result['pr_improvement'] = scraper.calculate_improvement(current_time, pr_best)
-                                result['previous_pr'] = pr_best
+                                # Validate that previous best is reasonable (similar magnitude to current)
+                                current_secs = scraper.time_to_seconds(current_time)
+                                pr_secs = scraper.time_to_seconds(pr_best)
+                                # Previous best should be within 50% of current time to be valid
+                                if pr_secs != float('inf') and 0.5 < pr_secs / current_secs < 2.0:
+                                    result['pr_improvement'] = scraper.calculate_improvement(current_time, pr_best)
+                                    result['previous_pr'] = pr_best
 
                             if result['record_type'] == 'SR' and sr_best:
                                 result['sr_improvement'] = scraper.calculate_improvement(current_time, sr_best)
@@ -631,6 +623,18 @@ def main():
         print("No results found in the specified time period.")
         print("=" * 70)
         return
+
+    # Deduplicate results (same athlete, event, date, time can appear in multiple sports)
+    seen = set()
+    unique_results = []
+    for r in all_results:
+        key = (r['athlete_name'], r['event'], r['date_str'], r['time'])
+        if key not in seen:
+            seen.add(key)
+            unique_results.append(r)
+
+    all_results = unique_results
+    print(f"After deduplication: {len(all_results)} unique results")
 
     # Sort results: PRs by improvement, SRs by improvement, others by closeness to SR
     print(f"\nFound {len(all_results)} total results. Sorting...")
