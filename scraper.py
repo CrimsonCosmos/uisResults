@@ -189,6 +189,82 @@ class AthleticNetScraper:
 
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
 
+        return self._parse_athlete_page(soup, athlete_id, athlete_name)
+
+    def get_athletes_parallel(self, athletes, num_tabs=3):
+        """
+        Check multiple athletes in parallel using browser tabs.
+        Returns list of (athlete, results, bests) tuples.
+        """
+        if not athletes:
+            return []
+
+        all_data = []
+        original_handle = self.driver.current_window_handle
+
+        # Process in batches
+        for batch_start in range(0, len(athletes), num_tabs):
+            batch = athletes[batch_start:batch_start + num_tabs]
+            handles = []
+            athlete_urls = []
+
+            # Open tabs and start loading pages
+            for i, athlete in enumerate(batch):
+                url = f"{self.BASE_URL}/athlete/{athlete['id']}/{self.sport_config['athlete_path']}"
+                athlete_urls.append(url)
+
+                if i == 0:
+                    # Use existing tab for first athlete
+                    self.driver.get(url)
+                    handles.append(self.driver.current_window_handle)
+                else:
+                    # Open new tab for subsequent athletes
+                    self.driver.execute_script("window.open('');")
+                    self.driver.switch_to.window(self.driver.window_handles[-1])
+                    self.driver.get(url)
+                    handles.append(self.driver.current_window_handle)
+
+            # Wait a moment for pages to load
+            time.sleep(1.5)
+
+            # Collect results from each tab
+            for i, (athlete, handle) in enumerate(zip(batch, handles)):
+                self.driver.switch_to.window(handle)
+
+                # Quick wait for content
+                try:
+                    WebDriverWait(self.driver, 2).until(
+                        EC.presence_of_element_located((By.TAG_NAME, "table"))
+                    )
+                except:
+                    pass
+
+                # Check for rate limiting (page shows error or unusual content)
+                page_source = self.driver.page_source
+                if "rate limit" in page_source.lower() or "too many requests" in page_source.lower():
+                    print("\n  [!] Rate limited - waiting 30 seconds...")
+                    time.sleep(30)
+                    self.driver.get(athlete_urls[i])
+                    time.sleep(2)
+                    page_source = self.driver.page_source
+
+                soup = BeautifulSoup(page_source, 'html.parser')
+                results, bests = self._parse_athlete_page(soup, athlete['id'], athlete['name'])
+                all_data.append((athlete, results, bests))
+
+            # Close extra tabs (keep only the first one)
+            for handle in handles[1:]:
+                self.driver.switch_to.window(handle)
+                self.driver.close()
+
+            # Switch back to original tab
+            self.driver.switch_to.window(original_handle)
+
+        return all_data
+
+    def _parse_athlete_page(self, soup, athlete_id, athlete_name):
+        """Parse an athlete's page HTML and extract results and bests."""
+
         results = []
         bests = {}  # {event: {'pr': time, 'sr': time, 'pr_seconds': float, 'sr_seconds': float}}
 
@@ -703,14 +779,28 @@ def main():
             else:
                 print(f"Checking {len(new_athletes)} athletes...")
 
-            for i, athlete in enumerate(new_athletes):
-                print(f"  [{i+1}/{len(new_athletes)}] {athlete['name']}...", end=' ', flush=True)
-
+            # Mark all as checked
+            for athlete in new_athletes:
                 checked_athletes.add(athlete['id'])
-                results, bests = scraper.get_athlete_results_and_bests(athlete['id'], athlete['name'])
 
-                if results:
-                    print(f"found {len(results)} recent result(s)")
+            # Process athletes in parallel (3 at a time)
+            NUM_PARALLEL_TABS = 3
+            for batch_start in range(0, len(new_athletes), NUM_PARALLEL_TABS):
+                batch = new_athletes[batch_start:batch_start + NUM_PARALLEL_TABS]
+                batch_names = ', '.join(a['name'] for a in batch)
+                print(f"  [{batch_start+1}-{batch_start+len(batch)}/{len(new_athletes)}] {batch_names}...", end=' ', flush=True)
+
+                batch_data = scraper.get_athletes_parallel(batch, num_tabs=NUM_PARALLEL_TABS)
+
+                found_count = sum(1 for _, results, _ in batch_data if results)
+                if found_count > 0:
+                    print(f"found results for {found_count}")
+                else:
+                    print("no recent results")
+
+                for athlete, results, bests in batch_data:
+                    if not results:
+                        continue
 
                     for result in results:
                         event = result['event']
@@ -751,8 +841,6 @@ def main():
                                     result['current_sr'] = sr_best
 
                         all_results.append(result)
-                else:
-                    print("no recent results")
 
     finally:
         driver.quit()
