@@ -11,6 +11,9 @@ from datetime import datetime, timedelta
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -79,7 +82,14 @@ class AthleticNetScraper:
         """Get the team roster with athlete IDs."""
         print(f"Fetching roster from: {self.team_url}")
         self.driver.get(self.team_url)
-        time.sleep(4)
+
+        # Wait for athlete links to appear (max 10 seconds, but usually faster)
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='/athlete/']"))
+            )
+        except:
+            pass  # Continue anyway - page might have no athletes
 
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
 
@@ -168,7 +178,14 @@ class AthleticNetScraper:
         """Get an athlete's recent results and their best times from their profile."""
         athlete_url = f"{self.BASE_URL}/athlete/{athlete_id}/{self.sport_config['athlete_path']}"
         self.driver.get(athlete_url)
-        time.sleep(2)
+
+        # Wait for tables to load (max 5 seconds)
+        try:
+            WebDriverWait(self.driver, 5).until(
+                EC.presence_of_element_located((By.TAG_NAME, "table"))
+            )
+        except:
+            pass  # Continue anyway - might have no results
 
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
 
@@ -534,6 +551,51 @@ class AthleticNetScraper:
         return filepath
 
 
+def get_relevant_sports(days_back):
+    """Determine which sport/year combos are relevant based on current date."""
+    now = datetime.now()
+    current_year = now.year
+    month = now.month
+
+    sports = []
+
+    # Cross Country: Aug-Nov (check previous year's season if within days_back of Nov)
+    if 8 <= month <= 11:
+        sports.append(('xc', current_year))
+    elif month <= 2 and days_back > 30:
+        # Early year, might still want last year's XC if looking far back
+        sports.append(('xc', current_year - 1))
+    else:
+        sports.append(('xc', current_year - 1))  # Off-season, check last year
+
+    # Indoor Track: Dec-Mar (spans two calendar years)
+    if month <= 3:
+        sports.append(('indoor', current_year))
+        if days_back > 15:  # Check previous year too for Dec meets
+            sports.append(('indoor', current_year - 1))
+    elif month == 12:
+        sports.append(('indoor', current_year + 1))  # Dec is start of next year's indoor
+        sports.append(('indoor', current_year))
+
+    # Outdoor Track: Mar-Jun
+    if 3 <= month <= 6:
+        sports.append(('outdoor', current_year))
+    elif month <= 2 and days_back > 30:
+        sports.append(('outdoor', current_year - 1))
+    else:
+        sports.append(('outdoor', current_year - 1))
+
+    # Remove duplicates while preserving order
+    seen = set()
+    unique = []
+    for s in sports:
+        if s not in seen:
+            seen.add(s)
+            unique.append(s)
+
+    return unique
+
+
 def main():
     """Main entry point."""
     import argparse
@@ -549,61 +611,72 @@ def main():
     print("UIS Athletics Results Tracker")
     print(f"Checking all sports for results in the last {args.days} days")
     print("=" * 70)
-    print()
 
     all_results = []
+    checked_athletes = set()  # Track athlete IDs we've already checked
 
-    # Determine which year/season to check for each sport based on current date
-    now = datetime.now()
-    current_year = now.year
+    # Get relevant sports based on current date
+    sports_to_check = get_relevant_sports(args.days)
 
-    # Check current year and previous year for each sport to catch all recent results
-    # Indoor track spans Dec-Mar so we need both years
-    sports_to_check = [
-        ('xc', current_year),
-        ('xc', current_year - 1),
-        ('indoor', current_year),
-        ('indoor', current_year - 1),
-        ('outdoor', current_year),
-        ('outdoor', current_year - 1),
-    ]
+    sport_names = {
+        'xc': 'Cross Country',
+        'indoor': 'Indoor Track & Field',
+        'outdoor': 'Outdoor Track & Field'
+    }
 
-    # Remove duplicates
-    sports_to_check = list(set(sports_to_check))
+    print(f"Checking: {', '.join(f'{sport_names[s]} {y}' for s, y in sports_to_check)}")
+    print()
 
-    for sport, year in sports_to_check:
-        sport_name = {
-            'xc': 'Cross Country',
-            'indoor': 'Indoor Track & Field',
-            'outdoor': 'Outdoor Track & Field'
-        }[sport]
+    # Start browser ONCE and reuse it
+    options = Options()
+    if not args.visible:
+        options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36")
 
-        print(f"\n{'='*50}")
-        print(f"Checking {sport_name} {year}...")
-        print('='*50)
+    print("Starting browser...")
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
 
-        try:
+    try:
+        for sport, year in sports_to_check:
+            sport_name = sport_names[sport]
+
+            print(f"\n{'='*50}")
+            print(f"Checking {sport_name} {year}...")
+            print('='*50)
+
             scraper = AthleticNetScraper(
                 headless=not args.visible,
                 year=year,
                 sport=sport,
                 days_back=args.days
             )
-            scraper.start_browser()
+            # Share the browser instead of starting a new one
+            scraper.driver = driver
 
             # Get roster
             roster = scraper.get_roster()
 
             if not roster:
                 print(f"No roster found for {sport_name} {year}")
-                scraper.close_browser()
                 continue
 
-            print(f"Checking {len(roster)} athletes...")
+            # Filter out already-checked athletes
+            new_athletes = [a for a in roster if a['id'] not in checked_athletes]
+            skipped = len(roster) - len(new_athletes)
 
-            for i, athlete in enumerate(roster):
-                print(f"  [{i+1}/{len(roster)}] {athlete['name']}...", end=' ', flush=True)
+            if skipped > 0:
+                print(f"Checking {len(new_athletes)} athletes ({skipped} already checked)...")
+            else:
+                print(f"Checking {len(new_athletes)} athletes...")
 
+            for i, athlete in enumerate(new_athletes):
+                print(f"  [{i+1}/{len(new_athletes)}] {athlete['name']}...", end=' ', flush=True)
+
+                checked_athletes.add(athlete['id'])
                 results, bests = scraper.get_athlete_results_and_bests(athlete['id'], athlete['name'])
 
                 if results:
@@ -651,11 +724,8 @@ def main():
                 else:
                     print("no recent results")
 
-            scraper.close_browser()
-
-        except Exception as e:
-            print(f"Error checking {sport_name}: {e}")
-            continue
+    finally:
+        driver.quit()
 
     if not all_results:
         print("\n" + "=" * 70)
