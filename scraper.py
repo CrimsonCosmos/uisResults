@@ -461,7 +461,131 @@ class AthleticNetAPI:
             else:
                 print("no UIS results")
 
+        # Now fetch previous bests for athletes with PRs/SRs
+        # This adds a few extra API calls but gives us the improvement data
+        pr_sr_results = [r for r in results if r.get('record_type')]
+        if pr_sr_results:
+            print(f"  Fetching previous bests for {len(set(r['athlete_id'] for r in pr_sr_results))} athletes with PRs/SRs...")
+            self._fetch_previous_bests(pr_sr_results, sport, driver)
+
         return results
+
+    def _fetch_previous_bests(self, results, sport, driver):
+        """
+        Fetch previous best times for athletes with PRs/SRs.
+        Updates the results in place with previous_pr, previous_sr, and improvement data.
+        """
+        # Group results by athlete to minimize API calls
+        athletes_to_fetch = {}
+        for r in results:
+            if r.get('record_type'):
+                athlete_id = r['athlete_id']
+                if athlete_id not in athletes_to_fetch:
+                    athletes_to_fetch[athlete_id] = {
+                        'name': r['athlete_name'],
+                        'results': []
+                    }
+                athletes_to_fetch[athlete_id]['results'].append(r)
+
+        # Fetch bio data for each athlete
+        for athlete_id, data in athletes_to_fetch.items():
+            try:
+                # Load athlete page to get proper tokens
+                if sport == 'xc':
+                    athlete_url = f"https://www.athletic.net/athlete/{athlete_id}/cross-country"
+                else:
+                    athlete_url = f"https://www.athletic.net/athlete/{athlete_id}/track-and-field"
+
+                driver.get(athlete_url)
+                time.sleep(1.5)
+
+                # Capture fresh tokens
+                logs = driver.get_log('performance')
+                for log in logs:
+                    try:
+                        message = json.loads(log['message'])['message']
+                        if message['method'] == 'Network.requestWillBeSent':
+                            headers = message['params']['request'].get('headers', {})
+                            if headers.get('anettokens'):
+                                self.tokens['anettokens'] = headers['anettokens']
+                    except:
+                        pass
+
+                # Get athlete bio
+                bio_data = self.get_athlete_bio(athlete_id, sport=sport, referer=athlete_url)
+                if not bio_data:
+                    continue
+
+                # Extract results from bio - XC uses resultsXC, TF uses resultsTF
+                all_results = bio_data.get('resultsXC', []) if sport == 'xc' else bio_data.get('resultsTF', [])
+                if not all_results:
+                    continue
+
+                # Group by distance (for XC) or event
+                distance_results = {}
+                for br in all_results:
+                    # Use Distance for XC grouping
+                    distance = br.get('Distance', 0)
+                    if distance not in distance_results:
+                        distance_results[distance] = []
+                    distance_results[distance].append({
+                        'time': br.get('Result', ''),
+                        'seconds': br.get('SortValue', float('inf')),  # Use SortValue directly
+                        'is_pr': br.get('PersonalBest', False),
+                        'is_sr': br.get('SeasonBest', False),
+                        'season': br.get('SeasonID', 0)
+                    })
+
+                # For each result, find the previous best
+                for r in data['results']:
+                    event = r['event']
+                    current_time = r['time']
+                    current_seconds = self._time_to_seconds(current_time)
+
+                    # Extract distance from event name (e.g., "8,000 Meters" -> 8000)
+                    distance_match = re.search(r'(\d+,?\d*)\s*(?:meters?|m)', event.lower())
+                    if distance_match:
+                        target_distance = int(distance_match.group(1).replace(',', ''))
+                    else:
+                        continue
+
+                    # Find matching distance results
+                    if target_distance not in distance_results:
+                        # Try close matches (within 100m)
+                        for d in distance_results.keys():
+                            if abs(d - target_distance) < 100:
+                                target_distance = d
+                                break
+
+                    if target_distance not in distance_results:
+                        continue
+
+                    # Sort all times for this distance (best first)
+                    times = sorted(distance_results[target_distance], key=lambda x: x['seconds'])
+
+                    if r['record_type'] == 'PR':
+                        # Find times better than or equal to current (within 1 second tolerance)
+                        # The current PR should be the best, previous PR is second best
+                        if len(times) >= 2:
+                            # First is current PR, second is previous best
+                            prev_pr = times[1]
+                            r['previous_pr'] = prev_pr['time']
+                            if prev_pr['seconds'] > 0 and prev_pr['seconds'] != float('inf'):
+                                improvement = (prev_pr['seconds'] - current_seconds) / prev_pr['seconds'] * 100
+                                r['pr_improvement'] = improvement
+
+                    elif r['record_type'] == 'SR':
+                        # For SR, find second best time overall (simplification)
+                        if len(times) >= 2:
+                            prev_sr = times[1]
+                            r['previous_sr'] = prev_sr['time']
+                            if prev_sr['seconds'] > 0 and prev_sr['seconds'] != float('inf'):
+                                improvement = (prev_sr['seconds'] - current_seconds) / prev_sr['seconds'] * 100
+                                r['sr_improvement'] = improvement
+
+            except Exception as e:
+                # Skip this athlete on error
+                continue
 
 
 class AthleticNetScraper:
