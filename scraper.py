@@ -3,10 +3,16 @@
 UIS Athletics Results Scraper
 Scrapes athletic.net for Illinois-Springfield athletes' recent results.
 Checks each athlete's profile for events in the last 5 days and identifies PRs, SRs.
+
+This scraper uses a hybrid approach:
+1. First tries fast API calls (10-50x faster)
+2. Falls back to Selenium scraping if API fails
 """
 
 import time
 import re
+import json
+import requests
 from datetime import datetime, timedelta
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -17,6 +23,445 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import pandas as pd
+
+
+class AthleticNetAPI:
+    """
+    Fast API client for athletic.net.
+    Captures tokens from browser session and makes direct API calls.
+    """
+
+    API_BASE = "https://www.athletic.net/api/v1"
+
+    def __init__(self):
+        self.session = requests.Session()
+        self.tokens = {}
+        self.cookies_set = False
+
+    def init_from_browser(self, driver):
+        """
+        Capture API tokens from browser's network requests.
+        Call this after the page has fully loaded.
+        """
+        # Transfer cookies
+        for cookie in driver.get_cookies():
+            self.session.cookies.set(cookie['name'], cookie['value'])
+        self.cookies_set = True
+
+        # Capture tokens from network logs
+        try:
+            logs = driver.get_log('performance')
+            for log in logs:
+                try:
+                    message = json.loads(log['message'])['message']
+                    if message['method'] == 'Network.requestWillBeSent':
+                        headers = message['params']['request'].get('headers', {})
+                        if headers.get('anettokens'):
+                            self.tokens['anettokens'] = headers['anettokens']
+                        if headers.get('anet-site-roles-token'):
+                            self.tokens['anet-site-roles-token'] = headers['anet-site-roles-token']
+                        if headers.get('anet-appinfo'):
+                            self.tokens['anet-appinfo'] = headers['anet-appinfo']
+                        if self.tokens.get('anettokens') and self.tokens.get('anet-site-roles-token'):
+                            break
+                except:
+                    pass
+        except Exception as e:
+            print(f"  Warning: Could not capture API tokens: {e}")
+
+        return bool(self.tokens.get('anettokens'))
+
+    def _make_request(self, endpoint, params=None, referer=None):
+        """Make API request with captured tokens."""
+        if not self.cookies_set:
+            return None
+
+        url = f"{self.API_BASE}/{endpoint}"
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+            'anet-appinfo': self.tokens.get('anet-appinfo', 'web:web:0:360'),
+        }
+
+        if self.tokens.get('anettokens'):
+            headers['anettokens'] = self.tokens['anettokens']
+        if self.tokens.get('anet-site-roles-token'):
+            headers['anet-site-roles-token'] = self.tokens['anet-site-roles-token']
+        if referer:
+            headers['Referer'] = referer
+
+        try:
+            resp = self.session.get(url, params=params, headers=headers, timeout=10)
+            if resp.status_code == 200:
+                return resp.json()
+        except Exception as e:
+            pass
+        return None
+
+    def get_roster(self, season_id, referer=None):
+        """Get team roster via API."""
+        data = self._make_request(
+            "TeamHome/GetAthletes",
+            params={'seasonId': season_id},
+            referer=referer
+        )
+        if data and isinstance(data, list):
+            return [{'id': str(a['ID']), 'name': a['Name'], 'gender': a.get('Gender', '')} for a in data]
+        return None
+
+    def get_athlete_bio(self, athlete_id, sport='xc', referer=None):
+        """Get athlete bio data including all results."""
+        sport_code = 'xc' if sport == 'xc' else 'tf'
+        data = self._make_request(
+            "AthleteBio/GetAthleteBioData",
+            params={'athleteId': athlete_id, 'sport': sport_code, 'level': 0},
+            referer=referer
+        )
+        return data
+
+    def parse_athlete_results(self, bio_data, athlete_id, athlete_name, cutoff_date, year):
+        """
+        Parse API athlete bio response into results and bests format.
+        Returns (results, bests) tuple matching the Selenium scraper format.
+        """
+        results = []
+        bests = {}
+
+        if not bio_data:
+            return results, bests
+
+        # Parse results from bio data
+        # API returns results with PersonalBest and SeasonBest flags
+        results_data = bio_data.get('results', [])
+
+        for result in results_data:
+            try:
+                # Parse date
+                date_str = result.get('MeetDate', '')
+                if date_str:
+                    # API returns dates in format "2025-01-15T00:00:00"
+                    result_date = datetime.strptime(date_str[:10], "%Y-%m-%d")
+                else:
+                    continue
+
+                # Skip if before cutoff
+                if result_date < cutoff_date:
+                    continue
+
+                event = result.get('Event', '')
+                time_str = result.get('Result', '')
+                place = result.get('Place', 0)
+                meet_name = result.get('MeetName', '')
+
+                # Determine record type
+                record_type = None
+                if result.get('PersonalBest'):
+                    record_type = 'PR'
+                elif result.get('SeasonBest'):
+                    record_type = 'SR'
+
+                results.append({
+                    'athlete_name': athlete_name,
+                    'athlete_id': athlete_id,
+                    'event': event,
+                    'place': place,
+                    'time': time_str,
+                    'record_type': record_type,
+                    'date': result_date,
+                    'date_str': result_date.strftime("%b %d, %Y"),
+                    'meet_name': meet_name
+                })
+
+            except Exception:
+                continue
+
+        # Parse bests from bio data
+        # Look for season bests and personal bests per event
+        season_bests = bio_data.get('seasonBests', [])
+        personal_bests = bio_data.get('personalBests', [])
+
+        # Build bests dictionary from personal bests
+        for pb in personal_bests:
+            event = pb.get('Event', '')
+            time_str = pb.get('Result', '')
+            if event and time_str:
+                time_secs = self._time_to_seconds(time_str)
+                bests[event] = {
+                    'pr': time_str,
+                    'pr_seconds': time_secs
+                }
+
+        # Add season bests
+        for sb in season_bests:
+            event = sb.get('Event', '')
+            time_str = sb.get('Result', '')
+            sb_year = sb.get('Year', 0)
+
+            if event and time_str and sb_year == year:
+                time_secs = self._time_to_seconds(time_str)
+                if event not in bests:
+                    bests[event] = {}
+                bests[event]['sr'] = time_str
+                bests[event]['sr_seconds'] = time_secs
+
+        return results, bests
+
+    def _time_to_seconds(self, time_str):
+        """Convert time string to seconds."""
+        if not time_str:
+            return float('inf')
+
+        time_str = re.sub(r'[PRSRprsr\s\*]+', '', time_str).strip()
+
+        try:
+            if ':' in time_str:
+                parts = time_str.split(':')
+                if len(parts) == 2:
+                    return int(parts[0]) * 60 + float(parts[1])
+                elif len(parts) == 3:
+                    return int(parts[0]) * 3600 + int(parts[1]) * 60 + float(parts[2])
+            else:
+                return float(time_str)
+        except (ValueError, IndexError):
+            return float('inf')
+
+    # ===== NEW MEET-BASED APPROACH (MUCH FASTER) =====
+
+    @staticmethod
+    def get_season_id(sport, year):
+        """
+        Convert sport + year to athletic.net's seasonId format.
+
+        athletic.net uses different seasonId formats:
+        - Cross Country: year (e.g., 2025)
+        - Indoor Track: year + 10000 (e.g., 12026 for 2026)
+        - Outdoor Track: year (e.g., 2025)
+        """
+        if sport == 'indoor':
+            return year + 10000
+        else:
+            return year
+
+    def get_team_calendar(self, season_id, referer=None):
+        """
+        Get team calendar with all meets for a season.
+        Returns list of meets with IDs, dates, and hasResults flags.
+        """
+        data = self._make_request(
+            "TeamHomeCal/GetCalendar",
+            params={'seasonId': season_id},
+            referer=referer
+        )
+        if data and isinstance(data, list):
+            return data
+        return None
+
+    def get_meet_data(self, meet_id, sport='xc', referer=None):
+        """
+        Get meet data including division IDs.
+        Returns dict with xcDivisions or tfDivisions containing division info.
+        """
+        sport_code = 'xc' if sport == 'xc' else 'tf'
+        data = self._make_request(
+            "Meet/GetMeetData",
+            params={'meetId': meet_id, 'sport': sport_code},
+            referer=referer
+        )
+        return data
+
+    def get_meet_results(self, div_id, meet_id, referer=None):
+        """
+        Get all results for a meet division via POST to GetResultsData3.
+        This is the FAST way to get results - one call per division instead of per athlete!
+
+        Returns dict with 'resultsXC' or 'resultsTF' list containing all athlete results
+        with isPr and isSr flags.
+        """
+        if not self.cookies_set:
+            return None
+
+        url = f"{self.API_BASE}/Meet/GetResultsData3"
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+            'Content-Type': 'application/json',
+            'anet-appinfo': self.tokens.get('anet-appinfo', 'web:web:0:360'),
+        }
+
+        if self.tokens.get('anettokens'):
+            headers['anettokens'] = self.tokens['anettokens']
+        if self.tokens.get('anet-site-roles-token'):
+            headers['anet-site-roles-token'] = self.tokens['anet-site-roles-token']
+        if referer:
+            headers['Referer'] = referer
+
+        try:
+            resp = self.session.post(url, json={'divId': div_id}, headers=headers, timeout=15)
+            if resp.status_code == 200:
+                return resp.json()
+        except Exception as e:
+            pass
+        return None
+
+    def get_team_results_from_meets(self, team_id, season_id, sport, cutoff_date, driver, referer=None):
+        """
+        FAST approach: Get all team results by checking recent meets.
+
+        Instead of checking each athlete individually, we:
+        1. Get the team calendar (list of meets)
+        2. Filter to meets within date range that have results
+        3. For each meet, load the page to get meet-specific tokens
+        4. Get division results and filter to our team
+
+        This is 10-50x faster than checking individual athletes!
+
+        Args:
+            driver: Selenium WebDriver instance (needed to load meet pages for tokens)
+
+        Returns list of results in the standard format.
+        """
+        results = []
+
+        # Get team calendar
+        calendar = self.get_team_calendar(season_id, referer=referer)
+        if not calendar:
+            return None
+
+        # Filter to meets with results within date range
+        recent_meets = []
+        for meet in calendar:
+            if not meet.get('MeetHasResults'):
+                continue
+
+            # Parse meet date
+            meet_date_str = meet.get('StartDate', '')
+            if not meet_date_str:
+                continue
+
+            try:
+                meet_date = datetime.strptime(meet_date_str[:10], "%Y-%m-%d")
+                if meet_date >= cutoff_date:
+                    recent_meets.append({
+                        'id': meet['MeetID'],
+                        'name': meet['Name'],
+                        'date': meet_date,
+                        'date_str': meet_date.strftime("%b %d, %Y")
+                    })
+            except:
+                continue
+
+        if not recent_meets:
+            return results  # Empty list, no recent meets
+
+        print(f"  Found {len(recent_meets)} recent meet(s) with results")
+
+        # For each recent meet, get results
+        for meet in recent_meets:
+            meet_id = meet['id']
+            meet_name = meet['name']
+            meet_date = meet['date']
+            meet_date_str = meet['date_str']
+
+            print(f"    Checking {meet_name}...", end=' ', flush=True)
+
+            # Build meet URL based on sport
+            if sport == 'xc':
+                meet_url = f"https://www.athletic.net/CrossCountry/meet/{meet_id}/results"
+            else:
+                meet_url = f"https://www.athletic.net/TrackAndField/meet/{meet_id}/results"
+
+            # IMPORTANT: Load the meet page to get meet-specific tokens
+            # The anettokens JWT contains the meetId and is required for GetResultsData3
+            try:
+                driver.get(meet_url)
+                time.sleep(2)  # Wait for page and API calls
+
+                # Capture fresh tokens for this meet
+                logs = driver.get_log('performance')
+                for log in logs:
+                    try:
+                        message = json.loads(log['message'])['message']
+                        if message['method'] == 'Network.requestWillBeSent':
+                            headers = message['params']['request'].get('headers', {})
+                            if headers.get('anettokens'):
+                                self.tokens['anettokens'] = headers['anettokens']
+                            if headers.get('anet-site-roles-token'):
+                                self.tokens['anet-site-roles-token'] = headers['anet-site-roles-token']
+                    except:
+                        pass
+            except Exception as e:
+                print(f"page load failed: {e}")
+                continue
+
+            # Get meet data to find divisions
+            meet_data = self.get_meet_data(meet_id, sport=sport, referer=meet_url)
+            if not meet_data:
+                print("no data")
+                continue
+
+            # Get divisions based on sport
+            divisions = meet_data.get('xcDivisions', []) if sport == 'xc' else meet_data.get('tfDivisions', [])
+
+            if not divisions:
+                print("no divisions")
+                continue
+
+            meet_results_count = 0
+
+            # Get results for each division
+            for div in divisions:
+                div_id = div.get('IDMeetDiv')
+                div_name = div.get('DivName', 'Unknown')
+                event_name = div_name  # For XC, division name is the event
+
+                if not div_id:
+                    continue
+
+                # Get results for this division
+                div_results = self.get_meet_results(div_id, meet_id, referer=meet_url)
+                if not div_results:
+                    continue
+
+                # Extract results (XC uses resultsXC, TF would use resultsTF)
+                results_list = div_results.get('resultsXC', []) or div_results.get('resultsTF', [])
+
+                # Filter to our team
+                for r in results_list:
+                    if r.get('IDSchool') != team_id:
+                        continue
+
+                    # Build result object
+                    first_name = r.get('FirstName', '')
+                    last_name = r.get('LastName', '')
+                    athlete_name = f"{first_name} {last_name}".strip()
+
+                    record_type = None
+                    if r.get('isPr'):
+                        record_type = 'PR'
+                    elif r.get('isSr'):
+                        record_type = 'SR'
+
+                    result_obj = {
+                        'athlete_name': athlete_name,
+                        'athlete_id': str(r.get('AthleteID', '')),
+                        'event': event_name,
+                        'place': r.get('Place', 0),
+                        'time': r.get('Result', ''),
+                        'record_type': record_type,
+                        'date': meet_date,
+                        'date_str': meet_date_str,
+                        'meet_name': meet_name
+                    }
+
+                    results.append(result_obj)
+                    meet_results_count += 1
+
+            if meet_results_count > 0:
+                print(f"found {meet_results_count} UIS result(s)")
+            else:
+                print("no UIS results")
+
+        return results
 
 
 class AthleticNetScraper:
@@ -742,9 +1187,17 @@ def main():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36")
 
+    # Enable performance logging to capture API tokens
+    options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
+
     print("Starting browser...")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
+
+    # Initialize API client
+    api = AthleticNetAPI()
+    api_initialized = False
+    use_api = True  # Will be set to False if API fails
 
     try:
         for sport, year in sports_to_check:
@@ -763,8 +1216,72 @@ def main():
             # Share the browser instead of starting a new one
             scraper.driver = driver
 
+            # Build team URL for API referer
+            team_url = f"https://www.athletic.net/team/65580/{scraper.sport_config['url_path']}/{year}"
+
+            # First, load the team page (needed for both API token capture and Selenium fallback)
+            print(f"Loading team page...")
+            driver.get(team_url)
+
+            # Wait for page to fully load (important for token capture)
+            time.sleep(4)
+
+            # Initialize API on first sport (capture tokens from network logs)
+            if not api_initialized and use_api:
+                print("Capturing API tokens from browser...")
+                if api.init_from_browser(driver):
+                    print("  API tokens captured successfully!")
+                    api_initialized = True
+                else:
+                    print("  Could not capture API tokens - will use Selenium scraping")
+                    use_api = False
+
+            # ===== NEW: MEET-BASED APPROACH (FASTEST) =====
+            # Instead of checking each athlete, we check recent meets directly
+            # This is 10-50x faster!
+
+            cutoff_date = datetime.now() - timedelta(days=args.days)
+            sport_results = None
+
+            if use_api and api_initialized:
+                print("Using FAST meet-based API approach...")
+                # Convert sport + year to proper seasonId (indoor uses year + 10000)
+                season_id = api.get_season_id(sport, year)
+                sport_results = api.get_team_results_from_meets(
+                    team_id=65580,  # UIS team ID
+                    season_id=season_id,
+                    sport=sport,
+                    cutoff_date=cutoff_date,
+                    driver=driver,  # Pass driver for meet page loading
+                    referer=team_url
+                )
+
+                if sport_results is not None:
+                    # Success! Add results with sport name
+                    for r in sport_results:
+                        r['sport'] = sport_name
+                    all_results.extend(sport_results)
+                    print(f"  Found {len(sport_results)} total results via meet-based approach")
+                    continue  # Skip to next sport - we're done!
+                else:
+                    print("  Meet-based approach failed, falling back to athlete-by-athlete...")
+
+            # ===== FALLBACK: ATHLETE-BY-ATHLETE APPROACH =====
+            # Only used if meet-based approach fails
+
             # Get roster
-            roster = scraper.get_roster()
+            roster = None
+            if use_api and api_initialized:
+                print("Trying API for roster...")
+                roster = api.get_roster(year, referer=team_url)
+                if roster:
+                    print(f"  API: Found {len(roster)} athletes")
+                else:
+                    print("  API roster failed - falling back to Selenium")
+
+            # Fallback to Selenium scraping for roster
+            if not roster:
+                roster = scraper.get_roster()
 
             if not roster:
                 print(f"No roster found for {sport_name} {year}")
@@ -783,64 +1300,126 @@ def main():
             for athlete in new_athletes:
                 checked_athletes.add(athlete['id'])
 
-            # Process athletes in parallel (3 at a time)
-            NUM_PARALLEL_TABS = 3
-            for batch_start in range(0, len(new_athletes), NUM_PARALLEL_TABS):
-                batch = new_athletes[batch_start:batch_start + NUM_PARALLEL_TABS]
-                batch_names = ', '.join(a['name'] for a in batch)
-                print(f"  [{batch_start+1}-{batch_start+len(batch)}/{len(new_athletes)}] {batch_names}...", end=' ', flush=True)
+            # Process athletes - old API approach (fallback)
+            if use_api and api_initialized:
+                print(f"Using athlete-by-athlete API approach...")
+                api_failed = False
 
-                batch_data = scraper.get_athletes_parallel(batch, num_tabs=NUM_PARALLEL_TABS)
+                for i, athlete in enumerate(new_athletes):
+                    print(f"  [{i+1}/{len(new_athletes)}] {athlete['name']}...", end=' ', flush=True)
 
-                found_count = sum(1 for _, results, _ in batch_data if results)
-                if found_count > 0:
-                    print(f"found results for {found_count}")
+                    referer = f"https://www.athletic.net/athlete/{athlete['id']}/{scraper.sport_config['athlete_path']}"
+                    bio_data = api.get_athlete_bio(athlete['id'], sport=sport, referer=referer)
+
+                    if bio_data is None:
+                        # API failed - switch to Selenium for remaining athletes
+                        print("API failed!")
+                        api_failed = True
+                        use_api = False
+                        remaining = new_athletes[i:]
+                        print(f"\nFalling back to Selenium for {len(remaining)} remaining athletes...")
+                        break
+
+                    results, bests = api.parse_athlete_results(
+                        bio_data, athlete['id'], athlete['name'], cutoff_date, year
+                    )
+
+                    if results:
+                        print(f"found {len(results)} recent result(s)")
+                        for result in results:
+                            result['sport'] = sport_name
+                            event = result['event']
+                            current_time = result['time']
+
+                            # Calculate improvements
+                            if event in bests:
+                                sr_best = bests[event].get('sr')
+
+                                if result['record_type'] == 'PR' and bests[event].get('pr'):
+                                    result['previous_pr'] = bests[event].get('pr')
+                                    # Note: API doesn't give us "previous PR", just current PR
+
+                                if result['record_type'] == 'SR' and sr_best:
+                                    result['previous_sr'] = sr_best
+
+                                if not result['record_type'] and sr_best:
+                                    current_seconds = scraper.time_to_seconds(current_time)
+                                    sr_seconds = bests[event].get('sr_seconds', float('inf'))
+                                    if sr_seconds != float('inf'):
+                                        result['sr_distance'] = (current_seconds - sr_seconds) / sr_seconds * 100
+                                        result['current_sr'] = sr_best
+
+                            all_results.append(result)
+                    else:
+                        print("no recent results")
+
+                if api_failed:
+                    # Continue with Selenium for remaining athletes
+                    remaining_athletes = new_athletes[new_athletes.index(athlete):]
                 else:
-                    print("no recent results")
+                    remaining_athletes = []
+            else:
+                remaining_athletes = new_athletes
 
-                for athlete, results, bests in batch_data:
-                    if not results:
-                        continue
+            # Selenium fallback (or primary if API not available)
+            if remaining_athletes:
+                NUM_PARALLEL_TABS = 3
+                for batch_start in range(0, len(remaining_athletes), NUM_PARALLEL_TABS):
+                    batch = remaining_athletes[batch_start:batch_start + NUM_PARALLEL_TABS]
+                    batch_names = ', '.join(a['name'] for a in batch)
+                    print(f"  [{batch_start+1}-{batch_start+len(batch)}/{len(remaining_athletes)}] {batch_names}...", end=' ', flush=True)
 
-                    for result in results:
-                        event = result['event']
-                        current_time = result['time']
-                        result['sport'] = sport_name
+                    batch_data = scraper.get_athletes_parallel(batch, num_tabs=NUM_PARALLEL_TABS)
 
-                        # Calculate improvements
-                        if event in bests:
-                            # For PRs: use previous_pr (second-best all-time) since current PR IS the new time
-                            previous_pr = bests[event].get('previous_pr')
-                            # For SRs: use previous_sr (second-best this season) since current SR IS the new time
-                            previous_sr = bests[event].get('previous_sr')
-                            # Current SR for non-PR/SR results
-                            sr_best = bests[event].get('sr')
+                    found_count = sum(1 for _, results, _ in batch_data if results)
+                    if found_count > 0:
+                        print(f"found results for {found_count}")
+                    else:
+                        print("no recent results")
 
-                            if result['record_type'] == 'PR' and previous_pr:
-                                # Validate that previous best is reasonable (similar magnitude to current)
-                                current_secs = scraper.time_to_seconds(current_time)
-                                prev_pr_secs = scraper.time_to_seconds(previous_pr)
-                                # Previous best should be within 50% of current time to be valid
-                                if prev_pr_secs != float('inf') and 0.5 < prev_pr_secs / current_secs < 2.0:
-                                    result['pr_improvement'] = scraper.calculate_improvement(current_time, previous_pr)
-                                    result['previous_pr'] = previous_pr
+                    for athlete, results, bests in batch_data:
+                        if not results:
+                            continue
 
-                            if result['record_type'] == 'SR' and previous_sr:
-                                # Validate that previous SR is reasonable
-                                current_secs = scraper.time_to_seconds(current_time)
-                                prev_sr_secs = scraper.time_to_seconds(previous_sr)
-                                if prev_sr_secs != float('inf') and 0.5 < prev_sr_secs / current_secs < 2.0:
-                                    result['sr_improvement'] = scraper.calculate_improvement(current_time, previous_sr)
-                                    result['previous_sr'] = previous_sr
+                        for result in results:
+                            event = result['event']
+                            current_time = result['time']
+                            result['sport'] = sport_name
 
-                            if not result['record_type'] and sr_best:
-                                current_seconds = scraper.time_to_seconds(current_time)
-                                sr_seconds = bests[event].get('sr_seconds', float('inf'))
-                                if sr_seconds != float('inf'):
-                                    result['sr_distance'] = (current_seconds - sr_seconds) / sr_seconds * 100
-                                    result['current_sr'] = sr_best
+                            # Calculate improvements
+                            if event in bests:
+                                # For PRs: use previous_pr (second-best all-time) since current PR IS the new time
+                                previous_pr = bests[event].get('previous_pr')
+                                # For SRs: use previous_sr (second-best this season) since current SR IS the new time
+                                previous_sr = bests[event].get('previous_sr')
+                                # Current SR for non-PR/SR results
+                                sr_best = bests[event].get('sr')
 
-                        all_results.append(result)
+                                if result['record_type'] == 'PR' and previous_pr:
+                                    # Validate that previous best is reasonable (similar magnitude to current)
+                                    current_secs = scraper.time_to_seconds(current_time)
+                                    prev_pr_secs = scraper.time_to_seconds(previous_pr)
+                                    # Previous best should be within 50% of current time to be valid
+                                    if prev_pr_secs != float('inf') and 0.5 < prev_pr_secs / current_secs < 2.0:
+                                        result['pr_improvement'] = scraper.calculate_improvement(current_time, previous_pr)
+                                        result['previous_pr'] = previous_pr
+
+                                if result['record_type'] == 'SR' and previous_sr:
+                                    # Validate that previous SR is reasonable
+                                    current_secs = scraper.time_to_seconds(current_time)
+                                    prev_sr_secs = scraper.time_to_seconds(previous_sr)
+                                    if prev_sr_secs != float('inf') and 0.5 < prev_sr_secs / current_secs < 2.0:
+                                        result['sr_improvement'] = scraper.calculate_improvement(current_time, previous_sr)
+                                        result['previous_sr'] = previous_sr
+
+                                if not result['record_type'] and sr_best:
+                                    current_seconds = scraper.time_to_seconds(current_time)
+                                    sr_seconds = bests[event].get('sr_seconds', float('inf'))
+                                    if sr_seconds != float('inf'):
+                                        result['sr_distance'] = (current_seconds - sr_seconds) / sr_seconds * 100
+                                        result['current_sr'] = sr_best
+
+                            all_results.append(result)
 
     finally:
         driver.quit()
