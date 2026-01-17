@@ -1156,11 +1156,23 @@ def main():
                         help='Number of days back to check (default: 5)')
     parser.add_argument('--visible', action='store_true',
                         help='Run browser in visible mode')
+
+    # Sport filter options (mutually exclusive)
+    sport_group = parser.add_mutually_exclusive_group()
+    sport_group.add_argument('--xc', action='store_true',
+                             help='Only check Cross Country')
+    sport_group.add_argument('--indoor', action='store_true',
+                             help='Only check Indoor Track & Field')
+    sport_group.add_argument('--outdoor', action='store_true',
+                             help='Only check Outdoor Track & Field')
+    sport_group.add_argument('--track', action='store_true',
+                             help='Only check Track & Field (both indoor and outdoor)')
+
     args = parser.parse_args()
 
     print("=" * 70)
     print("UIS Athletics Results Tracker")
-    print(f"Checking all sports for results in the last {args.days} days")
+    print(f"Checking for results in the last {args.days} days")
     print("=" * 70)
 
     all_results = []
@@ -1174,6 +1186,35 @@ def main():
         'indoor': 'Indoor Track & Field',
         'outdoor': 'Outdoor Track & Field'
     }
+
+    # Apply sport filter if specified
+    now = datetime.now()
+    if args.xc:
+        sports_to_check = [(s, y) for s, y in sports_to_check if s == 'xc']
+        if not sports_to_check:
+            # Force XC even if not in season
+            sports_to_check = [('xc', now.year)]
+    elif args.indoor:
+        sports_to_check = [(s, y) for s, y in sports_to_check if s == 'indoor']
+        if not sports_to_check:
+            # Force indoor even if not in season
+            year = now.year if now.month <= 6 else now.year + 1
+            sports_to_check = [('indoor', year)]
+    elif args.outdoor:
+        sports_to_check = [(s, y) for s, y in sports_to_check if s == 'outdoor']
+        if not sports_to_check:
+            # Force outdoor even if not in season
+            sports_to_check = [('outdoor', now.year)]
+    elif args.track:
+        sports_to_check = [(s, y) for s, y in sports_to_check if s in ('indoor', 'outdoor')]
+        if not sports_to_check:
+            # Force both track seasons
+            indoor_year = now.year if now.month <= 6 else now.year + 1
+            sports_to_check = [('indoor', indoor_year), ('outdoor', now.year)]
+
+    if not sports_to_check:
+        print("No sports to check for the specified criteria.")
+        return
 
     print(f"Checking: {', '.join(f'{sport_names[s]} {y}' for s, y in sports_to_check)}")
     print()
