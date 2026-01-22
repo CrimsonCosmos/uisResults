@@ -1756,6 +1756,7 @@ def _push_results_to_website(data, cutoff_date, end_date, checked_sports):
     """
     import json
     import subprocess
+    import os
     from datetime import datetime
 
     WINTERN_REPO_PATH = os.path.expanduser("~/wintern-next")
