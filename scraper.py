@@ -2072,7 +2072,9 @@ def main():
     args = parser.parse_args()
 
     # Set output directory
-    if args.desktop:
+    if args.cloud:
+        output_dir = "."  # Current directory for GitHub Actions
+    elif args.desktop:
         output_dir = "/Users/dylangehl/Desktop"
     else:
         output_dir = "/Users/dylangehl/uisResults"
@@ -2550,6 +2552,13 @@ def main():
     filepath = f"{output_dir}/{base_filename}.xlsx"
 
     # Try to save, overwriting any existing file
+    # Export to JSON first (important for cloud mode)
+    try:
+        _push_results_to_website(data, cutoff_date, end_date, checked_sports, cloud_mode=args.cloud)
+    except Exception as e:
+        print(f"\nWarning: Could not push to website: {e}")
+
+    # Try to save Excel file
     import os
     try:
         # If file exists, check if it's writable
@@ -2557,24 +2566,21 @@ def main():
             with open(filepath, 'a'):
                 pass  # Just checking if file is locked
         _save_styled_excel(df, filepath, sorted_results)
+        print(f"\nResults saved to: {filepath}")
     except (PermissionError, OSError) as e:
-        print(f"\nError: Could not save to {filepath}")
-        print(f"The file may be open in another application (like Excel).")
-        print(f"Please close the file and run the scraper again.")
-        return
+        if not args.cloud:
+            print(f"\nError: Could not save to {filepath}")
+            print(f"The file may be open in another application (like Excel).")
+            print(f"Please close the file and run the scraper again.")
+            return
+        else:
+            print(f"\nSkipping Excel save in cloud mode")
 
-    print(f"\nResults saved to: {filepath}")
     print(f"  PRs: {len(prs)}")
     print(f"  SRs: {len(srs)}")
     print(f"  First Times: {len(fts)}")
     print(f"  Other Results: {len(others)}")
     print(f"  DNS/DNF: {len(dns_dnf)}")
-
-    # Export to JSON and push to website
-    try:
-        _push_results_to_website(data, cutoff_date, end_date, checked_sports, cloud_mode=args.cloud)
-    except Exception as e:
-        print(f"\nWarning: Could not push to website: {e}")
 
     print("\n" + "=" * 70)
     print("SUCCESS! Check the spreadsheet for results.")
