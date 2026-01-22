@@ -1,0 +1,21 @@
+{
+  "email": {
+    "recipient": "dylangehl31@gmail.com",
+    "sender": "dylangehl31@gmail.com",
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587
+  },
+  "watched_athletes": [
+    {
+      "id": "29640757",
+      "name": "Chase Cooley",
+      "sports": ["xc", "indoor", "outdoor"]
+    },
+    {
+      "id": "1740070",
+      "name": "Dylan Gehl",
+      "sports": ["xc", "indoor", "outdoor"]
+    }
+  ],
+  "check_interval_seconds": 60
+}

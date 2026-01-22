@@ -25,6 +25,145 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 
+# Events that are comparable between indoor and outdoor track
+# Indoor SR should carry over to outdoor for these events
+COMPARABLE_INDOOR_OUTDOOR_EVENTS = {
+    '800', '800 Meters', '800m',
+    '1000', '1000 Meters', '1000m',
+    '1500', '1500 Meters', '1500m',
+    'Mile', '1 Mile',
+    '3000', '3000 Meters', '3000m',
+    '5000', '5000 Meters', '5000m', '5K',
+    '10000', '10000 Meters', '10000m', '10K',
+    'High Jump', 'HJ',
+    'Pole Vault', 'PV',
+    'Long Jump', 'LJ',
+    'Triple Jump', 'TJ',
+    'Shot Put', 'SP',
+}
+
+# NCAA D2 Qualifying Standards (2025-26 Season)
+# Source: https://www.ncaa.org/sports/2013/11/5/division-ii-men-s-and-women-s-indoor-track-and-field.aspx
+# Times are in seconds, distances in meters
+NCAA_D2_STANDARDS = {
+    'indoor': {
+        'M': {  # Men's Indoor
+            '60': 6.85, '60 Meters': 6.85, '60m': 6.85,
+            '200': 21.65, '200 Meters': 21.65, '200m': 21.65,
+            '400': 48.30, '400 Meters': 48.30, '400m': 48.30,
+            '800': 112.01, '800 Meters': 112.01, '800m': 112.01,  # 1:52.01
+            'Mile': 247.63, '1 Mile': 247.63,  # 4:07.63
+            '3000': 492.89, '3000 Meters': 492.89, '3000m': 492.89,  # 8:12.89
+            '5000': 861.50, '5000 Meters': 861.50, '5000m': 861.50, '5K': 861.50,  # 14:21.50
+            '60 Hurdles': 8.05, '60H': 8.05, '60m Hurdles': 8.05,
+            'High Jump': 2.08, 'HJ': 2.08,
+            'Pole Vault': 4.95, 'PV': 4.95,
+            'Long Jump': 7.35, 'LJ': 7.35,
+            'Triple Jump': 14.80, 'TJ': 14.80,
+            'Shot Put': 17.20, 'SP': 17.20,
+            'Weight Throw': 19.00, 'WT': 19.00,
+        },
+        'W': {  # Women's Indoor
+            '60': 7.61, '60 Meters': 7.61, '60m': 7.61,
+            '200': 24.63, '200 Meters': 24.63, '200m': 24.63,
+            '400': 56.50, '400 Meters': 56.50, '400m': 56.50,
+            '800': 133.30, '800 Meters': 133.30, '800m': 133.30,  # 2:13.30
+            'Mile': 294.48, '1 Mile': 294.48,  # 4:54.48
+            '3000': 590.34, '3000 Meters': 590.34, '3000m': 590.34,  # 9:50.34
+            '5000': 1023.21, '5000 Meters': 1023.21, '5000m': 1023.21, '5K': 1023.21,  # 17:03.21
+            '60 Hurdles': 8.79, '60H': 8.79, '60m Hurdles': 8.79,
+            'High Jump': 1.67, 'HJ': 1.67,
+            'Pole Vault': 3.72, 'PV': 3.72,
+            'Long Jump': 5.72, 'LJ': 5.72,
+            'Triple Jump': 11.74, 'TJ': 11.74,
+            'Shot Put': 13.64, 'SP': 13.64,
+            'Weight Throw': 17.26, 'WT': 17.26,
+        },
+    },
+    'outdoor': {
+        'M': {  # Men's Outdoor
+            '100': 10.55, '100 Meters': 10.55, '100m': 10.55,
+            '200': 21.30, '200 Meters': 21.30, '200m': 21.30,
+            '400': 47.20, '400 Meters': 47.20, '400m': 47.20,
+            '800': 110.50, '800 Meters': 110.50, '800m': 110.50,  # 1:50.50
+            '1500': 228.00, '1500 Meters': 228.00, '1500m': 228.00,  # 3:48.00
+            '5000': 855.00, '5000 Meters': 855.00, '5000m': 855.00, '5K': 855.00,  # 14:15.00
+            '10000': 1770.00, '10000 Meters': 1770.00, '10000m': 1770.00, '10K': 1770.00,  # 29:30.00
+            '110 Hurdles': 14.30, '110H': 14.30, '110m Hurdles': 14.30,
+            '400 Hurdles': 52.50, '400H': 52.50, '400m Hurdles': 52.50,
+            'Steeplechase': 555.00, '3000 Steeplechase': 555.00, '3000m Steeplechase': 555.00,  # 9:15.00
+            'High Jump': 2.10, 'HJ': 2.10,
+            'Pole Vault': 5.00, 'PV': 5.00,
+            'Long Jump': 7.45, 'LJ': 7.45,
+            'Triple Jump': 15.00, 'TJ': 15.00,
+            'Shot Put': 17.50, 'SP': 17.50,
+            'Discus': 52.00, 'Discus Throw': 52.00,
+            'Hammer': 56.00, 'Hammer Throw': 56.00,
+            'Javelin': 62.00, 'Javelin Throw': 62.00,
+            'Decathlon': 7000,
+        },
+        'W': {  # Women's Outdoor
+            '100': 11.75, '100 Meters': 11.75, '100m': 11.75,
+            '200': 24.20, '200 Meters': 24.20, '200m': 24.20,
+            '400': 55.50, '400 Meters': 55.50, '400m': 55.50,
+            '800': 130.00, '800 Meters': 130.00, '800m': 130.00,  # 2:10.00
+            '1500': 270.00, '1500 Meters': 270.00, '1500m': 270.00,  # 4:30.00
+            '5000': 1005.00, '5000 Meters': 1005.00, '5000m': 1005.00, '5K': 1005.00,  # 16:45.00
+            '10000': 2100.00, '10000 Meters': 2100.00, '10000m': 2100.00, '10K': 2100.00,  # 35:00.00
+            '100 Hurdles': 14.00, '100H': 14.00, '100m Hurdles': 14.00,
+            '400 Hurdles': 61.00, '400H': 61.00, '400m Hurdles': 61.00,
+            'Steeplechase': 660.00, '3000 Steeplechase': 660.00, '3000m Steeplechase': 660.00,  # 11:00.00
+            'High Jump': 1.70, 'HJ': 1.70,
+            'Pole Vault': 3.80, 'PV': 3.80,
+            'Long Jump': 5.85, 'LJ': 5.85,
+            'Triple Jump': 12.00, 'TJ': 12.00,
+            'Shot Put': 14.00, 'SP': 14.00,
+            'Discus': 47.00, 'Discus Throw': 47.00,
+            'Hammer': 54.00, 'Hammer Throw': 54.00,
+            'Javelin': 44.00, 'Javelin Throw': 44.00,
+            'Heptathlon': 4800,
+        },
+    },
+}
+
+
+def get_ncaa_standard(event_name, sport, gender):
+    """
+    Get NCAA D2 qualifying standard for an event.
+    Returns the standard in seconds (for time events) or meters (for field events).
+    Returns None if no standard found.
+    """
+    season = 'indoor' if sport == 'indoor' else 'outdoor'
+    standards = NCAA_D2_STANDARDS.get(season, {}).get(gender, {})
+
+    # Try exact match first
+    if event_name in standards:
+        return standards[event_name]
+
+    # Try partial match
+    event_lower = event_name.lower()
+    for std_event, std_value in standards.items():
+        if std_event.lower() in event_lower or event_lower in std_event.lower():
+            return std_value
+
+    return None
+
+
+def format_standard_time(seconds):
+    """Convert seconds to time string (e.g., 112.01 -> '1:52.01')."""
+    if seconds >= 3600:
+        hours = int(seconds // 3600)
+        mins = int((seconds % 3600) // 60)
+        secs = seconds % 60
+        return f"{hours}:{mins:02d}:{secs:05.2f}"
+    elif seconds >= 60:
+        mins = int(seconds // 60)
+        secs = seconds % 60
+        return f"{mins}:{secs:05.2f}"
+    else:
+        return f"{seconds:.2f}"
+
+
 class AthleticNetAPI:
     """
     Fast API client for athletic.net.
@@ -425,9 +564,10 @@ class AthleticNetAPI:
                 # Extract results (XC uses resultsXC, TF would use resultsTF)
                 results_list = div_results.get('resultsXC', []) or div_results.get('resultsTF', [])
 
-                # Filter to our team
+                # Filter to our team (handle both int and string comparisons)
                 for r in results_list:
-                    if r.get('IDSchool') != team_id:
+                    school_id = r.get('IDSchool')
+                    if school_id != team_id and str(school_id) != str(team_id):
                         continue
 
                     # Build result object
@@ -445,6 +585,7 @@ class AthleticNetAPI:
                         'athlete_name': athlete_name,
                         'athlete_id': str(r.get('AthleteID', '')),
                         'event': event_name,
+                        'event_id': r.get('EventID'),  # For track event matching
                         'place': r.get('Place', 0),
                         'time': r.get('Result', ''),
                         'record_type': record_type,
@@ -461,127 +602,434 @@ class AthleticNetAPI:
             else:
                 print("no UIS results")
 
-        # Now fetch previous bests for athletes with PRs/SRs
-        # This adds a few extra API calls but gives us the improvement data
-        pr_sr_results = [r for r in results if r.get('record_type')]
-        if pr_sr_results:
-            print(f"  Fetching previous bests for {len(set(r['athlete_id'] for r in pr_sr_results))} athletes with PRs/SRs...")
-            self._fetch_previous_bests(pr_sr_results, sport, driver)
+        # Fetch bests for ALL athletes who competed
+        # This gives us previous PRs for PR results and current bests for others
+        if results:
+            unique_athletes = len(set(r['athlete_id'] for r in results))
+            print(f"  Fetching athlete bests for {unique_athletes} athletes...")
+
+            # Reload team page to get fresh tokens (meet tokens might not work for bio requests)
+            sport_path = 'cross-country' if sport == 'xc' else 'track-and-field'
+            team_url = f"https://www.athletic.net/team/65580/{sport_path}/{datetime.now().year}"
+            driver.get(team_url)
+            time.sleep(2)
+            logs = driver.get_log('performance')
+            for log in logs:
+                try:
+                    message = json.loads(log['message'])['message']
+                    if message['method'] == 'Network.requestWillBeSent':
+                        headers = message['params']['request'].get('headers', {})
+                        if headers.get('anettokens'):
+                            self.tokens['anettokens'] = headers['anettokens']
+                        if headers.get('anet-site-roles-token'):
+                            self.tokens['anet-site-roles-token'] = headers['anet-site-roles-token']
+                except:
+                    pass
+
+            self._fetch_athlete_bests(results, sport, driver)
 
         return results
 
-    def _fetch_previous_bests(self, results, sport, driver):
+    def get_track_results_from_athletes(self, roster, season_id, sport, cutoff_date, driver, referer=None):
         """
-        Fetch previous best times for athletes with PRs/SRs.
-        Updates the results in place with previous_pr, previous_sr, and improvement data.
+        Get track results by checking each athlete's bio.
+        This is needed because track meet results API doesn't return data the same way as XC.
+
+        Returns list of results with PR/SR flags.
+        """
+        results = []
+        cutoff_str = cutoff_date.strftime('%Y-%m-%d')
+
+        print(f"  Checking roster ({len(roster)} total athletes)...")
+
+        active_count = 0  # Count of athletes with current season activity
+        for i, athlete in enumerate(roster):
+            athlete_id = athlete['id']
+            athlete_name = athlete['name']
+            athlete_gender = athlete.get('gender', '')  # 'M' or 'F'
+
+            # Get athlete bio with retry and rate limiting
+            bio_data = None
+            for attempt in range(7):  # Up to 7 attempts
+                bio_data = self.get_athlete_bio(athlete_id, sport=sport, referer=referer)
+                if bio_data:
+                    break
+                wait_time = 1.0 + (attempt * 0.5)  # Increasing backoff: 1s, 1.5s, 2s, etc.
+                time.sleep(wait_time)
+
+            if not bio_data:
+                print(f"      [!] Failed to get data for {athlete_name} after {attempt+1} attempts")
+                continue
+
+            # Get results and event mappings
+            tf_results = bio_data.get('resultsTF', [])
+
+            # Quick check: does this athlete have ANY results this season?
+            has_current_season = any(r.get('SeasonID') == season_id for r in tf_results)
+            if not has_current_season:
+                # Skip athletes not on current season roster (no API delay needed)
+                continue
+
+            active_count += 1
+            # Progress indicator - only show athletes with current season activity
+            print(f"    [{active_count}] {athlete_name}")
+
+            # Delay between athletes to avoid rate limiting
+            time.sleep(0.25)
+
+            events_list = bio_data.get('eventsTF', [])
+            meets_data = bio_data.get('meets', {})
+
+            # Build lookup maps
+            events = {}  # EventID -> event name
+            event_name_to_ids = {}  # event name -> list of EventIDs (for matching across indoor/outdoor)
+            for e in events_list:
+                if isinstance(e, dict):
+                    event_id = e.get('IDEvent')
+                    name = e.get('Event', f"Event {event_id}")
+                    events[event_id] = name
+                    # Group EventIDs by normalized event name (for FT detection across seasons)
+                    if name not in event_name_to_ids:
+                        event_name_to_ids[name] = []
+                    event_name_to_ids[name].append(event_id)
+
+            # meets_data is a dict with string keys (meet IDs)
+            # Each value is a dict with 'IDMeet', 'MeetName', 'EndDate'
+            meets = {}
+            if isinstance(meets_data, dict):
+                for meet_id, meet_info in meets_data.items():
+                    if isinstance(meet_info, dict):
+                        meets[int(meet_id)] = meet_info
+                        meets[str(meet_id)] = meet_info  # Also store with string key
+
+            # Filter for this season and after cutoff date
+            for r in tf_results:
+                if r.get('SeasonID') != season_id:
+                    continue
+
+                result_date = r.get('ResultDate', '')[:10] if r.get('ResultDate') else ''
+                if result_date < cutoff_str:
+                    continue
+
+                # Get event and meet info
+                event_name = events.get(r.get('EventID'), f"Event {r.get('EventID')}")
+                meet_id = r.get('MeetID')
+                meet_info = meets.get(meet_id) or meets.get(str(meet_id)) or {}
+                meet_name = meet_info.get('MeetName', 'Unknown Meet') if isinstance(meet_info, dict) else 'Unknown Meet'
+
+                # Determine record type
+                record_type = None
+                is_pr = r.get('PersonalBest')
+                is_sr = r.get('SeasonBest')
+                # PersonalBest can be a number (98 = PR) or boolean
+                if is_pr and (is_pr is True or is_pr >= 90):
+                    record_type = 'PR'
+                elif is_sr and (is_sr is True or is_sr >= 1):
+                    record_type = 'SR'
+
+                # Find previous best for this event from athlete's history
+                current_result = r.get('Result', '')
+                event_id = r.get('EventID')
+                previous_pr = None
+                previous_sr = None
+
+                # Helper function to parse time strings
+                def parse_time(time_str):
+                    """Convert time string to seconds for comparison."""
+                    if not time_str:
+                        return float('inf')
+                    # Remove suffixes like 'a', 'h', etc.
+                    time_str = re.sub(r'[a-zA-Z\s\*]+', '', str(time_str)).strip()
+                    try:
+                        if ':' in time_str:
+                            parts = time_str.split(':')
+                            if len(parts) == 2:
+                                return float(parts[0]) * 60 + float(parts[1])
+                            elif len(parts) == 3:
+                                return float(parts[0]) * 3600 + float(parts[1]) * 60 + float(parts[2])
+                        return float(time_str)
+                    except:
+                        return float('inf')
+
+                # Get all results for this event (match by event NAME to include indoor/outdoor)
+                # This ensures FT detection works across seasons (indoor 800 + outdoor 800)
+                matching_event_ids = event_name_to_ids.get(event_name, [event_id])
+                event_results = [
+                    res for res in tf_results
+                    if res.get('EventID') in matching_event_ids and res.get('Result') != current_result
+                ]
+
+                if event_results:
+                    # Find previous PR (best time before this result)
+                    all_times = [(parse_time(res.get('Result')), res.get('Result')) for res in event_results]
+                    all_times = [(t, r) for t, r in all_times if t != float('inf')]
+                    if all_times:
+                        all_times.sort(key=lambda x: x[0])
+                        previous_pr = all_times[0][1]  # Best previous time
+
+                    # Find previous SR (best time this season before this result)
+                    # For outdoor season, also include indoor results for comparable events
+                    valid_season_ids = {season_id}
+
+                    # Check if this is outdoor season and event is comparable
+                    # Outdoor season_id is just the year (e.g., 2026)
+                    # Indoor season_id is year + 10000 (e.g., 12026)
+                    is_outdoor = season_id < 10000
+                    is_comparable_event = any(comp.lower() in event_name.lower()
+                                              for comp in COMPARABLE_INDOOR_OUTDOOR_EVENTS)
+
+                    if is_outdoor and is_comparable_event:
+                        # Include indoor season from same academic year
+                        indoor_season_id = season_id + 10000
+                        valid_season_ids.add(indoor_season_id)
+
+                    season_results = [
+                        res for res in event_results
+                        if res.get('SeasonID') in valid_season_ids
+                    ]
+                    if season_results:
+                        season_times = [(parse_time(res.get('Result')), res.get('Result')) for res in season_results]
+                        season_times = [(t, r) for t, r in season_times if t != float('inf')]
+                        if season_times:
+                            season_times.sort(key=lambda x: x[0])
+                            previous_sr = season_times[0][1]
+
+                # Calculate improvement percentages
+                pr_improvement = 0
+                sr_improvement = 0
+                current_time = parse_time(current_result)
+
+                if previous_pr and current_time != float('inf'):
+                    prev_pr_time = parse_time(previous_pr)
+                    if prev_pr_time != float('inf') and prev_pr_time > 0:
+                        pr_improvement = ((prev_pr_time - current_time) / prev_pr_time) * 100
+
+                if previous_sr and current_time != float('inf'):
+                    prev_sr_time = parse_time(previous_sr)
+                    if prev_sr_time != float('inf') and prev_sr_time > 0:
+                        sr_improvement = ((prev_sr_time - current_time) / prev_sr_time) * 100
+
+                # If it's marked as PR but there's no previous result, it's a First Time (FT)
+                if record_type == 'PR' and not previous_pr:
+                    record_type = 'FT'
+                # If it's marked as PR but the time is worse than previous, it's not actually a PR
+                elif record_type == 'PR' and pr_improvement < 0:
+                    record_type = None
+
+                # For "Other Results", calculate distance from PR (how much slower)
+                distance_from_pr = None
+                if record_type is None and previous_pr and pr_improvement < 0:
+                    distance_from_pr = abs(pr_improvement)  # Positive value = % slower than PR
+
+                # Calculate NCAA D2 qualifying standard difference
+                # Normalize gender: API returns 'M'/'F', some may be empty
+                gender = 'M' if athlete_gender in ('M', 'Male') else 'W' if athlete_gender in ('F', 'Female', 'W') else ''
+                ncaa_standard = get_ncaa_standard(event_name, sport, gender) if gender else None
+                ncaa_diff = None
+                ncaa_diff_pct = None
+
+                if ncaa_standard and current_time != float('inf'):
+                    # For time events, negative diff means faster than standard (good)
+                    # For field events, we'd need to handle differently (higher/longer is better)
+                    is_field_event = any(f in event_name.lower() for f in ['jump', 'vault', 'put', 'throw', 'discus', 'hammer', 'javelin'])
+
+                    if is_field_event:
+                        # Field events: result is in meters, higher is better
+                        # Parse the result as a distance
+                        try:
+                            result_distance = float(re.sub(r'[^\d.]', '', current_result.replace('m', '')))
+                            ncaa_diff = result_distance - ncaa_standard  # Positive = over standard
+                            if ncaa_standard > 0:
+                                ncaa_diff_pct = (ncaa_diff / ncaa_standard) * 100
+                        except:
+                            pass
+                    else:
+                        # Time events: lower is better
+                        ncaa_diff = current_time - ncaa_standard  # Negative = under standard (qualified!)
+                        if ncaa_standard > 0:
+                            ncaa_diff_pct = (ncaa_diff / ncaa_standard) * 100
+
+                results.append({
+                    'athlete_id': athlete_id,
+                    'athlete_name': athlete_name,
+                    'event': event_name,
+                    'time': r.get('Result', ''),
+                    'place': r.get('Place', ''),
+                    'date_str': result_date,
+                    'meet_name': meet_name,
+                    'record_type': record_type,
+                    'previous_pr': previous_pr,
+                    'previous_sr': previous_sr,
+                    'pr_improvement': pr_improvement,
+                    'sr_improvement': sr_improvement,
+                    'distance_from_pr': distance_from_pr,
+                    'gender': gender,
+                    'ncaa_standard': ncaa_standard,
+                    'ncaa_diff': ncaa_diff,
+                    'ncaa_diff_pct': ncaa_diff_pct,
+                })
+
+        print(f"  Found {len(results)} results from {active_count} active athletes")
+        return results
+
+    def _process_bests(self, r, times, current_seconds):
+        """
+        Process historical times to determine previous PRs/SRs.
+        Updates the result dict in place.
+        """
+        if not times:
+            if r.get('record_type') == 'PR':
+                r['first_at_distance'] = True
+            return
+
+        pr_time = times[0]  # Best time ever
+
+        if r.get('record_type') == 'PR':
+            if len(times) >= 2:
+                prev_pr = times[1]
+                r['previous_pr'] = prev_pr['time']
+                if prev_pr['seconds'] > 0 and prev_pr['seconds'] != float('inf'):
+                    improvement = (prev_pr['seconds'] - current_seconds) / prev_pr['seconds'] * 100
+                    r['pr_improvement'] = improvement
+            else:
+                r['first_at_distance'] = True
+
+        elif r.get('record_type') == 'SR':
+            if len(times) >= 2:
+                prev_sr = times[1]
+                r['previous_sr'] = prev_sr['time']
+                if prev_sr['seconds'] > 0 and prev_sr['seconds'] != float('inf'):
+                    improvement = (prev_sr['seconds'] - current_seconds) / prev_sr['seconds'] * 100
+                    r['sr_improvement'] = improvement
+            else:
+                r['first_at_distance'] = True
+
+        else:
+            r['current_pr'] = pr_time['time']
+            r['current_pr_seconds'] = pr_time['seconds']
+            if pr_time['seconds'] > 0 and pr_time['seconds'] != float('inf'):
+                distance_from_pr = (current_seconds - pr_time['seconds']) / pr_time['seconds'] * 100
+                r['distance_from_pr'] = distance_from_pr
+
+    def _fetch_athlete_bests(self, results, sport, driver):
+        """
+        Fetch best times for ALL athletes who competed.
+        Updates results in place with:
+        - For PRs: previous_pr (2nd best all-time) or marks as first at distance
+        - For SRs: previous_sr (2nd best this season)
+        - For Others: current_pr and current_sr for comparison
         """
         # Group results by athlete to minimize API calls
         athletes_to_fetch = {}
         for r in results:
-            if r.get('record_type'):
-                athlete_id = r['athlete_id']
-                if athlete_id not in athletes_to_fetch:
-                    athletes_to_fetch[athlete_id] = {
-                        'name': r['athlete_name'],
-                        'results': []
-                    }
-                athletes_to_fetch[athlete_id]['results'].append(r)
+            athlete_id = r['athlete_id']
+            if athlete_id not in athletes_to_fetch:
+                athletes_to_fetch[athlete_id] = {
+                    'name': r['athlete_name'],
+                    'results': []
+                }
+            athletes_to_fetch[athlete_id]['results'].append(r)
 
         # Fetch bio data for each athlete
+        # Note: We reuse the existing tokens from team/meet pages - they work for athlete bios
         for athlete_id, data in athletes_to_fetch.items():
             try:
-                # Load athlete page to get proper tokens
+                # Build athlete URL for referer header
                 if sport == 'xc':
                     athlete_url = f"https://www.athletic.net/athlete/{athlete_id}/cross-country"
                 else:
                     athlete_url = f"https://www.athletic.net/athlete/{athlete_id}/track-and-field"
 
-                driver.get(athlete_url)
-                time.sleep(1.5)
-
-                # Capture fresh tokens
-                logs = driver.get_log('performance')
-                for log in logs:
-                    try:
-                        message = json.loads(log['message'])['message']
-                        if message['method'] == 'Network.requestWillBeSent':
-                            headers = message['params']['request'].get('headers', {})
-                            if headers.get('anettokens'):
-                                self.tokens['anettokens'] = headers['anettokens']
-                    except:
-                        pass
-
-                # Get athlete bio
+                # Get athlete bio using existing tokens (no need to load page)
                 bio_data = self.get_athlete_bio(athlete_id, sport=sport, referer=athlete_url)
                 if not bio_data:
                     continue
 
                 # Extract results from bio - XC uses resultsXC, TF uses resultsTF
-                all_results = bio_data.get('resultsXC', []) if sport == 'xc' else bio_data.get('resultsTF', [])
-                if not all_results:
+                all_bio_results = bio_data.get('resultsXC', []) if sport == 'xc' else bio_data.get('resultsTF', [])
+                if not all_bio_results:
                     continue
 
-                # Group by distance (for XC) or event
-                distance_results = {}
-                for br in all_results:
-                    # Use Distance for XC grouping
-                    distance = br.get('Distance', 0)
-                    if distance not in distance_results:
-                        distance_results[distance] = []
-                    distance_results[distance].append({
+                # Group by distance (for XC) or EventID (for track)
+                distance_results = {}  # Keyed by distance (XC) or EventID (track)
+                for br in all_bio_results:
+                    if sport == 'xc':
+                        key = br.get('Distance', 0)
+                    else:
+                        key = br.get('EventID', 0)  # Use EventID for track
+                    if key not in distance_results:
+                        distance_results[key] = []
+                    distance_results[key].append({
                         'time': br.get('Result', ''),
-                        'seconds': br.get('SortValue', float('inf')),  # Use SortValue directly
+                        'seconds': br.get('SortValue', float('inf')),
                         'is_pr': br.get('PersonalBest', False),
                         'is_sr': br.get('SeasonBest', False),
                         'season': br.get('SeasonID', 0)
                     })
 
-                # For each result, find the previous best
+                # For each result, find bests
                 for r in data['results']:
                     event = r['event']
                     current_time = r['time']
                     current_seconds = self._time_to_seconds(current_time)
 
-                    # Extract distance from event name (e.g., "8,000 Meters" -> 8000)
-                    distance_match = re.search(r'(\d+,?\d*)\s*(?:meters?|m)', event.lower())
+                    # For track, use EventID directly if available
+                    if sport != 'xc' and r.get('event_id'):
+                        event_id = r['event_id']
+                        if event_id in distance_results:
+                            times = sorted(distance_results[event_id], key=lambda x: x['seconds'])
+                            self._process_bests(r, times, current_seconds)
+                        else:
+                            # No history for this event - first time
+                            if r['record_type'] == 'PR':
+                                r['first_at_distance'] = True
+                        continue
+
+                    # For XC or when EventID not available: Extract distance from event name
+                    target_distance = None
+                    event_lower = event.lower()
+
+                    # Try meters first (e.g., "8,000 Meters" -> 8000)
+                    distance_match = re.search(r'(\d+,?\d*)\s*(?:meters?|m)', event_lower)
                     if distance_match:
                         target_distance = int(distance_match.group(1).replace(',', ''))
-                    else:
+
+                    # Try miles (e.g., "3 Miles" -> ~4828 meters)
+                    if not target_distance:
+                        miles_match = re.search(r'(\d+(?:\.\d+)?)\s*miles?', event_lower)
+                        if miles_match:
+                            miles = float(miles_match.group(1))
+                            target_distance = int(miles * 1609.34)
+
+                    # Try kilometer (e.g., "5K" -> 5000)
+                    if not target_distance:
+                        km_match = re.search(r'(\d+)\s*k\b', event_lower)
+                        if km_match:
+                            target_distance = int(km_match.group(1)) * 1000
+
+                    if not target_distance:
                         continue
 
                     # Find matching distance results
                     if target_distance not in distance_results:
-                        # Try close matches (within 100m)
+                        # Try close matches - use 5% tolerance for conversions
+                        tolerance = max(100, target_distance * 0.05)
+                        best_match = None
+                        best_diff = float('inf')
                         for d in distance_results.keys():
-                            if abs(d - target_distance) < 100:
-                                target_distance = d
-                                break
+                            diff = abs(d - target_distance)
+                            if diff < tolerance and diff < best_diff:
+                                best_match = d
+                                best_diff = diff
+                        if best_match:
+                            target_distance = best_match
 
                     if target_distance not in distance_results:
                         continue
 
                     # Sort all times for this distance (best first)
                     times = sorted(distance_results[target_distance], key=lambda x: x['seconds'])
-
-                    if r['record_type'] == 'PR':
-                        # Find times better than or equal to current (within 1 second tolerance)
-                        # The current PR should be the best, previous PR is second best
-                        if len(times) >= 2:
-                            # First is current PR, second is previous best
-                            prev_pr = times[1]
-                            r['previous_pr'] = prev_pr['time']
-                            if prev_pr['seconds'] > 0 and prev_pr['seconds'] != float('inf'):
-                                improvement = (prev_pr['seconds'] - current_seconds) / prev_pr['seconds'] * 100
-                                r['pr_improvement'] = improvement
-
-                    elif r['record_type'] == 'SR':
-                        # For SR, find second best time overall (simplification)
-                        if len(times) >= 2:
-                            prev_sr = times[1]
-                            r['previous_sr'] = prev_sr['time']
-                            if prev_sr['seconds'] > 0 and prev_sr['seconds'] != float('inf'):
-                                improvement = (prev_sr['seconds'] - current_seconds) / prev_sr['seconds'] * 100
-                                r['sr_improvement'] = improvement
+                    self._process_bests(r, times, current_seconds)
 
             except Exception as e:
                 # Skip this athlete on error
@@ -1112,10 +1560,12 @@ class AthleticNetScraper:
             # Step 3: Sort results
             print(f"\nFound {len(all_results)} total results. Sorting...")
 
-            # Separate into PRs, SRs, and others
+            # Separate into PRs, SRs, FTs (First Time), others, and DNS/DNF
             prs = [r for r in all_results if r.get('record_type') == 'PR']
             srs = [r for r in all_results if r.get('record_type') == 'SR']
-            others = [r for r in all_results if not r.get('record_type')]
+            fts = [r for r in all_results if r.get('record_type') == 'FT']
+            dns_dnf = [r for r in all_results if not r.get('record_type') and r.get('time', '').upper() in ['DNS', 'DNF']]
+            others = [r for r in all_results if not r.get('record_type') and r.get('time', '').upper() not in ['DNS', 'DNF']]
 
             # Sort PRs by improvement (highest improvement first)
             prs.sort(key=lambda x: x.get('pr_improvement', 0), reverse=True)
@@ -1123,11 +1573,17 @@ class AthleticNetScraper:
             # Sort SRs by improvement (highest improvement first)
             srs.sort(key=lambda x: x.get('sr_improvement', 0), reverse=True)
 
-            # Sort others by distance to SR (closest first)
-            others.sort(key=lambda x: x.get('sr_distance', float('inf')))
+            # Sort FTs alphabetically by name
+            fts.sort(key=lambda x: x.get('athlete_name', ''))
 
-            # Combine in order: PRs, SRs, Others
-            sorted_results = prs + srs + others
+            # Sort others alphabetically by name
+            others.sort(key=lambda x: x.get('athlete_name', ''))
+
+            # Sort DNS/DNF alphabetically by name
+            dns_dnf.sort(key=lambda x: x.get('athlete_name', ''))
+
+            # Combine in order: PRs -> SRs -> FTs -> other results -> DNS/DNF
+            sorted_results = prs + srs + fts + others + dns_dnf
 
             # Step 4: Create spreadsheet
             return self.save_to_spreadsheet(sorted_results)
@@ -1149,6 +1605,11 @@ class AthleticNetScraper:
         # Prepare data for DataFrame
         data = []
         for r in results:
+            prev_pr = r.get('previous_pr')
+            prev_sr = r.get('previous_sr')
+            pr_improvement = r.get('pr_improvement', 0)
+            sr_improvement = r.get('sr_improvement', 0)
+
             row = {
                 'Name': r['athlete_name'],
                 'Type': r.get('record_type', '-'),
@@ -1159,25 +1620,42 @@ class AthleticNetScraper:
                 'Meet': r['meet_name'],
             }
 
-            # Add context columns based on record type
-            if r.get('record_type') == 'PR':
-                row['Previous Best'] = r.get('previous_pr', 'N/A')
-                row['Improvement %'] = f"{r.get('pr_improvement', 0):.2f}%"
-            elif r.get('record_type') == 'SR':
-                row['Previous Best'] = r.get('previous_sr', 'N/A')
-                row['Improvement %'] = f"{r.get('sr_improvement', 0):.2f}%"
+            # Previous Best (PR) column
+            if r.get('record_type') == 'FT' or r.get('first_at_distance'):
+                row['Previous Best'] = '-'
+            elif prev_pr:
+                row['Previous Best'] = prev_pr
             else:
-                row['Previous Best'] = r.get('current_sr', 'N/A')
-                if r.get('sr_distance') is not None:
-                    row['Improvement %'] = f"+{r.get('sr_distance', 0):.2f}% from SR"
-                else:
-                    row['Improvement %'] = 'N/A'
+                row['Previous Best'] = '-'
+
+            # Previous Season Best column
+            row['Previous SR'] = prev_sr if prev_sr else '-'
+
+            # % Improvement from PR column
+            if r.get('record_type') == 'PR' and prev_pr:
+                row['% from PR'] = f"{pr_improvement:.2f}%"
+            elif r.get('record_type') == 'FT' or not prev_pr:
+                row['% from PR'] = '-'
+            elif pr_improvement != 0:
+                row['% from PR'] = f"{pr_improvement:.2f}%"
+            else:
+                row['% from PR'] = '-'
+
+            # % Improvement from SR column
+            if r.get('record_type') == 'SR' and prev_sr:
+                row['% from SR'] = f"{sr_improvement:.2f}%"
+            elif not prev_sr:
+                row['% from SR'] = '-'
+            elif sr_improvement != 0:
+                row['% from SR'] = f"{sr_improvement:.2f}%"
+            else:
+                row['% from SR'] = '-'
 
             data.append(row)
 
         df = pd.DataFrame(data)
 
-        columns = ['Name', 'Type', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Improvement %']
+        columns = ['Name', 'Type', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Previous SR', '% from PR', '% from SR']
         df = df[columns]
 
         if filename is None:
@@ -1271,6 +1749,219 @@ def get_relevant_sports(days_back):
     return unique
 
 
+def _save_styled_excel(df, filepath, sorted_results):
+    """
+    Save DataFrame to Excel with professional styling.
+
+    Features:
+    - Proper column widths for readability
+    - Styled header row (bold, dark background)
+    - Color-coded Type column (PR=gold, SR=silver, FT=light blue)
+    - Gradient highlighting for Improvement % column
+    - Alternating row colors for readability
+    - Borders for structure
+    """
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+    from openpyxl.formatting.rule import ColorScaleRule
+    from openpyxl.utils.dataframe import dataframe_to_rows
+    from openpyxl.utils import get_column_letter
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Results"
+
+    # Write data to worksheet
+    for r_idx, row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
+        for c_idx, value in enumerate(row, 1):
+            ws.cell(row=r_idx, column=c_idx, value=value)
+
+    # Define styles
+    header_fill = PatternFill(start_color="1F4E79", end_color="1F4E79", fill_type="solid")
+    header_font = Font(bold=True, color="FFFFFF", size=11)
+    header_alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+    pr_fill = PatternFill(start_color="FFD700", end_color="FFD700", fill_type="solid")  # Gold
+    sr_fill = PatternFill(start_color="C0C0C0", end_color="C0C0C0", fill_type="solid")  # Silver
+    ft_fill = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid")  # Light Blue
+
+    alt_row_fill = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+
+    thin_border = Border(
+        left=Side(style='thin', color='D9D9D9'),
+        right=Side(style='thin', color='D9D9D9'),
+        top=Side(style='thin', color='D9D9D9'),
+        bottom=Side(style='thin', color='D9D9D9')
+    )
+
+    center_align = Alignment(horizontal="center", vertical="center")
+    left_align = Alignment(horizontal="left", vertical="center")
+
+    # Column widths (index: width)
+    column_widths = {
+        1: 18,   # Name
+        2: 6,    # Type
+        3: 124,  # Sport
+        4: 20,   # Event
+        5: 11,   # Time/Mark
+        6: 6,    # Place
+        7: 11,   # Date
+        8: 28,   # Meet
+        9: 11,   # Previous Best
+        10: 11,  # Previous SR
+        11: 10,  # % from PR
+        12: 10,  # % from SR
+        13: 10,  # NCAA Std
+        14: 10,  # vs NCAA
+    }
+
+    for col_idx, width in column_widths.items():
+        ws.column_dimensions[get_column_letter(col_idx)].width = width
+
+    # Style header row
+    for col_idx in range(1, len(df.columns) + 1):
+        cell = ws.cell(row=1, column=col_idx)
+        cell.fill = header_fill
+        cell.font = header_font
+        cell.alignment = header_alignment
+        cell.border = thin_border
+
+    # Set header row height
+    ws.row_dimensions[1].height = 25
+
+    # Style data rows
+    type_col = 2  # Type column index
+    pr_improvement_col = 11  # % from PR column index
+    sr_improvement_col = 12  # % from SR column index
+
+    for row_idx in range(2, len(df) + 2):
+        # Set row height
+        ws.row_dimensions[row_idx].height = 22
+
+        for col_idx in range(1, len(df.columns) + 1):
+            cell = ws.cell(row=row_idx, column=col_idx)
+            cell.border = thin_border
+
+            # Center alignment for most columns, left for Name and Meet
+            if col_idx in [1, 8]:  # Name and Meet columns
+                cell.alignment = left_align
+            else:
+                cell.alignment = center_align
+
+        # Color-code the Type column
+        type_cell = ws.cell(row=row_idx, column=type_col)
+        type_value = type_cell.value
+        if type_value == 'PR':
+            type_cell.fill = pr_fill
+            type_cell.font = Font(bold=True)
+        elif type_value == 'SR':
+            type_cell.fill = sr_fill
+            type_cell.font = Font(bold=True)
+        elif type_value == 'FT':
+            type_cell.fill = ft_fill
+            type_cell.font = Font(bold=True)
+
+        # Alternating row colors (only for non-highlighted cells)
+        if row_idx % 2 == 0:
+            for col_idx in range(1, len(df.columns) + 1):
+                cell = ws.cell(row=row_idx, column=col_idx)
+                # Don't override Type column fill
+                if col_idx != type_col or (type_value not in ['PR', 'SR', 'FT']):
+                    if cell.fill == PatternFill():  # No fill yet
+                        cell.fill = alt_row_fill
+
+    # Apply gradient to both improvement columns
+    def apply_gradient_to_column(col_idx):
+        """Apply green gradient to improvement percentage column."""
+        improvement_values = []
+        for row_idx in range(2, len(df) + 2):
+            cell = ws.cell(row=row_idx, column=col_idx)
+            value = cell.value
+            if value and '%' in str(value) and value != '-':
+                try:
+                    num_value = float(str(value).replace('%', '').strip())
+                    improvement_values.append((row_idx, num_value))
+                except ValueError:
+                    pass
+
+        if improvement_values:
+            values_only = [v for _, v in improvement_values]
+            min_val = min(values_only) if values_only else 0
+            max_val = max(values_only) if values_only else 1
+
+            for row_idx, value in improvement_values:
+                cell = ws.cell(row=row_idx, column=col_idx)
+
+                if max_val > min_val:
+                    normalized = (value - min_val) / (max_val - min_val)
+                else:
+                    normalized = 0.5
+
+                # Gradient: light green to dark green for positive, light red for negative
+                if value >= 0:
+                    r = int(200 - normalized * (200 - 34))
+                    g = int(230 - normalized * (230 - 139))
+                    b = int(200 - normalized * (200 - 34))
+                else:
+                    # Red tint for negative (slower than PR/SR)
+                    r = 255
+                    g = int(200 + value * 5)  # Gets redder as more negative
+                    b = int(200 + value * 5)
+                    g = max(150, min(200, g))
+                    b = max(150, min(200, b))
+
+                hex_color = f"{r:02X}{g:02X}{b:02X}"
+                cell.fill = PatternFill(start_color=hex_color, end_color=hex_color, fill_type="solid")
+
+                if value >= 0 and normalized > 0.6:
+                    cell.font = Font(bold=True, color="FFFFFF")
+                else:
+                    cell.font = Font(bold=True, color="1F4E79")
+
+    apply_gradient_to_column(pr_improvement_col)
+    apply_gradient_to_column(sr_improvement_col)
+
+    # Highlight qualified athletes in "vs NCAA" column (column 14)
+    ncaa_col = 14
+    event_col = 4  # Event column to check if field event
+    qualified_fill = PatternFill(start_color="90EE90", end_color="90EE90", fill_type="solid")  # Light green
+    close_fill = PatternFill(start_color="FFFF99", end_color="FFFF99", fill_type="solid")  # Light yellow (within 5%)
+
+    for row_idx in range(2, len(df) + 2):
+        cell = ws.cell(row=row_idx, column=ncaa_col)
+        value = cell.value
+        if value and '%' in str(value) and value != '-':
+            try:
+                # Check if this is a field event (higher is better)
+                event_name = str(ws.cell(row=row_idx, column=event_col).value or '').lower()
+                is_field_event = any(f in event_name for f in ['jump', 'vault', 'put', 'throw', 'discus', 'hammer', 'javelin'])
+
+                num_value = float(str(value).replace('%', '').replace('+', '').strip())
+
+                # Determine if qualified based on event type
+                # Time events: negative % = faster than standard = QUALIFIED
+                # Field events: positive % = further/higher than standard = QUALIFIED
+                is_qualified = (is_field_event and num_value >= 0) or (not is_field_event and num_value <= 0)
+                is_close = abs(num_value) <= 5
+
+                if is_qualified:
+                    # Qualified! Highlight green
+                    cell.fill = qualified_fill
+                    cell.font = Font(bold=True, color="006400")  # Dark green text
+                elif is_close:
+                    # Close to qualifying (within 5%) - highlight yellow
+                    cell.fill = close_fill
+                    cell.font = Font(bold=True)
+            except ValueError:
+                pass
+
+    # Freeze the header row
+    ws.freeze_panes = 'A2'
+
+    # Save the workbook
+    wb.save(filepath)
+
+
 def main():
     """Main entry point."""
     import argparse
@@ -1278,21 +1969,29 @@ def main():
     parser = argparse.ArgumentParser(description='UIS Athletics Results Tracker')
     parser.add_argument('--days', type=int, default=5,
                         help='Number of days back to check (default: 5)')
-    parser.add_argument('--visible', action='store_true',
-                        help='Run browser in visible mode')
+    parser.add_argument('--headless', action='store_true',
+                        help='Run browser in headless mode (may not work with all sites)')
 
-    # Sport filter options (mutually exclusive)
-    sport_group = parser.add_mutually_exclusive_group()
-    sport_group.add_argument('--xc', action='store_true',
-                             help='Only check Cross Country')
-    sport_group.add_argument('--indoor', action='store_true',
-                             help='Only check Indoor Track & Field')
-    sport_group.add_argument('--outdoor', action='store_true',
-                             help='Only check Outdoor Track & Field')
-    sport_group.add_argument('--track', action='store_true',
-                             help='Only check Track & Field (both indoor and outdoor)')
+    # Sport filter options (can combine multiple)
+    parser.add_argument('--xc', action='store_true',
+                        help='Check Cross Country')
+    parser.add_argument('--indoor', action='store_true',
+                        help='Check Indoor Track & Field')
+    parser.add_argument('--outdoor', action='store_true',
+                        help='Check Outdoor Track & Field')
+    parser.add_argument('--track', action='store_true',
+                        help='Check Track & Field (both indoor and outdoor)')
+
+    parser.add_argument('--desktop', action='store_true',
+                        help='Save output to Desktop instead of uisResults folder')
 
     args = parser.parse_args()
+
+    # Set output directory
+    if args.desktop:
+        output_dir = "/Users/dylangehl/Desktop"
+    else:
+        output_dir = "/Users/dylangehl/uisResults"
 
     print("=" * 70)
     print("UIS Athletics Results Tracker")
@@ -1301,6 +2000,11 @@ def main():
 
     all_results = []
     checked_athletes = set()  # Track athlete IDs we've already checked
+    checked_sports = []  # Track which sports we actually checked
+
+    # Calculate date range for filename
+    cutoff_date = datetime.now() - timedelta(days=args.days)
+    end_date = datetime.now()
 
     # Get relevant sports based on current date
     sports_to_check = get_relevant_sports(args.days)
@@ -1313,28 +2017,33 @@ def main():
 
     # Apply sport filter if specified
     now = datetime.now()
-    if args.xc:
-        sports_to_check = [(s, y) for s, y in sports_to_check if s == 'xc']
+    any_sport_flag = args.xc or args.indoor or args.outdoor or args.track
+
+    if any_sport_flag:
+        # Build list of sports to include based on flags
+        selected_sports = set()
+        if args.xc:
+            selected_sports.add('xc')
+        if args.indoor:
+            selected_sports.add('indoor')
+        if args.outdoor:
+            selected_sports.add('outdoor')
+        if args.track:
+            selected_sports.add('indoor')
+            selected_sports.add('outdoor')
+
+        # Filter to selected sports
+        sports_to_check = [(s, y) for s, y in sports_to_check if s in selected_sports]
+
+        # If no sports found in season, force them
         if not sports_to_check:
-            # Force XC even if not in season
-            sports_to_check = [('xc', now.year)]
-    elif args.indoor:
-        sports_to_check = [(s, y) for s, y in sports_to_check if s == 'indoor']
-        if not sports_to_check:
-            # Force indoor even if not in season
-            year = now.year if now.month <= 6 else now.year + 1
-            sports_to_check = [('indoor', year)]
-    elif args.outdoor:
-        sports_to_check = [(s, y) for s, y in sports_to_check if s == 'outdoor']
-        if not sports_to_check:
-            # Force outdoor even if not in season
-            sports_to_check = [('outdoor', now.year)]
-    elif args.track:
-        sports_to_check = [(s, y) for s, y in sports_to_check if s in ('indoor', 'outdoor')]
-        if not sports_to_check:
-            # Force both track seasons
-            indoor_year = now.year if now.month <= 6 else now.year + 1
-            sports_to_check = [('indoor', indoor_year), ('outdoor', now.year)]
+            if 'xc' in selected_sports:
+                sports_to_check.append(('xc', now.year))
+            if 'indoor' in selected_sports:
+                year = now.year if now.month <= 6 else now.year + 1
+                sports_to_check.append(('indoor', year))
+            if 'outdoor' in selected_sports:
+                sports_to_check.append(('outdoor', now.year))
 
     if not sports_to_check:
         print("No sports to check for the specified criteria.")
@@ -1345,18 +2054,21 @@ def main():
 
     # Start browser ONCE and reuse it
     options = Options()
-    if not args.visible:
-        options.add_argument("--headless")
+    # Use new headless mode - more compatible with modern sites like Angular
+    options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
-    options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36")
+    options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
     # Enable performance logging to capture API tokens
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 
     print("Starting browser...")
+    print("  Checking ChromeDriver...")
     service = Service(ChromeDriverManager().install())
+    print("  Launching Chrome...")
     driver = webdriver.Chrome(service=service, options=options)
 
     # Initialize API client
@@ -1367,13 +2079,14 @@ def main():
     try:
         for sport, year in sports_to_check:
             sport_name = sport_names[sport]
+            checked_sports.append(sport)  # Track which sports we checked
 
             print(f"\n{'='*50}")
             print(f"Checking {sport_name} {year}...")
             print('='*50)
 
             scraper = AthleticNetScraper(
-                headless=not args.visible,
+                headless=args.headless,
                 year=year,
                 sport=sport,
                 days_back=args.days
@@ -1389,7 +2102,7 @@ def main():
             driver.get(team_url)
 
             # Wait for page to fully load (important for token capture)
-            time.sleep(4)
+            time.sleep(2)
 
             # Initialize API on first sport (capture tokens from network logs)
             if not api_initialized and use_api:
@@ -1405,31 +2118,52 @@ def main():
             # Instead of checking each athlete, we check recent meets directly
             # This is 10-50x faster!
 
-            cutoff_date = datetime.now() - timedelta(days=args.days)
             sport_results = None
 
             if use_api and api_initialized:
-                print("Using FAST meet-based API approach...")
                 # Convert sport + year to proper seasonId (indoor uses year + 10000)
                 season_id = api.get_season_id(sport, year)
-                sport_results = api.get_team_results_from_meets(
-                    team_id=65580,  # UIS team ID
-                    season_id=season_id,
-                    sport=sport,
-                    cutoff_date=cutoff_date,
-                    driver=driver,  # Pass driver for meet page loading
-                    referer=team_url
-                )
 
-                if sport_results is not None:
+                # For XC: Use FAST meet-based approach (10-50x faster)
+                # For Track: Use athlete-based approach (track meet API doesn't return full results)
+                if sport == 'xc':
+                    print("Using FAST meet-based API approach...")
+                    sport_results = api.get_team_results_from_meets(
+                        team_id=65580,  # UIS team ID
+                        season_id=season_id,
+                        sport=sport,
+                        cutoff_date=cutoff_date,
+                        driver=driver,  # Pass driver for meet page loading
+                        referer=team_url
+                    )
+                else:
+                    # Track & Field - use athlete-based approach
+                    print("Using athlete-based API approach for track...")
+                    roster = api.get_roster(season_id, referer=team_url)
+                    if roster:
+                        sport_results = api.get_track_results_from_athletes(
+                            roster=roster,
+                            season_id=season_id,
+                            sport=sport,
+                            cutoff_date=cutoff_date,
+                            driver=driver,
+                            referer=team_url
+                        )
+                    else:
+                        sport_results = None
+
+                if sport_results is not None and len(sport_results) > 0:
                     # Success! Add results with sport name
                     for r in sport_results:
                         r['sport'] = sport_name
                     all_results.extend(sport_results)
-                    print(f"  Found {len(sport_results)} total results via meet-based approach")
+                    print(f"  Found {len(sport_results)} total results")
                     continue  # Skip to next sport - we're done!
+                elif sport_results is not None and len(sport_results) == 0:
+                    print("  No results found in the specified time period")
+                    continue
                 else:
-                    print("  Meet-based approach failed, falling back to athlete-by-athlete...")
+                    print("  API approach failed, falling back to athlete-by-athlete...")
 
             # ===== FALLBACK: ATHLETE-BY-ATHLETE APPROACH =====
             # Only used if meet-based approach fails
@@ -1612,20 +2346,31 @@ def main():
 
     prs = [r for r in all_results if r.get('record_type') == 'PR']
     srs = [r for r in all_results if r.get('record_type') == 'SR']
-    others = [r for r in all_results if not r.get('record_type')]
+    fts = [r for r in all_results if r.get('record_type') == 'FT']
+    # Separate DNS/DNF from other results
+    dns_dnf = [r for r in all_results if not r.get('record_type') and r.get('time', '').upper() in ['DNS', 'DNF']]
+    others = [r for r in all_results if not r.get('record_type') and r.get('time', '').upper() not in ['DNS', 'DNF']]
 
     prs.sort(key=lambda x: x.get('pr_improvement', 0), reverse=True)
     srs.sort(key=lambda x: x.get('sr_improvement', 0), reverse=True)
-    others.sort(key=lambda x: x.get('sr_distance', float('inf')))
+    fts.sort(key=lambda x: x.get('athlete_name', ''))
+    others.sort(key=lambda x: x.get('athlete_name', ''))
+    dns_dnf.sort(key=lambda x: x.get('athlete_name', ''))
 
-    sorted_results = prs + srs + others
+    # Order: PRs -> SRs -> FTs -> other results -> DNS/DNF
+    sorted_results = prs + srs + fts + others + dns_dnf
 
     # Save to spreadsheet
     data = []
     for r in sorted_results:
+        prev_pr = r.get('previous_pr')
+        prev_sr = r.get('previous_sr')
+        pr_improvement = r.get('pr_improvement', 0)
+        sr_improvement = r.get('sr_improvement', 0)
+
         row = {
             'Name': r['athlete_name'],
-            'Type': r.get('record_type', '-'),
+            'Type': r.get('record_type') or '-',
             'Sport': r.get('sport', ''),
             'Event': r['event'],
             'Time/Mark': r['time'],
@@ -1634,34 +2379,112 @@ def main():
             'Meet': r['meet_name'],
         }
 
-        if r.get('record_type') == 'PR':
-            row['Previous Best'] = r.get('previous_pr', 'N/A')
-            row['Improvement %'] = f"{r.get('pr_improvement', 0):.2f}%"
-        elif r.get('record_type') == 'SR':
-            row['Previous Best'] = r.get('previous_sr', 'N/A')
-            row['Improvement %'] = f"{r.get('sr_improvement', 0):.2f}%"
+        # Previous Best (PR) column
+        if r.get('record_type') == 'FT' or r.get('first_at_distance'):
+            row['Previous Best'] = '-'
+        elif prev_pr:
+            row['Previous Best'] = prev_pr
         else:
-            row['Previous Best'] = r.get('current_sr', 'N/A')
-            if r.get('sr_distance') is not None:
-                row['Improvement %'] = f"+{r.get('sr_distance', 0):.2f}% from SR"
+            row['Previous Best'] = '-'
+
+        # Previous Season Best column
+        if prev_sr:
+            row['Previous SR'] = prev_sr
+        else:
+            row['Previous SR'] = '-'
+
+        # % Improvement from PR column
+        if r.get('record_type') == 'PR' and prev_pr:
+            row['% from PR'] = f"{pr_improvement:.2f}%"
+        elif r.get('record_type') == 'FT' or not prev_pr:
+            row['% from PR'] = '-'
+        elif pr_improvement > 0:
+            row['% from PR'] = f"{pr_improvement:.2f}%"
+        elif pr_improvement < 0:
+            row['% from PR'] = f"{pr_improvement:.2f}%"
+        else:
+            row['% from PR'] = '-'
+
+        # % Improvement from SR column
+        if r.get('record_type') == 'SR' and prev_sr:
+            row['% from SR'] = f"{sr_improvement:.2f}%"
+        elif not prev_sr:
+            row['% from SR'] = '-'
+        elif sr_improvement != 0:
+            row['% from SR'] = f"{sr_improvement:.2f}%"
+        else:
+            row['% from SR'] = '-'
+
+        # NCAA D2 Standard columns
+        ncaa_standard = r.get('ncaa_standard')
+        ncaa_diff = r.get('ncaa_diff')
+        ncaa_diff_pct = r.get('ncaa_diff_pct')
+
+        if ncaa_standard:
+            # Format the standard as a readable time/distance
+            is_field = any(f in r['event'].lower() for f in ['jump', 'vault', 'put', 'throw', 'discus', 'hammer', 'javelin'])
+            if is_field:
+                row['NCAA Std'] = f"{ncaa_standard:.2f}m"
             else:
-                row['Improvement %'] = 'N/A'
+                row['NCAA Std'] = format_standard_time(ncaa_standard)
+
+            # Format the difference as percentage
+            # Negative = qualified (under standard for time, over for field)
+            if ncaa_diff_pct is not None:
+                if is_field:
+                    # Field: positive % = over standard (good/qualified)
+                    # Flip sign so negative = not qualified, positive = qualified
+                    display_pct = ncaa_diff_pct
+                    if display_pct >= 0:
+                        row['vs NCAA'] = f"+{display_pct:.1f}%"
+                    else:
+                        row['vs NCAA'] = f"{display_pct:.1f}%"
+                else:
+                    # Time: negative % = under standard (qualified)
+                    if ncaa_diff_pct <= 0:
+                        row['vs NCAA'] = f"{ncaa_diff_pct:.1f}%"
+                    else:
+                        row['vs NCAA'] = f"+{ncaa_diff_pct:.1f}%"
+            else:
+                row['vs NCAA'] = '-'
+        else:
+            row['NCAA Std'] = '-'
+            row['vs NCAA'] = '-'
 
         data.append(row)
 
     df = pd.DataFrame(data)
-    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Improvement %']
+    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Previous SR', '% from PR', '% from SR', 'NCAA Std', 'vs NCAA']
     df = df[columns]
 
-    today = datetime.now().strftime('%Y%m%d')
-    filename = f"results_{today}.xlsx"
-    filepath = f"/Users/dylangehl/uisResults/{filename}"
-    df.to_excel(filepath, index=False, sheet_name='Results')
+    # Build filename with sport(s) and date range
+    sport_abbrevs = {'xc': 'XC', 'indoor': 'Indoor', 'outdoor': 'Outdoor'}
+    sports_str = '_'.join(sport_abbrevs.get(s, s) for s in dict.fromkeys(checked_sports))  # Preserve order, remove dupes
+    start_str = cutoff_date.strftime('%b%d')
+    end_str = end_date.strftime('%b%d')
+    base_filename = f"results_{sports_str}_{start_str}-{end_str}"
+    filepath = f"{output_dir}/{base_filename}.xlsx"
+
+    # Try to save, overwriting any existing file
+    import os
+    try:
+        # If file exists, check if it's writable
+        if os.path.exists(filepath):
+            with open(filepath, 'a'):
+                pass  # Just checking if file is locked
+        _save_styled_excel(df, filepath, sorted_results)
+    except (PermissionError, OSError) as e:
+        print(f"\nError: Could not save to {filepath}")
+        print(f"The file may be open in another application (like Excel).")
+        print(f"Please close the file and run the scraper again.")
+        return
 
     print(f"\nResults saved to: {filepath}")
     print(f"  PRs: {len(prs)}")
     print(f"  SRs: {len(srs)}")
-    print(f"  Others: {len(others)}")
+    print(f"  First Times: {len(fts)}")
+    print(f"  Other Results: {len(others)}")
+    print(f"  DNS/DNF: {len(dns_dnf)}")
 
     print("\n" + "=" * 70)
     print("SUCCESS! Check the spreadsheet for results.")
