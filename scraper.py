@@ -1749,6 +1749,77 @@ def get_relevant_sports(days_back):
     return unique
 
 
+def _push_results_to_website(data, cutoff_date, end_date, checked_sports):
+    """
+    Push results as JSON to the wintern-next website repo.
+    This triggers a Vercel rebuild to update winterns.com.
+    """
+    import json
+    import subprocess
+    from datetime import datetime
+
+    WINTERN_REPO_PATH = os.path.expanduser("~/wintern-next")
+    JSON_PATH = os.path.join(WINTERN_REPO_PATH, "public", "data", "uis-results.json")
+
+    # Clone repo if it doesn't exist
+    if not os.path.exists(WINTERN_REPO_PATH):
+        print("\nCloning wintern-next repo...")
+        subprocess.run(
+            ["gh", "repo", "clone", "CrimsonCosmos/wintern-next", WINTERN_REPO_PATH],
+            check=True, capture_output=True
+        )
+
+    # Pull latest changes
+    subprocess.run(
+        ["git", "-C", WINTERN_REPO_PATH, "pull", "--rebase"],
+        capture_output=True
+    )
+
+    # Create data directory if needed
+    os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
+
+    # Build JSON payload
+    sport_abbrevs = {'xc': 'Cross Country', 'indoor': 'Indoor Track', 'outdoor': 'Outdoor Track'}
+    payload = {
+        "updated_at": datetime.now().isoformat(),
+        "date_range": {
+            "start": cutoff_date.strftime("%Y-%m-%d"),
+            "end": end_date.strftime("%Y-%m-%d")
+        },
+        "sports": [sport_abbrevs.get(s, s) for s in checked_sports],
+        "results": data
+    }
+
+    # Write JSON
+    with open(JSON_PATH, 'w') as f:
+        json.dump(payload, f, indent=2)
+
+    # Commit and push
+    subprocess.run(
+        ["git", "-C", WINTERN_REPO_PATH, "add", "public/data/uis-results.json"],
+        check=True, capture_output=True
+    )
+
+    result = subprocess.run(
+        ["git", "-C", WINTERN_REPO_PATH, "diff", "--cached", "--quiet"],
+        capture_output=True
+    )
+
+    if result.returncode != 0:  # There are changes to commit
+        commit_msg = f"Update UIS results ({cutoff_date.strftime('%b %d')} - {end_date.strftime('%b %d')})"
+        subprocess.run(
+            ["git", "-C", WINTERN_REPO_PATH, "commit", "-m", commit_msg],
+            check=True, capture_output=True
+        )
+        subprocess.run(
+            ["git", "-C", WINTERN_REPO_PATH, "push"],
+            check=True, capture_output=True
+        )
+        print(f"\nResults pushed to winterns.com")
+    else:
+        print(f"\nNo changes to push to website")
+
+
 def _save_styled_excel(df, filepath, sorted_results):
     """
     Save DataFrame to Excel with professional styling.
@@ -1801,7 +1872,7 @@ def _save_styled_excel(df, filepath, sorted_results):
     column_widths = {
         1: 18,   # Name
         2: 6,    # Type
-        3: 124,  # Sport
+        3: 31,   # Sport
         4: 20,   # Event
         5: 11,   # Time/Mark
         6: 6,    # Place
@@ -2485,6 +2556,12 @@ def main():
     print(f"  First Times: {len(fts)}")
     print(f"  Other Results: {len(others)}")
     print(f"  DNS/DNF: {len(dns_dnf)}")
+
+    # Export to JSON and push to website
+    try:
+        _push_results_to_website(data, cutoff_date, end_date, checked_sports)
+    except Exception as e:
+        print(f"\nWarning: Could not push to website: {e}")
 
     print("\n" + "=" * 70)
     print("SUCCESS! Check the spreadsheet for results.")
