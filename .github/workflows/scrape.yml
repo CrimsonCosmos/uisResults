@@ -1,0 +1,57 @@
+name: UIS Athletics Scraper
+
+on:
+  schedule:
+    # Run at 8:00 AM and 8:00 PM Central Time (UTC-6)
+    # 8 AM CT = 14:00 UTC, 8 PM CT = 02:00 UTC
+    - cron: '0 14 * * *'  # 8:00 AM CT
+    - cron: '0 2 * * *'   # 8:00 PM CT
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout uisResults repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: Install Python dependencies
+        run: |
+          pip install selenium pandas openpyxl requests
+
+      - name: Run scraper
+        run: |
+          python scraper.py --days 7 --indoor --outdoor --xc --cloud
+        env:
+          GITHUB_TOKEN: ${{ secrets.WINTERN_PAT }}
+
+      - name: Clone wintern-next repo
+        run: |
+          git clone https://x-access-token:${{ secrets.WINTERN_PAT }}@github.com/CrimsonCosmos/wintern-next.git /tmp/wintern-next
+
+      - name: Copy results to website
+        run: |
+          mkdir -p /tmp/wintern-next/public/data
+          cp uis-results.json /tmp/wintern-next/public/data/
+
+      - name: Push to wintern-next
+        run: |
+          cd /tmp/wintern-next
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add public/data/uis-results.json
+          git diff --cached --quiet || (git commit -m "Update UIS results $(date +'%b %d %Y')" && git push)

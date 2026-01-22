@@ -1749,16 +1749,38 @@ def get_relevant_sports(days_back):
     return unique
 
 
-def _push_results_to_website(data, cutoff_date, end_date, checked_sports):
+def _push_results_to_website(data, cutoff_date, end_date, checked_sports, cloud_mode=False):
     """
     Push results as JSON to the wintern-next website repo.
     This triggers a Vercel rebuild to update winterns.com.
+
+    In cloud_mode, just saves JSON locally (for GitHub Actions to handle).
     """
     import json
     import subprocess
     import os
     from datetime import datetime
 
+    # Build JSON payload
+    sport_abbrevs = {'xc': 'Cross Country', 'indoor': 'Indoor Track', 'outdoor': 'Outdoor Track'}
+    payload = {
+        "updated_at": datetime.now().isoformat(),
+        "date_range": {
+            "start": cutoff_date.strftime("%Y-%m-%d"),
+            "end": end_date.strftime("%Y-%m-%d")
+        },
+        "sports": [sport_abbrevs.get(s, s) for s in checked_sports],
+        "results": data
+    }
+
+    # Cloud mode: just save JSON locally for GitHub Actions
+    if cloud_mode:
+        with open("uis-results.json", 'w') as f:
+            json.dump(payload, f, indent=2)
+        print(f"\nJSON saved to uis-results.json (cloud mode)")
+        return
+
+    # Local mode: push to wintern-next repo
     WINTERN_REPO_PATH = os.path.expanduser("~/wintern-next")
     JSON_PATH = os.path.join(WINTERN_REPO_PATH, "public", "data", "uis-results.json")
 
@@ -1778,18 +1800,6 @@ def _push_results_to_website(data, cutoff_date, end_date, checked_sports):
 
     # Create data directory if needed
     os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
-
-    # Build JSON payload
-    sport_abbrevs = {'xc': 'Cross Country', 'indoor': 'Indoor Track', 'outdoor': 'Outdoor Track'}
-    payload = {
-        "updated_at": datetime.now().isoformat(),
-        "date_range": {
-            "start": cutoff_date.strftime("%Y-%m-%d"),
-            "end": end_date.strftime("%Y-%m-%d")
-        },
-        "sports": [sport_abbrevs.get(s, s) for s in checked_sports],
-        "results": data
-    }
 
     # Write JSON
     with open(JSON_PATH, 'w') as f:
@@ -2056,6 +2066,8 @@ def main():
 
     parser.add_argument('--desktop', action='store_true',
                         help='Save output to Desktop instead of uisResults folder')
+    parser.add_argument('--cloud', action='store_true',
+                        help='Cloud mode: output JSON to current directory (for GitHub Actions)')
 
     args = parser.parse_args()
 
@@ -2560,7 +2572,7 @@ def main():
 
     # Export to JSON and push to website
     try:
-        _push_results_to_website(data, cutoff_date, end_date, checked_sports)
+        _push_results_to_website(data, cutoff_date, end_date, checked_sports, cloud_mode=args.cloud)
     except Exception as e:
         print(f"\nWarning: Could not push to website: {e}")
 
