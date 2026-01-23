@@ -1759,12 +1759,12 @@ def _push_results_to_website(data, cutoff_date, end_date, checked_sports, cloud_
     import json
     import subprocess
     import os
-    from datetime import datetime
+    from datetime import datetime, timezone
 
     # Build JSON payload
     sport_abbrevs = {'xc': 'Cross Country', 'indoor': 'Indoor Track', 'outdoor': 'Outdoor Track'}
     payload = {
-        "updated_at": datetime.now().isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
         "date_range": {
             "start": cutoff_date.strftime("%Y-%m-%d"),
             "end": end_date.strftime("%Y-%m-%d")
