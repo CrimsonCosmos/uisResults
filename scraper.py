@@ -24,6 +24,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import pandas as pd
 
+# GLVC conference rankings from TFRRS
+from tfrrs_glvc import GLVCRankings, format_gap
+
 
 # Events that are comparable between indoor and outdoor track
 # Indoor SR should carry over to outdoor for these events
@@ -162,6 +165,33 @@ def format_standard_time(seconds):
         return f"{mins}:{secs:05.2f}"
     else:
         return f"{seconds:.2f}"
+
+
+def time_to_seconds_standalone(time_str):
+    """
+    Convert time/mark string to numeric value for GLVC ranking comparison.
+    Returns seconds for time events, meters for field events.
+    """
+    if not time_str:
+        return None
+
+    # Clean the string - remove PR/SR markers and trailing letters
+    time_str = re.sub(r'[PRSRprsr\s\*a-zA-Z]+$', '', str(time_str)).strip()
+    time_str = time_str.rstrip('am')  # Remove trailing 'a' or 'm' (altitude, meters)
+
+    try:
+        if ':' in time_str:
+            # Time format: MM:SS.ss or H:MM:SS.ss
+            parts = time_str.split(':')
+            if len(parts) == 2:
+                return int(parts[0]) * 60 + float(parts[1])
+            elif len(parts) == 3:
+                return int(parts[0]) * 3600 + int(parts[1]) * 60 + float(parts[2])
+        else:
+            # Direct numeric value (seconds for sprints, meters for field)
+            return float(time_str)
+    except (ValueError, IndexError):
+        return None
 
 
 class AthleticNetAPI:
@@ -2427,6 +2457,66 @@ def main():
     all_results = unique_results
     print(f"After deduplication: {len(all_results)} unique results")
 
+    # ===== GLVC Conference Rankings =====
+    # Fetch rankings from TFRRS and enrich results
+    glvc = GLVCRankings()
+    glvc_available = False
+
+    # Only fetch GLVC rankings if we have indoor track results
+    if 'indoor' in checked_sports:
+        print("\nFetching GLVC conference rankings from TFRRS...")
+        glvc_available = glvc.fetch_rankings()
+        if glvc_available:
+            print("  Enriching results with GLVC ranking data...")
+            for r in all_results:
+                # Skip non-indoor or DNS/DNF results
+                if r.get('sport', '').lower() != 'indoor track & field':
+                    r['glvc_rank'] = None
+                    r['glvc_sec_ahead'] = None
+                    r['glvc_sec_behind'] = None
+                    continue
+
+                time_str = r.get('time', '')
+                if not time_str or time_str.upper() in ['DNS', 'DNF']:
+                    r['glvc_rank'] = None
+                    r['glvc_sec_ahead'] = None
+                    r['glvc_sec_behind'] = None
+                    continue
+
+                # Convert time/mark to numeric value
+                mark_value = time_to_seconds_standalone(time_str)
+                if mark_value is None:
+                    r['glvc_rank'] = None
+                    r['glvc_sec_ahead'] = None
+                    r['glvc_sec_behind'] = None
+                    continue
+
+                # Get GLVC ranking
+                event = r.get('event', '')
+                gender = r.get('gender', '')
+                rank, sec_ahead, sec_behind = glvc.get_ranking(event, gender, mark_value)
+
+                r['glvc_rank'] = rank
+                r['glvc_sec_ahead'] = sec_ahead
+                r['glvc_sec_behind'] = sec_behind
+                r['glvc_is_field'] = glvc.is_field_event(event)
+
+            print("  GLVC ranking data added to results")
+        else:
+            print("  GLVC rankings unavailable - columns will show '-'")
+            for r in all_results:
+                r['glvc_rank'] = None
+                r['glvc_sec_ahead'] = None
+                r['glvc_sec_behind'] = None
+                r['glvc_is_field'] = False
+    else:
+        # No indoor track, set empty GLVC data
+        for r in all_results:
+            r['glvc_rank'] = None
+            r['glvc_sec_ahead'] = None
+            r['glvc_sec_behind'] = None
+            r['glvc_is_field'] = False
+
     # Sort results: PRs by improvement, SRs by improvement, others by closeness to SR
     print(f"\nFound {len(all_results)} total results. Sorting...")
 
@@ -2537,10 +2627,31 @@ def main():
             row['NCAA Std'] = '-'
             row['vs NCAA'] = '-'
 
+        # GLVC Conference Ranking columns
+        glvc_rank = r.get('glvc_rank')
+        glvc_sec_ahead = r.get('glvc_sec_ahead')
+        glvc_sec_behind = r.get('glvc_sec_behind')
+        is_field = r.get('glvc_is_field', False)
+
+        if glvc_rank is not None:
+            # Athlete is ranked in GLVC (top 16)
+            row['GLVC Rank'] = str(glvc_rank)
+            row['Sec Ahead'] = format_gap(glvc_sec_ahead, is_field) if glvc_sec_ahead is not None else '-'
+            row['Sec Behind'] = format_gap(glvc_sec_behind, is_field) if glvc_sec_behind is not None else '-'
+        else:
+            # Not ranked (NR) - show gap to qualifying (16th place)
+            row['GLVC Rank'] = 'NR'
+            row['Sec Ahead'] = '-'
+            # For unranked, sec_behind shows gap to 16th place (qualifying)
+            if glvc_sec_behind is not None:
+                row['Sec Behind'] = f"+{format_gap(glvc_sec_behind, is_field)}"
+            else:
+                row['Sec Behind'] = '-'
+
         data.append(row)
 
     df = pd.DataFrame(data)
-    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Previous SR', '% from PR', '% from SR', 'NCAA Std', 'vs NCAA']
+    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Previous SR', '% from PR', '% from SR', 'NCAA Std', 'vs NCAA', 'GLVC Rank', 'Sec Ahead', 'Sec Behind']
     df = df[columns]
 
     # Build filename with sport(s) and date range
