@@ -1,0 +1,68 @@
+name: Storage Cleanup
+
+on:
+  schedule:
+    # Run weekly on Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  cleanup-caches:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Cleanup old caches
+        run: |
+          echo "Fetching list of caches..."
+          caches=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches --paginate | jq -r '.actions_caches[] | select(.created_at < (now - 604800 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .id')
+
+          if [ -z "$caches" ]; then
+            echo "No old caches to delete"
+          else
+            echo "Deleting old caches..."
+            for cache_id in $caches; do
+              echo "Deleting cache $cache_id"
+              gh api --method DELETE -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches/$cache_id || true
+            done
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Cleanup old artifacts
+        run: |
+          echo "Fetching list of artifacts..."
+          artifacts=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/artifacts --paginate | jq -r '.artifacts[] | select(.created_at < (now - 604800 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .id')
+
+          if [ -z "$artifacts" ]; then
+            echo "No old artifacts to delete"
+          else
+            echo "Deleting old artifacts..."
+            for artifact_id in $artifacts; do
+              echo "Deleting artifact $artifact_id"
+              gh api --method DELETE -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/artifacts/$artifact_id || true
+            done
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup-old-runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Delete old workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 14
+          keep_minimum_runs: 5

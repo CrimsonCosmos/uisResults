@@ -15,11 +15,14 @@ jobs:
     steps:
       - name: Checkout uisResults repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.WINTERN_PAT }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
@@ -39,6 +42,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WINTERN_PAT }}
 
+      - name: Commit results to uisResults repo
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Create data directory if it doesn't exist
+          mkdir -p data
+
+          # Copy the results to data directory with timestamp
+          cp uis-results.json data/uis-results.json
+
+          # Add and commit if there are changes
+          git add data/uis-results.json
+          git diff --cached --quiet || (git commit -m "Update UIS results $(date +'%Y-%m-%d %H:%M')" && git push)
+
       - name: Clone wintern-next repo
         run: |
           git clone https://x-access-token:${{ secrets.WINTERN_PAT }}@github.com/CrimsonCosmos/wintern-next.git /tmp/wintern-next
@@ -55,3 +73,17 @@ jobs:
           git config user.email "actions@github.com"
           git add public/data/uis-results.json
           git diff --cached --quiet || (git commit -m "Update UIS results $(date +'%b %d %Y')" && git push)
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: scrape
+    if: always()
+
+    steps:
+      - name: Delete old workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 7
+          keep_minimum_runs: 3
