@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-04T04:23:55.552661+00:00",
+  "updated_at": "2026-04-04T14:34:53.492981+00:00",
   "date_range": {
     "start": "2026-03-28",
     "end": "2026-04-04"
@@ -332,44 +332,6 @@
       "Sec Behind": "-"
     },
     {
-      "Name": "Joey Karlesky",
-      "Type": "SR",
-      "Sport": "Outdoor Track & Field",
-      "Event": "400 Meters",
-      "Time/Mark": "1:09.91a",
-      "Place": "40",
-      "Date": "2026-03-28",
-      "Meet": "Big Blue Outdoor Opener",
-      "Previous Best": "1:04.65a",
-      "Previous SR": "-",
-      "% from PR": "-8.14%",
-      "% from SR": "-",
-      "NCAA Std": "47.20",
-      "vs NCAA": "+48.1%",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "Joey Karlesky",
-      "Type": "SR",
-      "Sport": "Outdoor Track & Field",
-      "Event": "4x400 Relay",
-      "Time/Mark": "4:07.29a",
-      "Place": "8",
-      "Date": "2026-04-02",
-      "Meet": "Illinois College Thursday Throwdown",
-      "Previous Best": "3:52.60a",
-      "Previous SR": "-",
-      "% from PR": "-6.32%",
-      "% from SR": "-",
-      "NCAA Std": "47.20",
-      "vs NCAA": "+423.9%",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
       "Name": "Josslyn Gaona",
       "Type": "SR",
       "Sport": "Outdoor Track & Field",
@@ -593,6 +555,25 @@
       "% from SR": "-",
       "NCAA Std": "55.50",
       "vs NCAA": "+19.7%",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "Maddie Miller-Ross",
+      "Type": "SR",
+      "Sport": "Outdoor Track & Field",
+      "Event": "10,000 Meters",
+      "Time/Mark": "35:02.88a",
+      "Place": "25",
+      "Date": "2026-04-03",
+      "Meet": "Stanford Invite",
+      "Previous Best": "34:29.52a",
+      "Previous SR": "-",
+      "% from PR": "-1.61%",
+      "% from SR": "-",
+      "NCAA Std": "-",
+      "vs NCAA": "-",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
