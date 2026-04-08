@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-08T04:42:53.028312+00:00",
+  "updated_at": "2026-04-08T15:10:55.715164+00:00",
   "date_range": {
     "start": "2026-04-01",
     "end": "2026-04-08"
@@ -156,6 +156,25 @@
       "% from SR": "-",
       "NCAA Std": "47.20",
       "vs NCAA": "+380.2%",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "Joey Karlesky",
+      "Type": "SR",
+      "Sport": "Outdoor Track & Field",
+      "Event": "4x400 Relay",
+      "Time/Mark": "4:07.29a",
+      "Place": "8",
+      "Date": "2026-04-02",
+      "Meet": "Illinois College Thursday Throwdown",
+      "Previous Best": "3:52.60a",
+      "Previous SR": "-",
+      "% from PR": "-6.32%",
+      "% from SR": "-",
+      "NCAA Std": "47.20",
+      "vs NCAA": "+423.9%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
