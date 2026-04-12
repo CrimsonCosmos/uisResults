@@ -2455,6 +2455,9 @@ def main():
         print("\n" + "=" * 70)
         print("No results found in the specified time period.")
         print("=" * 70)
+        # Still write empty JSON in cloud mode so the workflow doesn't fail
+        if args.cloud:
+            _push_results_to_website([], cutoff_date, end_date, checked_sports, cloud_mode=True)
         return
 
     # Deduplicate results (same athlete, event, date, time can appear in multiple sports)
