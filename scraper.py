@@ -1301,11 +1301,20 @@ class AthleticNetScraper:
 
             # Close extra tabs (keep only the first one)
             for handle in handles[1:]:
-                self.driver.switch_to.window(handle)
-                self.driver.close()
+                try:
+                    if handle in self.driver.window_handles:
+                        self.driver.switch_to.window(handle)
+                        self.driver.close()
+                except Exception:
+                    pass
 
             # Switch back to original tab
-            self.driver.switch_to.window(original_handle)
+            try:
+                self.driver.switch_to.window(original_handle)
+            except Exception:
+                # If original handle is gone, switch to whatever is left
+                if self.driver.window_handles:
+                    self.driver.switch_to.window(self.driver.window_handles[0])
 
         return all_data
 
@@ -2175,6 +2184,9 @@ def main():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-background-networking")
+    options.add_argument("--crash-dumps-dir=/tmp")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
@@ -2378,7 +2390,7 @@ def main():
 
             # Selenium fallback (or primary if API not available)
             if remaining_athletes:
-                NUM_PARALLEL_TABS = 3
+                NUM_PARALLEL_TABS = 1  # Single tab to avoid window handle crashes in CI
                 for batch_start in range(0, len(remaining_athletes), NUM_PARALLEL_TABS):
                     batch = remaining_athletes[batch_start:batch_start + NUM_PARALLEL_TABS]
                     batch_names = ', '.join(a['name'] for a in batch)
