@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-18T04:38:18.808873+00:00",
+  "updated_at": "2026-04-18T14:41:33.795258+00:00",
   "date_range": {
     "start": "2026-04-11",
     "end": "2026-04-18"
@@ -9,31 +9,12 @@
   ],
   "results": [
     {
-      "Name": "Allison Thompson",
+      "Name": "Ava Allison",
       "Type": "-",
       "Sport": "Outdoor Track & Field",
       "Event": "5000 Meters",
-      "Time/Mark": "20:09.21",
-      "Place": 36,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "Josslyn Gaona",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "5000 Meters",
-      "Time/Mark": "18:56.10",
-      "Place": 21,
+      "Time/Mark": "22:56.78",
+      "Place": 41,
       "Date": "Apr 18, 2026",
       "Meet": "ISU Gibson Invitational (Entries on DA)",
       "Previous Best": "-",
