@@ -26,6 +26,8 @@ import pandas as pd
 
 # GLVC conference rankings from TFRRS
 from tfrrs_glvc import GLVCRankings, format_gap
+# TFRRS individual results (supplementary source)
+from tfrrs_results import TFRRSResultsScraper, normalize_for_dedup
 
 
 # Events that are comparable between indoor and outdoor track
@@ -2451,6 +2453,26 @@ def main():
     finally:
         driver.quit()
 
+    # Tag Athletic.net results with source
+    for r in all_results:
+        r['source'] = 'athletic.net'
+
+    # ===== TFRRS Supplementary Results =====
+    print(f"\n{'='*50}")
+    print("Fetching supplementary results from TFRRS...")
+    print('='*50)
+    try:
+        tfrrs_scraper = TFRRSResultsScraper(cutoff_date, sports_to_check)
+        tfrrs_results = tfrrs_scraper.scrape_all_results()
+        if tfrrs_results:
+            print(f"\n  TFRRS: {len(tfrrs_results)} total results found")
+            all_results.extend(tfrrs_results)
+        else:
+            print("\n  TFRRS: No results found")
+    except Exception as e:
+        print(f"\n  Warning: TFRRS scraping failed: {e}")
+        print("  Continuing with Athletic.net results only")
+
     if not all_results:
         print("\n" + "=" * 70)
         print("No results found in the specified time period.")
@@ -2460,17 +2482,54 @@ def main():
             _push_results_to_website([], cutoff_date, end_date, checked_sports, cloud_mode=True)
         return
 
-    # Deduplicate results (same athlete, event, date, time can appear in multiple sports)
+    # Deduplicate results across Athletic.net and TFRRS
+    # Athletic.net results come first, so their richer data (PR/SR flags) is preferred
     seen = set()
     unique_results = []
     for r in all_results:
-        key = (r['athlete_name'], r['event'], r['date_str'], r['time'])
+        key = normalize_for_dedup(r)
         if key not in seen:
             seen.add(key)
             unique_results.append(r)
 
+    tfrrs_only = sum(1 for r in unique_results if r.get('source') == 'tfrrs')
+    anet_count = len(unique_results) - tfrrs_only
+    dupes = len(all_results) - len(unique_results)
     all_results = unique_results
-    print(f"After deduplication: {len(all_results)} unique results")
+    print(f"\nAfter deduplication: {len(all_results)} unique results "
+          f"({anet_count} from Athletic.net, {tfrrs_only} TFRRS-only, {dupes} duplicates removed)")
+
+    # Enrich TFRRS-only results with NCAA standards
+    for r in all_results:
+        if r.get('source') != 'tfrrs':
+            continue
+        if r.get('ncaa_standard') is not None:
+            continue
+        gender = r.get('gender', '')
+        if not gender:
+            continue
+        sport_key = 'indoor' if 'indoor' in r.get('sport', '').lower() else 'outdoor'
+        ncaa_std = get_ncaa_standard(r['event'], sport_key, gender)
+        if not ncaa_std:
+            continue
+        mark_val = time_to_seconds_standalone(r['time'])
+        if mark_val is None:
+            continue
+        is_field = any(f in r['event'].lower() for f in ['jump', 'vault', 'put', 'throw', 'discus', 'hammer', 'javelin'])
+        if is_field:
+            try:
+                result_distance = float(re.sub(r'[^\d.]', '', r['time'].replace('m', '')))
+                r['ncaa_diff'] = result_distance - ncaa_std
+                if ncaa_std > 0:
+                    r['ncaa_diff_pct'] = (r['ncaa_diff'] / ncaa_std) * 100
+                r['ncaa_standard'] = ncaa_std
+            except (ValueError, TypeError):
+                pass
+        else:
+            r['ncaa_diff'] = mark_val - ncaa_std
+            if ncaa_std > 0:
+                r['ncaa_diff_pct'] = (r['ncaa_diff'] / ncaa_std) * 100
+            r['ncaa_standard'] = ncaa_std
 
     # ===== GLVC Conference Rankings =====
     # Fetch rankings from TFRRS and enrich results
