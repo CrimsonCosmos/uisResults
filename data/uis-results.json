@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-21T04:54:50.664435+00:00",
+  "updated_at": "2026-04-21T15:14:27.795225+00:00",
   "date_range": {
     "start": "2026-04-14",
     "end": "2026-04-21"
@@ -156,25 +156,6 @@
       "% from SR": "-",
       "NCAA Std": "14:15.00",
       "vs NCAA": "+4.4%",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "Josslyn Gaona",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "5000 Meters",
-      "Time/Mark": "18:56.10",
-      "Place": 21,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
