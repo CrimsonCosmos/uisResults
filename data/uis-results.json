@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-04-20T15:18:30.202667+00:00",
+  "updated_at": "2026-04-21T04:54:50.664435+00:00",
   "date_range": {
-    "start": "2026-04-13",
-    "end": "2026-04-20"
+    "start": "2026-04-14",
+    "end": "2026-04-21"
   },
   "sports": [
     "Outdoor Track"
@@ -166,6 +166,25 @@
       "Sport": "Outdoor Track & Field",
       "Event": "5000 Meters",
       "Time/Mark": "18:56.10",
+      "Place": 21,
+      "Date": "Apr 18, 2026",
+      "Meet": "ISU Gibson Invitational (Entries on DA)",
+      "Previous Best": "-",
+      "Previous SR": "-",
+      "% from PR": "-",
+      "% from SR": "-",
+      "NCAA Std": "-",
+      "vs NCAA": "-",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "Josslyn Gaona",
+      "Type": "-",
+      "Sport": "Outdoor Track & Field",
+      "Event": "5000 Meters",
+      "Time/Mark": "18:56.10",
       "Place": "21",
       "Date": "Apr 16, 2026",
       "Meet": "Gibson Invitational",
@@ -308,6 +327,25 @@
       "% from SR": "-",
       "NCAA Std": "16:45.00",
       "vs NCAA": "+21.3%",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "River Derby",
+      "Type": "-",
+      "Sport": "Outdoor Track & Field",
+      "Event": "1500 Meters",
+      "Time/Mark": "4:19.29",
+      "Place": 53,
+      "Date": "Apr 18, 2026",
+      "Meet": "ISU Gibson Invitational (Entries on DA)",
+      "Previous Best": "-",
+      "Previous SR": "-",
+      "% from PR": "-",
+      "% from SR": "-",
+      "NCAA Std": "-",
+      "vs NCAA": "-",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
