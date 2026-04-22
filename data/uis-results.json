@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-04-21T15:14:27.795225+00:00",
+  "updated_at": "2026-04-22T04:52:20.131497+00:00",
   "date_range": {
-    "start": "2026-04-14",
-    "end": "2026-04-21"
+    "start": "2026-04-15",
+    "end": "2026-04-22"
   },
   "sports": [
     "Outdoor Track"
@@ -23,6 +23,25 @@
       "% from SR": "-",
       "NCAA Std": "11.75",
       "vs NCAA": "+57.4%",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "Allison Thompson",
+      "Type": "-",
+      "Sport": "Outdoor Track & Field",
+      "Event": "5000 Meters",
+      "Time/Mark": "20:09.21",
+      "Place": 36,
+      "Date": "Apr 18, 2026",
+      "Meet": "ISU Gibson Invitational (Entries on DA)",
+      "Previous Best": "-",
+      "Previous SR": "-",
+      "% from PR": "-",
+      "% from SR": "-",
+      "NCAA Std": "-",
+      "vs NCAA": "-",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
@@ -156,6 +175,25 @@
       "% from SR": "-",
       "NCAA Std": "14:15.00",
       "vs NCAA": "+4.4%",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "Josslyn Gaona",
+      "Type": "-",
+      "Sport": "Outdoor Track & Field",
+      "Event": "5000 Meters",
+      "Time/Mark": "18:56.10",
+      "Place": 21,
+      "Date": "Apr 18, 2026",
+      "Meet": "ISU Gibson Invitational (Entries on DA)",
+      "Previous Best": "-",
+      "Previous SR": "-",
+      "% from PR": "-",
+      "% from SR": "-",
+      "NCAA Std": "-",
+      "vs NCAA": "-",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
@@ -308,25 +346,6 @@
       "% from SR": "-",
       "NCAA Std": "16:45.00",
       "vs NCAA": "+21.3%",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "River Derby",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "1500 Meters",
-      "Time/Mark": "4:19.29",
-      "Place": 53,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
