@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-23T04:56:32.304216+00:00",
+  "updated_at": "2026-04-23T15:53:40.485358+00:00",
   "date_range": {
     "start": "2026-04-16",
     "end": "2026-04-23"
@@ -7,101 +7,5 @@
   "sports": [
     "Outdoor Track"
   ],
-  "results": [
-    {
-      "Name": "Allison Thompson",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "5000 Meters",
-      "Time/Mark": "20:09.21",
-      "Place": 36,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "Ava Allison",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "5000 Meters",
-      "Time/Mark": "22:56.78",
-      "Place": 41,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "Chase Cooley",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "1500 Meters",
-      "Time/Mark": "4:08.16",
-      "Place": 27,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "Josslyn Gaona",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "5000 Meters",
-      "Time/Mark": "18:56.10",
-      "Place": 21,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    },
-    {
-      "Name": "River Derby",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "1500 Meters",
-      "Time/Mark": "4:19.29",
-      "Place": 53,
-      "Date": "Apr 18, 2026",
-      "Meet": "ISU Gibson Invitational (Entries on DA)",
-      "Previous Best": "-",
-      "Previous SR": "-",
-      "% from PR": "-",
-      "% from SR": "-",
-      "NCAA Std": "-",
-      "vs NCAA": "-",
-      "GLVC Rank": "NR",
-      "Sec Ahead": "-",
-      "Sec Behind": "-"
-    }
-  ]
+  "results": []
 }
