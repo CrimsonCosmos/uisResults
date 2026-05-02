@@ -281,7 +281,7 @@ def enrich_from_history(results, history):
         ]
 
         if not prior_events:
-            r['record_type'] = 'FT'
+            # No history — don't mark FT, only Athletic.net can determine first time
             continue
 
         # Compute current season key
@@ -302,7 +302,6 @@ def enrich_from_history(results, history):
                 season_times.append((t, entry.get('time', '')))
 
         if not all_times:
-            r['record_type'] = 'FT'
             continue
 
         # Sort: best first
@@ -389,6 +388,47 @@ def update_athlete_history(history, results):
                 'source': r.get('source', ''),
                 'place': r.get('place', ''),
             })
+
+        # Store Athletic.net previous_pr as a synthetic history entry
+        # This captures the athlete's all-time PR from Athletic.net's database
+        prev_pr = r.get('previous_pr')
+        if prev_pr and r.get('source') == 'athletic.net':
+            pr_seconds = time_to_seconds_standalone(prev_pr)
+            if pr_seconds is not None:
+                pr_dupe = any(
+                    e.get('time') == prev_pr and e.get('source') == 'athletic.net_pr'
+                    for e in event_entries
+                )
+                if not pr_dupe:
+                    event_entries.append({
+                        'time': prev_pr,
+                        'time_seconds': pr_seconds,
+                        'date': '',
+                        'meet': 'Athletic.net PR',
+                        'sport': r.get('sport', ''),
+                        'source': 'athletic.net_pr',
+                        'place': '',
+                    })
+
+        # Store Athletic.net previous_sr as a synthetic history entry
+        prev_sr = r.get('previous_sr')
+        if prev_sr and r.get('source') == 'athletic.net':
+            sr_seconds = time_to_seconds_standalone(prev_sr)
+            if sr_seconds is not None:
+                sr_dupe = any(
+                    e.get('time') == prev_sr and e.get('source') == 'athletic.net_sr'
+                    for e in event_entries
+                )
+                if not sr_dupe:
+                    event_entries.append({
+                        'time': prev_sr,
+                        'time_seconds': sr_seconds,
+                        'date': '',
+                        'meet': 'Athletic.net SR',
+                        'sport': r.get('sport', ''),
+                        'source': 'athletic.net_sr',
+                        'place': '',
+                    })
 
 
 class AthleticNetAPI:
