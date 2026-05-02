@@ -198,6 +198,199 @@ def time_to_seconds_standalone(time_str):
         return None
 
 
+# ===== Athlete History Tracking =====
+# Maintains a persistent record of all results across scraper runs.
+# Used to compute PR/SR/FT for sources that don't provide this data (TRXC, TFRRS).
+
+import os
+HISTORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'athlete_history.json')
+
+
+def _get_season_key(sport, date_str):
+    """
+    Return a season key like 'outdoor_2025' for grouping season records.
+    Uses sport type + academic year (Aug-Jul).
+    """
+    try:
+        dt = datetime.strptime(date_str, "%b %d, %Y")
+    except (ValueError, TypeError):
+        return None
+    # Academic year: Aug-Jul. Aug 2025 through Jul 2026 = year 2025
+    year = dt.year if dt.month >= 8 else dt.year - 1
+    sport_lower = sport.lower() if sport else ''
+    if 'indoor' in sport_lower:
+        return f"indoor_{year}"
+    elif 'outdoor' in sport_lower:
+        return f"outdoor_{year}"
+    elif 'cross country' in sport_lower:
+        return f"xc_{year}"
+    return f"other_{year}"
+
+
+def load_athlete_history():
+    """Load athlete history from JSON file."""
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, 'r') as f:
+            return json.load(f)
+    return {"athletes": {}, "last_updated": None}
+
+
+def save_athlete_history(history):
+    """Save athlete history to JSON file."""
+    from datetime import timezone
+    os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
+    history['last_updated'] = datetime.now(timezone.utc).isoformat()
+    with open(HISTORY_FILE, 'w') as f:
+        json.dump(history, f, indent=2)
+
+
+def enrich_from_history(results, history):
+    """
+    Enrich TFRRS/TRXC results with PR/SR data from stored athlete history.
+    Only modifies results that don't already have PR/SR data.
+    """
+    for r in results:
+        # Skip results that already have PR/SR data (Athletic.net provides its own)
+        if r.get('source') not in ('tfrrs', 'trxc'):
+            continue
+        if r.get('record_type') is not None:
+            continue
+
+        time_str = r.get('time', '')
+        if not time_str or time_str.upper() in ('DNS', 'DNF'):
+            continue
+
+        current_seconds = time_to_seconds_standalone(time_str)
+        if current_seconds is None:
+            continue
+
+        athlete = r['athlete_name']
+        event = r['event']
+        is_field = any(f in event.lower() for f in
+                       ['jump', 'vault', 'put', 'throw', 'discus', 'hammer', 'javelin'])
+
+        # Look up history for this athlete + event, excluding the current result
+        athlete_events = history.get('athletes', {}).get(athlete, {}).get(event, [])
+
+        # Filter out the current result itself (same time, date, meet)
+        prior_events = [
+            e for e in athlete_events
+            if not (e.get('time') == time_str and
+                    e.get('date') == r.get('date_str') and
+                    e.get('meet') == r.get('meet_name'))
+        ]
+
+        if not prior_events:
+            r['record_type'] = 'FT'
+            continue
+
+        # Compute current season key
+        current_season = _get_season_key(r.get('sport', ''), r.get('date_str', ''))
+
+        all_times = []
+        season_times = []
+
+        for entry in prior_events:
+            t = entry.get('time_seconds')
+            if t is None:
+                continue
+            all_times.append((t, entry.get('time', '')))
+
+            # Same season = same sport type + same academic year
+            entry_season = _get_season_key(entry.get('sport', ''), entry.get('date', ''))
+            if current_season and entry_season == current_season:
+                season_times.append((t, entry.get('time', '')))
+
+        if not all_times:
+            r['record_type'] = 'FT'
+            continue
+
+        # Sort: best first
+        if is_field:
+            all_times.sort(key=lambda x: x[0], reverse=True)
+            season_times.sort(key=lambda x: x[0], reverse=True)
+        else:
+            all_times.sort(key=lambda x: x[0])
+            season_times.sort(key=lambda x: x[0])
+
+        best_pr_seconds, best_pr_str = all_times[0]
+        best_sr_seconds, best_sr_str = (season_times[0] if season_times else (None, None))
+
+        # Determine record type
+        if is_field:
+            is_pr = current_seconds >= best_pr_seconds
+            is_sr = best_sr_seconds is not None and current_seconds >= best_sr_seconds
+        else:
+            is_pr = current_seconds <= best_pr_seconds
+            is_sr = best_sr_seconds is not None and current_seconds <= best_sr_seconds
+
+        if is_pr:
+            r['record_type'] = 'PR'
+            r['previous_pr'] = best_pr_str
+            if best_pr_seconds > 0:
+                if is_field:
+                    r['pr_improvement'] = ((current_seconds - best_pr_seconds) / best_pr_seconds) * 100
+                else:
+                    r['pr_improvement'] = ((best_pr_seconds - current_seconds) / best_pr_seconds) * 100
+        elif is_sr:
+            r['record_type'] = 'SR'
+
+        # Always set previous bests for display columns
+        if r.get('previous_pr') is None:
+            r['previous_pr'] = best_pr_str
+            if best_pr_seconds > 0:
+                if is_field:
+                    r['pr_improvement'] = ((current_seconds - best_pr_seconds) / best_pr_seconds) * 100
+                else:
+                    r['pr_improvement'] = ((best_pr_seconds - current_seconds) / best_pr_seconds) * 100
+
+        if r.get('previous_sr') is None and best_sr_str:
+            r['previous_sr'] = best_sr_str
+            if best_sr_seconds and best_sr_seconds > 0:
+                if is_field:
+                    r['sr_improvement'] = ((current_seconds - best_sr_seconds) / best_sr_seconds) * 100
+                else:
+                    r['sr_improvement'] = ((best_sr_seconds - current_seconds) / best_sr_seconds) * 100
+
+
+def update_athlete_history(history, results):
+    """Add current results to athlete history, avoiding duplicates."""
+    athletes = history.setdefault('athletes', {})
+
+    for r in results:
+        time_str = r.get('time', '')
+        if not time_str or time_str.upper() in ('DNS', 'DNF'):
+            continue
+
+        time_seconds = time_to_seconds_standalone(time_str)
+        if time_seconds is None:
+            continue
+
+        athlete = r['athlete_name']
+        event = r['event']
+
+        event_entries = athletes.setdefault(athlete, {}).setdefault(event, [])
+
+        # Check for duplicate (same time, date, meet)
+        is_dupe = any(
+            e.get('time') == time_str and
+            e.get('date') == r.get('date_str') and
+            e.get('meet') == r.get('meet_name')
+            for e in event_entries
+        )
+
+        if not is_dupe:
+            event_entries.append({
+                'time': time_str,
+                'time_seconds': time_seconds,
+                'date': r.get('date_str', ''),
+                'meet': r.get('meet_name', ''),
+                'sport': r.get('sport', ''),
+                'source': r.get('source', ''),
+                'place': r.get('place', ''),
+            })
+
+
 class AthleticNetAPI:
     """
     Fast API client for athletic.net.
@@ -2557,6 +2750,21 @@ def main():
             if ncaa_std > 0:
                 r['ncaa_diff_pct'] = (r['ncaa_diff'] / ncaa_std) * 100
             r['ncaa_standard'] = ncaa_std
+
+    # ===== Athlete History: PR/SR Enrichment =====
+    # Load stored history and enrich TFRRS/TRXC results with PR/SR/FT data
+    print("\nLoading athlete history for PR/SR computation...")
+    history = load_athlete_history()
+    prev_count = sum(len(evts) for a in history.get('athletes', {}).values() for evts in a.values())
+    enrich_from_history(all_results, history)
+    enriched = sum(1 for r in all_results if r.get('source') in ('tfrrs', 'trxc') and r.get('record_type'))
+    print(f"  History: {prev_count} stored entries, enriched {enriched} results with PR/SR/FT")
+
+    # Update history with all current results and save
+    update_athlete_history(history, all_results)
+    save_athlete_history(history)
+    new_count = sum(len(evts) for a in history.get('athletes', {}).values() for evts in a.values())
+    print(f"  Saved {new_count} entries to athlete history ({new_count - prev_count} new)")
 
     # ===== GLVC Conference Rankings =====
     # Fetch rankings from TFRRS and enrich results

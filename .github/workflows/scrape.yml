@@ -54,7 +54,7 @@ jobs:
           cp uis-results.json data/uis-results.json
 
           # Add and commit if there are changes
-          git add data/uis-results.json
+          git add data/uis-results.json data/athlete_history.json
           git diff --cached --quiet || (git commit -m "Update UIS results $(date +'%Y-%m-%d %H:%M')" && git push)
 
       - name: Clone wintern-next repo

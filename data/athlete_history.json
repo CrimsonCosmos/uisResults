@@ -1,0 +1,804 @@
+{
+  "athletes": {
+    "Allison Thompson": {
+      "10000 Meters": [
+        {
+          "time": "41:57.49",
+          "time_seconds": 2517.49,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "19"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "20:09.21",
+          "time_seconds": 1209.21,
+          "date": "Apr 18, 2026",
+          "meet": "ISU Gibson Invitational (Entries on DA)",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": 36
+        },
+        {
+          "time": "20:09.21",
+          "time_seconds": 1209.21,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "36"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "1:20.99",
+          "time_seconds": 80.99,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "15"
+        }
+      ]
+    },
+    "Charlie Borlin": {
+      "10000 Meters": [
+        {
+          "time": "32:19.59",
+          "time_seconds": 1939.59,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "18"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "57.73",
+          "time_seconds": 57.73,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "30"
+        }
+      ]
+    },
+    "Chase Cooley": {
+      "1500 Meters": [
+        {
+          "time": "4:16.64",
+          "time_seconds": 256.64,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "9"
+        },
+        {
+          "time": "4:08.16",
+          "time_seconds": 248.16,
+          "date": "Apr 18, 2026",
+          "meet": "ISU Gibson Invitational (Entries on DA)",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": 27
+        },
+        {
+          "time": "4:08.16",
+          "time_seconds": 248.16,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "27"
+        }
+      ],
+      "800 Meters": [
+        {
+          "time": "2:15.36",
+          "time_seconds": 135.36,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "13"
+        },
+        {
+          "time": "2:10.81",
+          "time_seconds": 130.81,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "18"
+        }
+      ]
+    },
+    "Dominic Cantarini": {
+      "10000 Meters": [
+        {
+          "time": "31:36.29",
+          "time_seconds": 1896.29,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "12"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "59.25",
+          "time_seconds": 59.25,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "33"
+        }
+      ]
+    },
+    "Garrett Wagoner": {
+      "10000 Meters": [
+        {
+          "time": "32:54.16",
+          "time_seconds": 1974.16,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "23"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "59.81",
+          "time_seconds": 59.81,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "37"
+        }
+      ]
+    },
+    "Isaac Cortes": {
+      "10000 Meters": [
+        {
+          "time": "31:44.64",
+          "time_seconds": 1904.64,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "13"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "56.98",
+          "time_seconds": 56.98,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "28"
+        }
+      ]
+    },
+    "Joey Karlesky": {
+      "10000 Meters": [
+        {
+          "time": "30:41.59",
+          "time_seconds": 1841.59,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "7"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "14:52.28",
+          "time_seconds": 892.28,
+          "date": "Apr 16, 2026",
+          "meet": "2026 Bryan Clay Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "55"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "1:09.91",
+          "time_seconds": 69.91,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "40"
+        }
+      ]
+    },
+    "Josslyn Gaona": {
+      "1500 Meters": [
+        {
+          "time": "4:49.45",
+          "time_seconds": 289.45,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "7"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "18:56.10",
+          "time_seconds": 1136.1,
+          "date": "Apr 18, 2026",
+          "meet": "ISU Gibson Invitational (Entries on DA)",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": 21
+        },
+        {
+          "time": "18:56.10",
+          "time_seconds": 1136.1,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "21"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "1:12.55",
+          "time_seconds": 72.55,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "13"
+        }
+      ]
+    },
+    "Kali Gaden": {
+      "800 Meters": [
+        {
+          "time": "2:32.59",
+          "time_seconds": 152.59,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "7"
+        },
+        {
+          "time": "2:26.41",
+          "time_seconds": 146.41,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "18"
+        },
+        {
+          "time": "2:28.14",
+          "time_seconds": 148.14,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "3"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "5:29.67",
+          "time_seconds": 329.67,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "9"
+        }
+      ]
+    },
+    "Mackenzie Billard": {
+      "10000 Meters": [
+        {
+          "time": "40:55.57",
+          "time_seconds": 2455.57,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "15"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "1:34.56",
+          "time_seconds": 94.56,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "44"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "5:07.81",
+          "time_seconds": 307.81,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "3"
+        }
+      ]
+    },
+    "Maddie Miller-Ross": {
+      "10000 Meters": [
+        {
+          "time": "35:09.55",
+          "time_seconds": 2109.55,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "1"
+        },
+        {
+          "time": "35:02.88",
+          "time_seconds": 2102.88,
+          "date": "Apr 03, 2026",
+          "meet": "Stanford Invite",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "25"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "16:19.76",
+          "time_seconds": 979.76,
+          "date": "Apr 16, 2026",
+          "meet": "2026 Bryan Clay Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "6"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "1:06.44",
+          "time_seconds": 66.44,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "7"
+        }
+      ]
+    },
+    "Marissa Roggensack": {
+      "1500 Meters": [
+        {
+          "time": "5:03.29",
+          "time_seconds": 303.29,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "10"
+        },
+        {
+          "time": "5:10.68",
+          "time_seconds": 310.68,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "2"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "18:27.38",
+          "time_seconds": 1107.38,
+          "date": "Apr 16, 2026",
+          "meet": "2026 Bryan Clay Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "51"
+        }
+      ],
+      "800 Meters": [
+        {
+          "time": "2:26.41",
+          "time_seconds": 146.41,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "2"
+        }
+      ]
+    },
+    "Matt Padilla": {
+      "10000 Meters": [
+        {
+          "time": "30:36.95",
+          "time_seconds": 1836.95,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "5"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "14:43.66",
+          "time_seconds": 883.66,
+          "date": "Apr 16, 2026",
+          "meet": "2026 Bryan Clay Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "36"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "59.71",
+          "time_seconds": 59.71,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "35"
+        }
+      ]
+    },
+    "Olivia Thomsen": {
+      "10000 Meters": [
+        {
+          "time": "41:16.02",
+          "time_seconds": 2476.02,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "18"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "20:19.20",
+          "time_seconds": 1219.2,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "38"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "5:25.75",
+          "time_seconds": 325.75,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown Mackenzie Billard , Josslyn Gaona , Allison Thompson , Olivia Thomsen",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": 3
+        },
+        {
+          "time": "5:17.45",
+          "time_seconds": 317.45,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "6"
+        }
+      ]
+    },
+    "River Derby": {
+      "800 Meters": [
+        {
+          "time": "1:59.74",
+          "time_seconds": 119.74000000000001,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "5"
+        },
+        {
+          "time": "2:03.66",
+          "time_seconds": 123.66,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "7"
+        },
+        {
+          "time": "2:03.00",
+          "time_seconds": 123.0,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "8"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "4:19.29",
+          "time_seconds": 259.29,
+          "date": "Apr 18, 2026",
+          "meet": "ISU Gibson Invitational (Entries on DA)",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": 53
+        },
+        {
+          "time": "4:19.29",
+          "time_seconds": 259.29,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "53"
+        }
+      ]
+    },
+    "Ava Allison": {
+      "5000 Meters": [
+        {
+          "time": "22:56.78",
+          "time_seconds": 1376.78,
+          "date": "Apr 18, 2026",
+          "meet": "ISU Gibson Invitational (Entries on DA)",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": 41
+        },
+        {
+          "time": "22:56.78",
+          "time_seconds": 1376.78,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "41"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "5:51.17",
+          "time_seconds": 351.17,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "13"
+        },
+        {
+          "time": "5:47.14",
+          "time_seconds": 347.14,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "19"
+        }
+      ]
+    },
+    "Addelyne Nehmelman": {
+      "100 Meters": [
+        {
+          "time": "18.49",
+          "time_seconds": 18.49,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "49"
+        }
+      ],
+      "Shot Put": [
+        {
+          "time": "5.41m",
+          "time_seconds": 5.41,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "19"
+        }
+      ]
+    },
+    "Audrey Wagoner": {
+      "1500 Meters": [
+        {
+          "time": "5:32.09",
+          "time_seconds": 332.09000000000003,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "44"
+        }
+      ],
+      "800 Meters": [
+        {
+          "time": "2:49.65",
+          "time_seconds": 169.65,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "13"
+        },
+        {
+          "time": "2:44.14",
+          "time_seconds": 164.14,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "17"
+        }
+      ]
+    },
+    "Lauren McBride": {
+      "5000 Meters": [
+        {
+          "time": "20:01.77",
+          "time_seconds": 1201.77,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "35"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "5:30.72",
+          "time_seconds": 330.72,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "14"
+        }
+      ]
+    },
+    "Shaylin Ward": {
+      "100 Meters": [
+        {
+          "time": "16.18",
+          "time_seconds": 16.18,
+          "date": "Apr 16, 2026",
+          "meet": "Gibson Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "48"
+        }
+      ],
+      "Shot Put": [
+        {
+          "time": "4.29m",
+          "time_seconds": 4.29,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "21"
+        }
+      ]
+    },
+    "Kaleigh Inniss": {
+      "1500 Meters": [
+        {
+          "time": "5:02.51",
+          "time_seconds": 302.51,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "1"
+        }
+      ],
+      "400 Meters": [
+        {
+          "time": "1:07.88",
+          "time_seconds": 67.88,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "11"
+        }
+      ]
+    },
+    "Lucas Naugle": {
+      "800 Meters": [
+        {
+          "time": "2:12.43",
+          "time_seconds": 132.43,
+          "date": "Apr 02, 2026",
+          "meet": "Illinois College Thursday Throwdown",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "11"
+        }
+      ],
+      "1500 Meters": [
+        {
+          "time": "4:13.41",
+          "time_seconds": 253.41,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "9"
+        }
+      ]
+    },
+    "Brock Loftus": {
+      "400 Meters": [
+        {
+          "time": "1:04.98",
+          "time_seconds": 64.98,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "39"
+        }
+      ]
+    },
+    "Owen Whelan": {
+      "400 Meters": [
+        {
+          "time": "57.45",
+          "time_seconds": 57.45,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "29"
+        }
+      ]
+    },
+    "Ryan Kries": {
+      "400 Meters": [
+        {
+          "time": "1:02.39",
+          "time_seconds": 62.39,
+          "date": "Mar 28, 2026",
+          "meet": "Big Blue Outdoor Opener",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net",
+          "place": "38"
+        }
+      ]
+    }
+  },
+  "last_updated": "2026-05-02T14:11:23.141556+00:00"
+}
