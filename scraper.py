@@ -9,6 +9,7 @@ This scraper uses a hybrid approach:
 2. Falls back to Selenium scraping if API fails
 """
 
+import os
 import time
 import re
 import json
@@ -202,7 +203,6 @@ def time_to_seconds_standalone(time_str):
 # Maintains a persistent record of all results across scraper runs.
 # Used to compute PR/SR/FT for sources that don't provide this data (TRXC, TFRRS).
 
-import os
 HISTORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'athlete_history.json')
 
 
@@ -2032,10 +2032,8 @@ def _push_results_to_website(data, cutoff_date, end_date, checked_sports, cloud_
 
     In cloud_mode, just saves JSON locally (for GitHub Actions to handle).
     """
-    import json
     import subprocess
-    import os
-    from datetime import datetime, timezone
+    from datetime import timezone
 
     # Build JSON payload
     sport_abbrevs = {'xc': 'Cross Country', 'indoor': 'Indoor Track', 'outdoor': 'Outdoor Track'}
@@ -3023,7 +3021,6 @@ def main():
         print(f"\nWarning: Could not push to website: {e}")
 
     # Try to save Excel file
-    import os
     try:
         # If file exists, check if it's writable
         if os.path.exists(filepath):

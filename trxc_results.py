@@ -356,48 +356,58 @@ class TRXCResultsScraper:
 
         # Try both Track and Field types (one will have data, the other empty)
         for result_type in ['Track', 'Field']:
-            # Check round 2 (finals) first, fall back to round 1 (prelims)
-            for round_num in [2, 1]:
+            # First, probe which rounds have data (up to 3: prelim, semi, final)
+            rounds_with_data = []
+            for rnd in [1, 2, 3]:
                 try:
                     resp = self.session.get(f"{API_BASE}/results", params={
                         'id': self.meet_id,
                         'session': session,
                         'event': event_num,
-                        'round': round_num,
+                        'round': rnd,
                         'type': result_type,
                     }, timeout=15)
-
-                    if resp.status_code != 200:
-                        continue
-
-                    data = resp.json()
-                    if not data:
-                        continue
-
-                    if result_type == 'Track':
-                        results.extend(self._parse_track_results(data, uis_athletes,
-                                                                  meet_date, meet_name))
-                    else:
-                        results.extend(self._parse_field_results(data, uis_athletes,
-                                                                  meet_date, meet_name))
-
-                    # If we got final results (round 2), skip prelims
-                    if round_num == 2 and results:
-                        break
-
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        if data:
+                            rounds_with_data.append((rnd, data))
                 except Exception:
                     continue
 
+            if not rounds_with_data:
+                continue
+
+            total_rounds = len(rounds_with_data)
+
+            # Use the latest round available (finals preferred)
+            latest_round, latest_data = rounds_with_data[-1]
+
+            if result_type == 'Track':
+                results.extend(self._parse_track_results(latest_data, uis_athletes,
+                                                          meet_date, meet_name,
+                                                          total_rounds))
+            else:
+                results.extend(self._parse_field_results(latest_data, uis_athletes,
+                                                          meet_date, meet_name))
+
         return results
 
-    def _parse_track_results(self, data, uis_athletes, meet_date, meet_name):
+    def _parse_track_results(self, data, uis_athletes, meet_date, meet_name,
+                             total_rounds=1):
         """
         Parse track results array.
         Format: [round, event_num, ?, heat, event_name, wind, distance,
                  timestamp, place, athlete_id, lane, "Last, First", team, time, ...]
+
+        total_rounds: how many rounds exist for this event (used to label prelim vs semi)
         """
         results = []
         seen_athletes = set()  # Avoid duplicate entries from multiple heats
+
+        # Determine if this is a multi-heat round
+        heats = set(entry[3] for entry in data)
+        num_heats = len(heats)
+        round_num = data[0][0] if data else 1
 
         for entry in data:
             athlete_id = entry[9]
@@ -430,13 +440,28 @@ class TRXCResultsScraper:
 
             raw_time = entry[13]
             place_raw = entry[8]
+            heat = entry[3]
 
             # Skip DNS/DNF entries (placeholder times/places)
             if _is_dnf_time(raw_time, place_raw):
                 continue
 
             time_str = _format_track_time(raw_time)
-            place = str(place_raw)
+
+            # Format place with round/heat context
+            # Multiple heats means this is NOT a final — it's a prelim or semi.
+            # Label logic:
+            #   - If 3+ rounds exist: R1=Prelim, R2=Semi
+            #   - Otherwise (typical conference meet): multi-heat R1=Semi
+            #   - Single heat = Final (no label needed)
+            if num_heats > 1:
+                if total_rounds >= 3 and round_num == 1:
+                    round_label = "Prelim"
+                else:
+                    round_label = "Semi"
+                place = f"{place_raw} (H{heat} {round_label})"
+            else:
+                place = str(place_raw)
 
             date_str = meet_date.strftime("%b %d, %Y") if meet_date else ''
 
