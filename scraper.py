@@ -2323,8 +2323,8 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description='UIS Athletics Results Tracker')
-    parser.add_argument('--days', type=int, default=5,
-                        help='Number of days back to check (default: 5)')
+    parser.add_argument('--days', type=int, default=10,
+                        help='Number of days back to check (default: 10)')
     parser.add_argument('--headless', action='store_true',
                         help='Run browser in headless mode (may not work with all sites)')
 
