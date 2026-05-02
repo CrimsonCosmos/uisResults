@@ -28,6 +28,8 @@ import pandas as pd
 from tfrrs_glvc import GLVCRankings, format_gap
 # TFRRS individual results (supplementary source)
 from tfrrs_results import TFRRSResultsScraper, normalize_for_dedup
+# TRXC Timing live results (supplementary source)
+from trxc_results import TRXCResultsScraper, discover_uis_meets
 
 
 # Events that are comparable between indoor and outdoor track
@@ -2473,6 +2475,30 @@ def main():
         print(f"\n  Warning: TFRRS scraping failed: {e}")
         print("  Continuing with Athletic.net results only")
 
+    # ===== TRXC Timing Live Results =====
+    print(f"\n{'='*50}")
+    print("Fetching live results from TRXC Timing...")
+    print('='*50)
+    try:
+        trxc_meets = discover_uis_meets(cutoff_date)
+        if trxc_meets:
+            print(f"  Found {len(trxc_meets)} TRXC meet(s) with UIS athletes")
+            for meet in trxc_meets:
+                meet_label = meet['name']
+                if meet['date']:
+                    meet_label += f" ({meet['date'].strftime('%b %d, %Y')})"
+                print(f"\n  Scraping: {meet_label}")
+                trxc_scraper = TRXCResultsScraper(meet['meet_id'], cutoff_date)
+                trxc_results = trxc_scraper.scrape_all_results(meet_info=meet)
+                if trxc_results:
+                    print(f"  TRXC: {len(trxc_results)} results from {meet['name']}")
+                    all_results.extend(trxc_results)
+        else:
+            print("  TRXC: No active meets found with UIS athletes")
+    except Exception as e:
+        print(f"\n  Warning: TRXC scraping failed: {e}")
+        print("  Continuing without TRXC results")
+
     if not all_results:
         print("\n" + "=" * 70)
         print("No results found in the specified time period.")
@@ -2493,15 +2519,16 @@ def main():
             unique_results.append(r)
 
     tfrrs_only = sum(1 for r in unique_results if r.get('source') == 'tfrrs')
-    anet_count = len(unique_results) - tfrrs_only
+    trxc_only = sum(1 for r in unique_results if r.get('source') == 'trxc')
+    anet_count = len(unique_results) - tfrrs_only - trxc_only
     dupes = len(all_results) - len(unique_results)
     all_results = unique_results
     print(f"\nAfter deduplication: {len(all_results)} unique results "
-          f"({anet_count} from Athletic.net, {tfrrs_only} TFRRS-only, {dupes} duplicates removed)")
+          f"({anet_count} from Athletic.net, {tfrrs_only} TFRRS-only, {trxc_only} TRXC-only, {dupes} duplicates removed)")
 
-    # Enrich TFRRS-only results with NCAA standards
+    # Enrich TFRRS/TRXC-only results with NCAA standards
     for r in all_results:
-        if r.get('source') != 'tfrrs':
+        if r.get('source') not in ('tfrrs', 'trxc'):
             continue
         if r.get('ncaa_standard') is not None:
             continue
