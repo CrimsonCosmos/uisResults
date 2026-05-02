@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-02T13:17:50.616967+00:00",
+  "updated_at": "2026-05-02T13:50:21.061284+00:00",
   "date_range": {
     "start": "2026-04-25",
     "end": "2026-05-02"
@@ -63,7 +63,7 @@
       "vs NCAA": "+12.6%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
-      "Sec Behind": "-"
+      "Sec Behind": "+17.44"
     },
     {
       "Name": "Dominic Cantarini",
@@ -158,7 +158,7 @@
       "vs NCAA": "+7.2%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
-      "Sec Behind": "-"
+      "Sec Behind": "+3.00"
     },
     {
       "Name": "Kali Gaden",
@@ -177,7 +177,7 @@
       "vs NCAA": "+17.4%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
-      "Sec Behind": "-"
+      "Sec Behind": "+12.33"
     },
     {
       "Name": "Mackenzie Billard",
@@ -234,7 +234,7 @@
       "vs NCAA": "+12.3%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
-      "Sec Behind": "-"
+      "Sec Behind": "+16.84"
     },
     {
       "Name": "Matt Padilla",
@@ -291,7 +291,7 @@
       "vs NCAA": "+8.4%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
-      "Sec Behind": "-"
+      "Sec Behind": "+4.29"
     }
   ]
 }
