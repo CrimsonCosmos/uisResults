@@ -10,6 +10,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "19"
+        },
+        {
+          "time": "40:58.66",
+          "time_seconds": 2458.66,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -54,6 +63,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "18"
+        },
+        {
+          "time": "33:37.6",
+          "time_seconds": 2017.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "400 Meters": [
@@ -65,6 +83,70 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "30"
+        }
+      ],
+      "3000 Meters": [
+        {
+          "time": "8:44.79",
+          "time_seconds": 524.79,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "8:41.40",
+          "time_seconds": 521.4,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "25:42.35",
+          "time_seconds": 1542.35,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "25:33.20",
+          "time_seconds": 1533.2,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "25:33.20",
+          "time_seconds": 1533.2,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "25:33.20",
+          "time_seconds": 1533.2,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -116,6 +198,88 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "18"
+        },
+        {
+          "time": "2:01.25",
+          "time_seconds": 121.25,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "2:00.74",
+          "time_seconds": 120.74,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "4:25.92",
+          "time_seconds": 265.92,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "4:23.16",
+          "time_seconds": 263.16,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "27:47.51",
+          "time_seconds": 1667.51,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "26:43.16",
+          "time_seconds": 1603.16,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Open": [
+        {
+          "time": "26:43.16",
+          "time_seconds": 1603.16,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "26:43.16",
+          "time_seconds": 1603.16,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -129,6 +293,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "12"
+        },
+        {
+          "time": "31:25.05",
+          "time_seconds": 1885.05,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "400 Meters": [
@@ -153,6 +326,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "23"
+        },
+        {
+          "time": "33:08.98",
+          "time_seconds": 1988.98,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "400 Meters": [
@@ -164,6 +346,83 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "37"
+        }
+      ],
+      "3000 Meters": [
+        {
+          "time": "9:03.71",
+          "time_seconds": 543.71,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "15:50.19",
+          "time_seconds": 950.19,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "27:07.16",
+          "time_seconds": 1627.16,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "7000 Meters Men's Race": [
+        {
+          "time": "24:17.0",
+          "time_seconds": 1457.0,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "26:15.60",
+          "time_seconds": 1575.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "26:15.60",
+          "time_seconds": 1575.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Open": [
+        {
+          "time": "26:15.60",
+          "time_seconds": 1575.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -177,6 +436,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "13"
+        },
+        {
+          "time": "31:01.18",
+          "time_seconds": 1861.18,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "400 Meters": [
@@ -201,6 +469,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "7"
+        },
+        {
+          "time": "32:10.0",
+          "time_seconds": 1930.0,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -224,6 +501,61 @@
           "source": "athletic.net",
           "place": "40"
         }
+      ],
+      "7000 Meters Men's Race": [
+        {
+          "time": "22:28.2",
+          "time_seconds": 1348.2,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "10000 Meters D2 Midwest": [
+        {
+          "time": "32:13.7",
+          "time_seconds": 1933.7,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "24:54.09",
+          "time_seconds": 1494.09,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "24:49.3",
+          "time_seconds": 1489.3,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "24:49.3",
+          "time_seconds": 1489.3,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
       ]
     },
     "Josslyn Gaona": {
@@ -236,6 +568,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "7"
+        },
+        {
+          "time": "4:49.75",
+          "time_seconds": 289.75,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -298,6 +639,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "3"
+        },
+        {
+          "time": "2:22.37",
+          "time_seconds": 142.37,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "1500 Meters": [
@@ -309,6 +659,26 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "9"
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "5:47.46",
+          "time_seconds": 347.46,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "5:44.94",
+          "time_seconds": 344.94,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -322,6 +692,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "15"
+        },
+        {
+          "time": "39:11.12",
+          "time_seconds": 2351.12,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "400 Meters": [
@@ -366,6 +745,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "25"
+        },
+        {
+          "time": "34:29.52",
+          "time_seconds": 2069.52,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -410,6 +798,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "2"
+        },
+        {
+          "time": "4:49.90",
+          "time_seconds": 289.9,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -432,6 +829,37 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "2"
+        },
+        {
+          "time": "2:24.84",
+          "time_seconds": 144.84,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "3000 Meters": [
+        {
+          "time": "10:37.29",
+          "time_seconds": 637.29,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "5:13.13",
+          "time_seconds": 313.13,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -445,6 +873,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "5"
+        },
+        {
+          "time": "32:14.7",
+          "time_seconds": 1934.7,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -468,6 +905,61 @@
           "source": "athletic.net",
           "place": "35"
         }
+      ],
+      "3000 Meters": [
+        {
+          "time": "8:41.92",
+          "time_seconds": 521.92,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "7000 Meters Men's Race": [
+        {
+          "time": "22:21.09",
+          "time_seconds": 1341.09,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "25:04.25",
+          "time_seconds": 1504.25,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "24:57.7",
+          "time_seconds": 1497.7,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "24:57.7",
+          "time_seconds": 1497.7,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
       ]
     },
     "Olivia Thomsen": {
@@ -480,6 +972,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "18"
+        },
+        {
+          "time": "43:18.72",
+          "time_seconds": 2598.72,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Outdoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "5000 Meters": [
@@ -512,6 +1013,26 @@
           "source": "athletic.net",
           "place": "6"
         }
+      ],
+      "3000 Meters": [
+        {
+          "time": "11:25.19",
+          "time_seconds": 685.19,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "11:25.01",
+          "time_seconds": 685.01,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
       ]
     },
     "River Derby": {
@@ -542,6 +1063,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "8"
+        },
+        {
+          "time": "1:59.86",
+          "time_seconds": 119.86,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ],
       "1500 Meters": [
@@ -562,6 +1092,70 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "53"
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "4:35.12",
+          "time_seconds": 275.12,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "4:31.48",
+          "time_seconds": 271.48,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "26:43.77",
+          "time_seconds": 1603.77,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "25:50.37",
+          "time_seconds": 1550.37,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "25:50.37",
+          "time_seconds": 1550.37,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Open": [
+        {
+          "time": "25:50.37",
+          "time_seconds": 1550.37,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -604,6 +1198,26 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "19"
+        }
+      ],
+      "Shot Put": [
+        {
+          "time": "5.43",
+          "time_seconds": 5.43,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "5.54",
+          "time_seconds": 5.54,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -661,6 +1275,26 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "17"
+        }
+      ],
+      "Shot Put": [
+        {
+          "time": "3.38",
+          "time_seconds": 3.38,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "4.25",
+          "time_seconds": 4.25,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -734,6 +1368,61 @@
           "source": "athletic.net",
           "place": "11"
         }
+      ],
+      "5000 Meters Women's Race": [
+        {
+          "time": "19:05.60",
+          "time_seconds": 1145.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Varsity": [
+        {
+          "time": "22:19.23",
+          "time_seconds": 1339.23,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Women's Championship": [
+        {
+          "time": "22:08.8",
+          "time_seconds": 1328.8,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters D2 Midwest": [
+        {
+          "time": "22:08.8",
+          "time_seconds": 1328.8,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Womens 6000": [
+        {
+          "time": "22:08.8",
+          "time_seconds": 1328.8,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
       ]
     },
     "Lucas Naugle": {
@@ -758,6 +1447,17 @@
           "source": "athletic.net",
           "place": "9"
         }
+      ],
+      "1 Mile": [
+        {
+          "time": "4:35.77",
+          "time_seconds": 275.77,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
       ]
     },
     "Brock Loftus": {
@@ -770,6 +1470,61 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "39"
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "4:52.51",
+          "time_seconds": 292.51,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "3000 Meters": [
+        {
+          "time": "8:35.34",
+          "time_seconds": 515.34,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "24:57.7",
+          "time_seconds": 1497.7,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "7000 Meters Men's Race": [
+        {
+          "time": "22:16.16",
+          "time_seconds": 1336.16,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "24:30.65",
+          "time_seconds": 1470.65,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     },
@@ -784,6 +1539,59 @@
           "source": "athletic.net",
           "place": "29"
         }
+      ],
+      "3000 Meters": [
+        {
+          "time": "8:59.58",
+          "time_seconds": 539.58,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "8:44.58",
+          "time_seconds": 524.58,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "25:35.08",
+          "time_seconds": 1535.08,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "25:16.77",
+          "time_seconds": 1516.77,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "25:16.77",
+          "time_seconds": 1516.77,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
       ]
     },
     "Ryan Kries": {
@@ -796,6 +1604,715 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "38"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "16:03.01",
+          "time_seconds": 963.01,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "26:22.38",
+          "time_seconds": 1582.38,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "26:04.27",
+          "time_seconds": 1564.27,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "26:04.27",
+          "time_seconds": 1564.27,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "26:04.27",
+          "time_seconds": 1564.27,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Addison Wittenberg": {
+      "200 Meters": [
+        {
+          "time": "29.42",
+          "time_seconds": 29.42,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "28.79",
+          "time_seconds": 28.79,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "60 Meter": [
+        {
+          "time": "8.64",
+          "time_seconds": 8.64,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "8.59",
+          "time_seconds": 8.59,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Madelyn Festerling": {
+      "400 Meters": [
+        {
+          "time": "1:06.35",
+          "time_seconds": 66.35,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "1:04.95",
+          "time_seconds": 64.95,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "Long Jump": [
+        {
+          "time": "4.38",
+          "time_seconds": 4.38,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "4.62",
+          "time_seconds": 4.62,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Maddie Miller": {
+      "3000 Meters": [
+        {
+          "time": "9:48.45",
+          "time_seconds": 588.45,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "5000 Meters Women's Race": [
+        {
+          "time": "18:28.10",
+          "time_seconds": 1108.1,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters D2 Midwest": [
+        {
+          "time": "21:33.9",
+          "time_seconds": 1293.9,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Varsity": [
+        {
+          "time": "21:16.4",
+          "time_seconds": 1276.4,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Women's Championship": [
+        {
+          "time": "21:16.4",
+          "time_seconds": 1276.4,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters D2 Championship": [
+        {
+          "time": "21:16.4",
+          "time_seconds": 1276.4,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Womens 6000": [
+        {
+          "time": "21:16.4",
+          "time_seconds": 1276.4,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Ellie Najarro": {
+      "200 Meters": [
+        {
+          "time": "33.88",
+          "time_seconds": 33.88,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "33.62",
+          "time_seconds": 33.62,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "60 Meter": [
+        {
+          "time": "9.66",
+          "time_seconds": 9.66,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "9.63",
+          "time_seconds": 9.63,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Colin Graham": {
+      "3000 Meters": [
+        {
+          "time": "8:31.15",
+          "time_seconds": 511.15,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "4:16.08",
+          "time_seconds": 256.08,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "24:41.37",
+          "time_seconds": 1481.37,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "10000 Meters D2 Midwest": [
+        {
+          "time": "32:04.8",
+          "time_seconds": 1924.8,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "24:41.07",
+          "time_seconds": 1481.07,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "24:41.07",
+          "time_seconds": 1481.07,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Carson Cowling": {
+      "3000 Meters": [
+        {
+          "time": "9:31.82",
+          "time_seconds": 571.82,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "1 Mile": [
+        {
+          "time": "4:40.09",
+          "time_seconds": 280.09000000000003,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Daniel Giacomini": {
+      "3000 Meters": [
+        {
+          "time": "8:56.96",
+          "time_seconds": 536.96,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "15:31.93",
+          "time_seconds": 931.93,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "7000 Meters Men's Race": [
+        {
+          "time": "22:56.13",
+          "time_seconds": 1376.13,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "26:02.6",
+          "time_seconds": 1562.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "25:51.69",
+          "time_seconds": 1551.69,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "25:51.69",
+          "time_seconds": 1551.69,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "25:51.69",
+          "time_seconds": 1551.69,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Kalli Drexler": {
+      "Long Jump": [
+        {
+          "time": "4.27",
+          "time_seconds": 4.27,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        },
+        {
+          "time": "4.25",
+          "time_seconds": 4.25,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Giovanna Yurevich": {
+      "Shot Put": [
+        {
+          "time": "9.54",
+          "time_seconds": 9.54,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Indoor Track & Field",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Logan Iott": {
+      "8000 Meters Varsity": [
+        {
+          "time": "28:58.98",
+          "time_seconds": 1738.98,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "28:07.18",
+          "time_seconds": 1687.18,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "28:07.18",
+          "time_seconds": 1687.18,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Open": [
+        {
+          "time": "28:07.18",
+          "time_seconds": 1687.18,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Lucas Baronello": {
+      "7000 Meters Men's Race": [
+        {
+          "time": "24:30.7",
+          "time_seconds": 1470.7,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Charlie Serrahn": {
+      "8000 Meters Mens 8000": [
+        {
+          "time": "27:47.20",
+          "time_seconds": 1667.2,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "27:10.56",
+          "time_seconds": 1630.56,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Open": [
+        {
+          "time": "27:10.56",
+          "time_seconds": 1630.56,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Finn Loken": {
+      "7000 Meters Men's Race": [
+        {
+          "time": "23:02.39",
+          "time_seconds": 1382.39,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "26:12.67",
+          "time_seconds": 1572.67,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "26:12.6",
+          "time_seconds": 1572.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Champs": [
+        {
+          "time": "26:12.6",
+          "time_seconds": 1572.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "26:12.6",
+          "time_seconds": 1572.6,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Noah Tegeler": {
+      "7000 Meters Men's Race": [
+        {
+          "time": "22:13.0",
+          "time_seconds": 1333.0,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Varsity": [
+        {
+          "time": "25:12.57",
+          "time_seconds": 1512.57,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "10000 Meters D2 Midwest": [
+        {
+          "time": "33:23.9",
+          "time_seconds": 2003.9,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Mens 8000": [
+        {
+          "time": "24:49.8",
+          "time_seconds": 1489.8,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "8000 Meters Men's Championship": [
+        {
+          "time": "24:49.8",
+          "time_seconds": 1489.8,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ]
+    },
+    "Victoria Regitz": {
+      "5000 Meters Women's Race": [
+        {
+          "time": "18:42.73",
+          "time_seconds": 1122.73,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Women's Championship": [
+        {
+          "time": "22:53.24",
+          "time_seconds": 1373.24,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
+        }
+      ],
+      "6000 Meters Varsity": [
+        {
+          "time": "22:29.2",
+          "time_seconds": 1349.2,
+          "date": "",
+          "meet": "Athletic.net PR",
+          "sport": "Cross Country",
+          "source": "athletic.net_pr",
+          "place": ""
         }
       ]
     }
