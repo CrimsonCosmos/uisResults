@@ -2560,58 +2560,62 @@ def main():
 
     # ===== GLVC Conference Rankings =====
     # Fetch rankings from TFRRS and enrich results
-    glvc = GLVCRankings()
-    glvc_available = False
+    # Fetch rankings for each active season (indoor/outdoor)
+    glvc_by_season = {}
+    for season in ['indoor', 'outdoor']:
+        if season in checked_sports:
+            glvc = GLVCRankings()
+            print(f"\nFetching GLVC {season} conference rankings from TFRRS...")
+            if glvc.fetch_rankings(season=season):
+                glvc_by_season[season] = glvc
 
-    # Only fetch GLVC rankings if we have indoor track results
-    if 'indoor' in checked_sports:
-        print("\nFetching GLVC conference rankings from TFRRS...")
-        glvc_available = glvc.fetch_rankings()
-        if glvc_available:
-            print("  Enriching results with GLVC ranking data...")
-            for r in all_results:
-                # Skip non-indoor or DNS/DNF results
-                if r.get('sport', '').lower() != 'indoor track & field':
-                    r['glvc_rank'] = None
-                    r['glvc_sec_ahead'] = None
-                    r['glvc_sec_behind'] = None
-                    continue
+    if glvc_by_season:
+        print("  Enriching results with GLVC ranking data...")
+        for r in all_results:
+            # Determine which season's rankings to use
+            sport_lower = r.get('sport', '').lower()
+            if 'indoor' in sport_lower:
+                glvc = glvc_by_season.get('indoor')
+            elif 'outdoor' in sport_lower:
+                glvc = glvc_by_season.get('outdoor')
+            else:
+                glvc = None
 
-                time_str = r.get('time', '')
-                if not time_str or time_str.upper() in ['DNS', 'DNF']:
-                    r['glvc_rank'] = None
-                    r['glvc_sec_ahead'] = None
-                    r['glvc_sec_behind'] = None
-                    continue
-
-                # Convert time/mark to numeric value
-                mark_value = time_to_seconds_standalone(time_str)
-                if mark_value is None:
-                    r['glvc_rank'] = None
-                    r['glvc_sec_ahead'] = None
-                    r['glvc_sec_behind'] = None
-                    continue
-
-                # Get GLVC ranking
-                event = r.get('event', '')
-                gender = r.get('gender', '')
-                rank, sec_ahead, sec_behind = glvc.get_ranking(event, gender, mark_value)
-
-                r['glvc_rank'] = rank
-                r['glvc_sec_ahead'] = sec_ahead
-                r['glvc_sec_behind'] = sec_behind
-                r['glvc_is_field'] = glvc.is_field_event(event)
-
-            print("  GLVC ranking data added to results")
-        else:
-            print("  GLVC rankings unavailable - columns will show '-'")
-            for r in all_results:
+            if not glvc:
                 r['glvc_rank'] = None
                 r['glvc_sec_ahead'] = None
                 r['glvc_sec_behind'] = None
                 r['glvc_is_field'] = False
+                continue
+
+            time_str = r.get('time', '')
+            if not time_str or time_str.upper() in ['DNS', 'DNF']:
+                r['glvc_rank'] = None
+                r['glvc_sec_ahead'] = None
+                r['glvc_sec_behind'] = None
+                continue
+
+            # Convert time/mark to numeric value
+            mark_value = time_to_seconds_standalone(time_str)
+            if mark_value is None:
+                r['glvc_rank'] = None
+                r['glvc_sec_ahead'] = None
+                r['glvc_sec_behind'] = None
+                continue
+
+            # Get GLVC ranking
+            event = r.get('event', '')
+            gender = r.get('gender', '')
+            rank, sec_ahead, sec_behind = glvc.get_ranking(event, gender, mark_value)
+
+            r['glvc_rank'] = rank
+            r['glvc_sec_ahead'] = sec_ahead
+            r['glvc_sec_behind'] = sec_behind
+            r['glvc_is_field'] = glvc.is_field_event(event)
+
+        print("  GLVC ranking data added to results")
     else:
-        # No indoor track, set empty GLVC data
+        print("\n  GLVC rankings unavailable - columns will show '-'")
         for r in all_results:
             r['glvc_rank'] = None
             r['glvc_sec_ahead'] = None

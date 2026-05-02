@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 TFRRS GLVC Rankings Scraper
-Fetches current GLVC Indoor Performance List rankings from TFRRS.
+Fetches current GLVC Performance List rankings from TFRRS.
 Used to add conference ranking context to UIS athlete results.
 """
 
@@ -11,8 +11,14 @@ import re
 from typing import Dict, List, Optional, Tuple
 
 
-# URL for GLVC Indoor Performance List (2025-26 season)
-TFRRS_GLVC_URL = "https://www.tfrrs.org/lists/4940/GLVC_Indoor_Performance_List"
+# URLs for GLVC Performance Lists (2025-26 season)
+TFRRS_GLVC_URLS = {
+    'indoor': "https://www.tfrrs.org/lists/5361/GLVC_Indoor_Performance_List",
+    'outdoor': "https://www.tfrrs.org/lists/5693/GLVC_Outdoor_Performance_List",
+}
+
+# Keep backwards-compatible alias
+TFRRS_GLVC_URL = TFRRS_GLVC_URLS['indoor']
 
 # Event name mapping: Athletic.net variations -> TFRRS canonical name
 EVENT_NAME_MAP = {
@@ -20,6 +26,9 @@ EVENT_NAME_MAP = {
     '60 Meter': '60 Meters',
     '60 Meters': '60 Meters',
     '60m': '60 Meters',
+    '100 Meter': '100 Meters',
+    '100 Meters': '100 Meters',
+    '100m': '100 Meters',
     '200 Meter': '200 Meters',
     '200 Meters': '200 Meters',
     '200m': '200 Meters',
@@ -33,6 +42,9 @@ EVENT_NAME_MAP = {
     '800m': '800 Meters',
     '1 Mile': 'Mile',
     'Mile': 'Mile',
+    '1500 Meter': '1500 Meters',
+    '1500 Meters': '1500 Meters',
+    '1500m': '1500 Meters',
     '3000 Meter': '3000 Meters',
     '3000 Meters': '3000 Meters',
     '3000m': '3000 Meters',
@@ -40,11 +52,29 @@ EVENT_NAME_MAP = {
     '5000 Meters': '5000 Meters',
     '5000m': '5000 Meters',
     '5K': '5000 Meters',
+    '10000 Meter': '10000 Meters',
+    '10000 Meters': '10000 Meters',
+    '10000m': '10000 Meters',
+    '10K': '10000 Meters',
 
     # Hurdles
     '60 Hurdles': '60 Hurdles',
     '60m Hurdles': '60 Hurdles',
     '60H': '60 Hurdles',
+    '100 Hurdles': '100 Hurdles',
+    '100m Hurdles': '100 Hurdles',
+    '100H': '100 Hurdles',
+    '110 Hurdles': '110 Hurdles',
+    '110m Hurdles': '110 Hurdles',
+    '110H': '110 Hurdles',
+    '400 Hurdles': '400 Hurdles',
+    '400m Hurdles': '400 Hurdles',
+    '400H': '400 Hurdles',
+
+    # Steeplechase
+    'Steeplechase': 'Steeplechase',
+    '3000 Steeplechase': 'Steeplechase',
+    '3000m Steeplechase': 'Steeplechase',
 
     # Field Events
     'High Jump': 'High Jump',
@@ -57,6 +87,10 @@ EVENT_NAME_MAP = {
     'TJ': 'Triple Jump',
     'Shot Put': 'Shot Put',
     'SP': 'Shot Put',
+    'Discus': 'Discus',
+    'Hammer Throw': 'Hammer Throw',
+    'Hammer': 'Hammer Throw',
+    'Javelin': 'Javelin',
     'Weight Throw': 'Weight Throw',
     'WT': 'Weight Throw',
 }
@@ -84,15 +118,19 @@ class GLVCRankings:
         self._rankings_cache: Dict[str, List[float]] = {}
         self._fetched = False
 
-    def fetch_rankings(self) -> bool:
+    def fetch_rankings(self, season='indoor') -> bool:
         """
         Fetch all GLVC rankings from TFRRS.
+        Args:
+            season: 'indoor' or 'outdoor'
         Returns True on success, False on failure.
         Call this once at the start of scraper run.
         """
+        url = TFRRS_GLVC_URLS.get(season, TFRRS_GLVC_URLS['indoor'])
+        label = season.capitalize()
         try:
-            print("  Fetching GLVC Indoor Performance List from TFRRS...")
-            resp = self.session.get(TFRRS_GLVC_URL, timeout=30)
+            print(f"  Fetching GLVC {label} Performance List from TFRRS...")
+            resp = self.session.get(url, timeout=30)
             resp.raise_for_status()
             self._parse_rankings_page(resp.text)
             self._fetched = True
@@ -136,9 +174,11 @@ class GLVCRankings:
             else:
                 # Try to find event name from the section text
                 section_text = section.get_text()
-                for evt in ['60 Meters', '200 Meters', '400 Meters', '800 Meters', 'Mile',
-                           '3000 Meters', '5000 Meters', '60 Hurdles', 'High Jump',
-                           'Pole Vault', 'Long Jump', 'Triple Jump', 'Shot Put', 'Weight Throw']:
+                for evt in ['60 Meters', '100 Meters', '200 Meters', '400 Meters', '800 Meters',
+                           'Mile', '1500 Meters', '3000 Meters', '5000 Meters', '10000 Meters',
+                           '60 Hurdles', '100 Hurdles', '110 Hurdles', '400 Hurdles',
+                           'Steeplechase', 'High Jump', 'Pole Vault', 'Long Jump', 'Triple Jump',
+                           'Shot Put', 'Discus', 'Hammer Throw', 'Javelin', 'Weight Throw']:
                     if evt in section_text:
                         event_name = evt
                         break
