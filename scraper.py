@@ -294,12 +294,12 @@ def enrich_from_history(results, history):
             t = entry.get('time_seconds')
             if t is None:
                 continue
-            all_times.append((t, entry.get('time', '')))
+            all_times.append((t, entry.get('time', ''), entry.get('date', '')))
 
             # Same season = same sport type + same academic year
             entry_season = _get_season_key(entry.get('sport', ''), entry.get('date', ''))
             if current_season and entry_season == current_season:
-                season_times.append((t, entry.get('time', '')))
+                season_times.append((t, entry.get('time', ''), entry.get('date', '')))
 
         if not all_times:
             continue
@@ -312,8 +312,8 @@ def enrich_from_history(results, history):
             all_times.sort(key=lambda x: x[0])
             season_times.sort(key=lambda x: x[0])
 
-        best_pr_seconds, best_pr_str = all_times[0]
-        best_sr_seconds, best_sr_str = (season_times[0] if season_times else (None, None))
+        best_pr_seconds, best_pr_str, best_pr_date = all_times[0]
+        best_sr_seconds, best_sr_str, best_sr_date = (season_times[0] if season_times else (None, None, None))
 
         # Determine record type
         if is_field:
@@ -326,6 +326,7 @@ def enrich_from_history(results, history):
         if is_pr:
             r['record_type'] = 'PR'
             r['previous_pr'] = best_pr_str
+            r['previous_pr_date'] = best_pr_date
             if best_pr_seconds > 0:
                 if is_field:
                     r['pr_improvement'] = ((current_seconds - best_pr_seconds) / best_pr_seconds) * 100
@@ -337,6 +338,7 @@ def enrich_from_history(results, history):
         # Always set previous bests for display columns
         if r.get('previous_pr') is None:
             r['previous_pr'] = best_pr_str
+            r['previous_pr_date'] = best_pr_date
             if best_pr_seconds > 0:
                 if is_field:
                     r['pr_improvement'] = ((current_seconds - best_pr_seconds) / best_pr_seconds) * 100
@@ -345,6 +347,7 @@ def enrich_from_history(results, history):
 
         if r.get('previous_sr') is None and best_sr_str:
             r['previous_sr'] = best_sr_str
+            r['previous_sr_date'] = best_sr_date
             if best_sr_seconds and best_sr_seconds > 0:
                 if is_field:
                     r['sr_improvement'] = ((current_seconds - best_sr_seconds) / best_sr_seconds) * 100
@@ -1686,6 +1689,7 @@ class AthleticNetScraper:
                     if len(all_times) > 1:
                         bests[event]['previous_pr'] = all_times[1]['time']
                         bests[event]['previous_pr_seconds'] = all_times[1]['seconds']
+                        bests[event]['previous_pr_date'] = f"{all_times[1]['year']} {all_times[1]['sport']}"
 
                     # Current season record (SR)
                     if current_season_times:
@@ -1807,6 +1811,7 @@ class AthleticNetScraper:
                                 if prev_pr_seconds != float('inf') and 0.5 < prev_pr_seconds / current_seconds < 2.0:
                                     result['pr_improvement'] = self.calculate_improvement(current_time, previous_pr)
                                     result['previous_pr'] = previous_pr
+                                    result['previous_pr_date'] = bests[event].get('previous_pr_date', '')
 
                             # For SRs, calculate improvement vs old SR
                             if result['record_type'] == 'SR' and previous_sr:
@@ -1899,13 +1904,17 @@ class AthleticNetScraper:
             # Previous Best (PR) column
             if r.get('record_type') == 'FT' or r.get('first_at_distance'):
                 row['Previous Best'] = '-'
+                row['PR Date'] = '-'
             elif prev_pr:
                 row['Previous Best'] = prev_pr
+                row['PR Date'] = r.get('previous_pr_date', '') or '-'
             else:
                 row['Previous Best'] = '-'
+                row['PR Date'] = '-'
 
             # Previous Season Best column
             row['Previous SR'] = prev_sr if prev_sr else '-'
+            row['SR Date'] = r.get('previous_sr_date', '') or '-' if prev_sr else '-'
 
             # % Improvement from PR column
             if r.get('record_type') == 'PR' and prev_pr:
@@ -1931,7 +1940,7 @@ class AthleticNetScraper:
 
         df = pd.DataFrame(data)
 
-        columns = ['Name', 'Type', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Previous SR', '% from PR', '% from SR']
+        columns = ['Name', 'Type', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'PR Date', 'Previous SR', 'SR Date', '% from PR', '% from SR']
         df = df[columns]
 
         if filename is None:
@@ -2665,6 +2674,7 @@ def main():
                                     if prev_pr_secs != float('inf') and 0.5 < prev_pr_secs / current_secs < 2.0:
                                         result['pr_improvement'] = scraper.calculate_improvement(current_time, previous_pr)
                                         result['previous_pr'] = previous_pr
+                                        result['previous_pr_date'] = bests[event].get('previous_pr_date', '')
 
                                 if result['record_type'] == 'SR' and previous_sr:
                                     # Validate that previous SR is reasonable
@@ -2909,16 +2919,21 @@ def main():
         # Previous Best (PR) column
         if r.get('record_type') == 'FT' or r.get('first_at_distance'):
             row['Previous Best'] = '-'
+            row['PR Date'] = '-'
         elif prev_pr:
             row['Previous Best'] = prev_pr
+            row['PR Date'] = r.get('previous_pr_date', '') or '-'
         else:
             row['Previous Best'] = '-'
+            row['PR Date'] = '-'
 
         # Previous Season Best column
         if prev_sr:
             row['Previous SR'] = prev_sr
+            row['SR Date'] = r.get('previous_sr_date', '') or '-'
         else:
             row['Previous SR'] = '-'
+            row['SR Date'] = '-'
 
         # % Improvement from PR column
         if r.get('record_type') == 'PR' and prev_pr:
@@ -3002,7 +3017,7 @@ def main():
         data.append(row)
 
     df = pd.DataFrame(data)
-    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'Previous SR', '% from PR', '% from SR', 'NCAA Std', 'vs NCAA', 'GLVC Rank', 'Sec Ahead', 'Sec Behind']
+    columns = ['Name', 'Type', 'Sport', 'Event', 'Time/Mark', 'Place', 'Date', 'Meet', 'Previous Best', 'PR Date', 'Previous SR', 'SR Date', '% from PR', '% from SR', 'NCAA Std', 'vs NCAA', 'GLVC Rank', 'Sec Ahead', 'Sec Behind']
     df = df[columns]
 
     # Build filename with sport(s) and date range
