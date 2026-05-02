@@ -31,6 +31,7 @@ TRXC_EVENT_MAP = {
     '800 Meter Run': '800 Meters',
     '1500 Meter Run': '1500 Meters',
     '5000 M. Run': '5000 Meters',
+    '5000 Meter Run': '5000 Meters',
     '10000 Meter Run': '10000 Meters',
     '100 Meter Hurdles': '100 Hurdles',
     '110 Meter Hurdles': '110 Hurdles',
@@ -100,8 +101,14 @@ def _parse_field_best(attempts_str):
 
 def _is_dnf_time(raw_time, place):
     """Check if a result is DNS/DNF based on placeholder values."""
+    if not raw_time:
+        return True
+    raw_str = str(raw_time)
+    # Catch pre-formatted placeholder times like "99:99:99.02"
+    if raw_str.startswith('99:') or raw_str.startswith('99.'):
+        return True
     try:
-        secs = float(raw_time)
+        secs = float(raw_str)
         if secs > 36000:  # > 10 hours = placeholder
             return True
     except (ValueError, TypeError):
