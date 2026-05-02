@@ -17,8 +17,8 @@ from google.cloud import firestore
 
 # Configuration - set these as environment variables in Cloud Function
 GMAIL_APP_PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
-RECIPIENT_EMAIL = os.environ.get('RECIPIENT_EMAIL', 'dylangehl31@gmail.com')
-SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'dylangehl31@gmail.com')
+RECIPIENT_EMAIL = os.environ.get('RECIPIENT_EMAIL', '')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', '')
 
 # Watched athletes configuration
 WATCHED_ATHLETES = [

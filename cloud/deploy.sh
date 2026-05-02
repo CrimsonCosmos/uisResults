@@ -88,7 +88,7 @@ gcloud functions deploy $FUNCTION_NAME \
     --entry-point=check_results \
     --trigger-http \
     --allow-unauthenticated \
-    --set-env-vars="GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD,RECIPIENT_EMAIL=dylangehl31@gmail.com,SENDER_EMAIL=dylangehl31@gmail.com" \
+    --set-env-vars="GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD,RECIPIENT_EMAIL=$RECIPIENT_EMAIL,SENDER_EMAIL=$SENDER_EMAIL" \
     --memory=256MB \
     --timeout=60s
 

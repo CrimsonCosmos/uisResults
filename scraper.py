@@ -1899,7 +1899,7 @@ class AthleticNetScraper:
             today = datetime.now().strftime('%Y%m%d')
             filename = f"results_{sport_name}_{self.year}_{today}.xlsx"
 
-        filepath = f"/Users/dylangehl/uisResults/{filename}"
+        filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
         df.to_excel(filepath, index=False, sheet_name='Results')
 
         print(f"\nResults saved to: {filepath}")
@@ -2311,9 +2311,9 @@ def main():
     if args.cloud:
         output_dir = "."  # Current directory for GitHub Actions
     elif args.desktop:
-        output_dir = "/Users/dylangehl/Desktop"
+        output_dir = os.path.expanduser("~/Desktop")
     else:
-        output_dir = "/Users/dylangehl/uisResults"
+        output_dir = os.path.dirname(os.path.abspath(__file__))
 
     print("=" * 70)
     print("UIS Athletics Results Tracker")

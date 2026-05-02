@@ -32,3 +32,12 @@ Thumbs.db
 # Selenium/Chrome
 chromedriver
 *.log
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# AI assistant files
+CLAUDE.md
+.claude/
