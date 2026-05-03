@@ -684,6 +684,17 @@
           "source": "athletic.net",
           "place": "35"
         }
+      ],
+      "10,000": [
+        {
+          "time": "41:57.49",
+          "time_seconds": 2517.49,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "19"
+        }
       ]
     },
     "Charlie Borlin": {
@@ -946,6 +957,35 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "18"
+        },
+        {
+          "time": "15:45.41",
+          "time_seconds": 945.41,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "24"
+        },
+        {
+          "time": "15:45.41",
+          "time_seconds": 945.41,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "24"
+        }
+      ],
+      "10,000": [
+        {
+          "time": "32:19.60",
+          "time_seconds": 1939.6,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "18"
         }
       ]
     },
@@ -986,6 +1026,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "27"
+        },
+        {
+          "time": "4:16.64",
+          "time_seconds": 256.64,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "19"
         }
       ],
       "800 Meters": [
@@ -2528,6 +2577,24 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "10"
+        },
+        {
+          "time": "15:15.29",
+          "time_seconds": 915.29,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "14"
+        },
+        {
+          "time": "15:15.29",
+          "time_seconds": 915.29,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "14"
         }
       ],
       "1500 Meters": [
@@ -2539,6 +2606,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "14"
+        }
+      ],
+      "10,000": [
+        {
+          "time": "31:36.29",
+          "time_seconds": 1896.29,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "12"
         }
       ]
     },
@@ -3282,6 +3360,17 @@
           "sport": "Indoor Track & Field",
           "source": "athletic.net",
           "place": "48"
+        }
+      ],
+      "10,000": [
+        {
+          "time": "32:54.17",
+          "time_seconds": 1974.17,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "23"
         }
       ]
     },
@@ -4263,6 +4352,17 @@
           "source": "athletic.net",
           "place": "3"
         }
+      ],
+      "10,000": [
+        {
+          "time": "31:44.65",
+          "time_seconds": 1904.65,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "13"
+        }
       ]
     },
     "Joey Karlesky": {
@@ -4448,6 +4548,24 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "237"
+        },
+        {
+          "time": "15:15.44",
+          "time_seconds": 915.44,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "15"
+        },
+        {
+          "time": "15:15.44",
+          "time_seconds": 915.44,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "15"
         }
       ],
       "400 Meters": [
@@ -4837,6 +4955,17 @@
           "source": "athletic.net",
           "place": "54"
         }
+      ],
+      "10,000": [
+        {
+          "time": "30:41.59",
+          "time_seconds": 1841.59,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "7"
+        }
       ]
     },
     "Josslyn Gaona": {
@@ -4867,6 +4996,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "16"
+        },
+        {
+          "time": "4:49.45",
+          "time_seconds": 289.45,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "15"
         }
       ],
       "5000 Meters": [
@@ -5854,6 +5992,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "18"
+        },
+        {
+          "time": "2:32.60",
+          "time_seconds": 152.6,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "23"
         }
       ],
       "1500 Meters": [
@@ -6463,6 +6610,26 @@
           "sport": "Outdoor Track & Field",
           "source": "trxc",
           "place": "21"
+        },
+        {
+          "time": "18:35.13",
+          "time_seconds": 1115.13,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "21"
+        }
+      ],
+      "10,000": [
+        {
+          "time": "40:55.58",
+          "time_seconds": 2455.58,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "15"
         }
       ]
     },
@@ -7204,6 +7371,17 @@
           "source": "athletic.net",
           "place": "9"
         }
+      ],
+      "10,000": [
+        {
+          "time": "35:09.56",
+          "time_seconds": 2109.56,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "1"
+        }
       ]
     },
     "Marissa Roggensack": {
@@ -7315,6 +7493,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "23"
+        },
+        {
+          "time": "5:03.29",
+          "time_seconds": 303.29,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "18"
         }
       ],
       "5000 Meters": [
@@ -8129,6 +8316,24 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "203"
+        },
+        {
+          "time": "14:51.03",
+          "time_seconds": 891.03,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "4"
+        },
+        {
+          "time": "14:51.03",
+          "time_seconds": 891.03,
+          "date": "May 02, 2026",
+          "meet": "GLVC Outdoor Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "4"
         }
       ],
       "400 Meters": [
@@ -8514,6 +8719,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "25"
+        }
+      ],
+      "10,000": [
+        {
+          "time": "30:36.95",
+          "time_seconds": 1836.95,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "5"
         }
       ]
     },
@@ -9233,6 +9449,17 @@
           "source": "athletic.net",
           "place": "4"
         }
+      ],
+      "10,000": [
+        {
+          "time": "41:16.02",
+          "time_seconds": 2476.02,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "18"
+        }
       ]
     },
     "River Derby": {
@@ -9443,6 +9670,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "52"
+        },
+        {
+          "time": "1:59.74",
+          "time_seconds": 119.74000000000001,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "21"
         }
       ],
       "1500 Meters": [
@@ -11935,6 +12171,15 @@
           "meet": "GLVC Outdoor Championships 2026",
           "sport": "Outdoor Track & Field",
           "source": "trxc",
+          "place": "17"
+        },
+        {
+          "time": "18:21.21",
+          "time_seconds": 1101.21,
+          "date": "Apr 30, 2026",
+          "meet": "GLVC Track and Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
           "place": "17"
         }
       ],
@@ -18458,5 +18703,5 @@
       ]
     }
   },
-  "last_updated": "2026-05-02T19:17:19.842412+00:00"
+  "last_updated": "2026-05-03T05:35:50.971090+00:00"
 }
