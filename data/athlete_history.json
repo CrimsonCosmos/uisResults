@@ -6870,6 +6870,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "6"
+        },
+        {
+          "time": "17:22.10",
+          "time_seconds": 1042.1,
+          "date": "May 21, 2026",
+          "meet": "NCAA Division II Outdoor Track & Field Championships",
+          "sport": "Outdoor Track & Field",
+          "source": "tfrrs",
+          "place": "22"
         }
       ],
       "400 Meters": [
@@ -18703,5 +18712,5 @@
       ]
     }
   },
-  "last_updated": "2026-05-08T15:22:34.066629+00:00"
+  "last_updated": "2026-05-24T06:07:24.990580+00:00"
 }
