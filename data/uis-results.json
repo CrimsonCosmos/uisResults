@@ -1,33 +1,11 @@
 {
-  "updated_at": "2026-05-27T17:18:55.094712+00:00",
+  "updated_at": "2026-05-28T06:18:04.558375+00:00",
   "date_range": {
-    "start": "2026-05-20",
-    "end": "2026-05-27"
+    "start": "2026-05-21",
+    "end": "2026-05-28"
   },
   "sports": [
     "Outdoor Track"
   ],
-  "results": [
-    {
-      "Name": "Maddie Miller-Ross",
-      "Type": "-",
-      "Sport": "Outdoor Track & Field",
-      "Event": "5000 Meters",
-      "Time/Mark": "17:22.10",
-      "Place": "22",
-      "Date": "May 21, 2026",
-      "Meet": "NCAA Division II Outdoor Track & Field Championships",
-      "Previous Best": "16:19.76",
-      "PR Date": "Apr 16, 2026",
-      "Previous SR": "16:19.76",
-      "SR Date": "Apr 16, 2026",
-      "% from PR": "-6.36%",
-      "% from SR": "-6.36%",
-      "NCAA Std": "16:45.00",
-      "vs NCAA": "+3.7%",
-      "GLVC Rank": "9",
-      "Sec Ahead": "9.03",
-      "Sec Behind": "1.64"
-    }
-  ]
+  "results": []
 }
