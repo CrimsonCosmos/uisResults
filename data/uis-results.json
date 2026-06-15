@@ -1,10 +1,12 @@
 {
-  "updated_at": "2026-06-14T15:49:29.828940+00:00",
+  "updated_at": "2026-06-15T07:27:47.351172+00:00",
   "date_range": {
-    "start": "2026-06-07",
-    "end": "2026-06-14"
+    "start": "2026-06-08",
+    "end": "2026-06-15"
   },
   "sports": [
+    "Cross Country",
+    "Indoor Track",
     "Outdoor Track"
   ],
   "results": []
