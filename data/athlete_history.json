@@ -102,6 +102,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "178"
+        },
+        {
+          "time": "21:50.6",
+          "time_seconds": 1310.6,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "24"
         }
       ],
       "400 Meters": [
@@ -695,6 +704,17 @@
           "source": "tfrrs",
           "place": "19"
         }
+      ],
+      "5k Run CC": [
+        {
+          "time": "21:50.56",
+          "time_seconds": 1310.56,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "24"
+        }
       ]
     },
     "Charlie Borlin": {
@@ -975,6 +995,15 @@
           "sport": "Outdoor Track & Field",
           "source": "trxc",
           "place": "24"
+        },
+        {
+          "time": "16:04.8",
+          "time_seconds": 964.8,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "4"
         }
       ],
       "10,000": [
@@ -986,6 +1015,17 @@
           "sport": "Outdoor Track & Field",
           "source": "tfrrs",
           "place": "18"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:04.77",
+          "time_seconds": 964.77,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "4"
         }
       ]
     },
@@ -1407,6 +1447,28 @@
           "sport": "Indoor Track & Field",
           "source": "athletic.net",
           "place": "8"
+        }
+      ],
+      "5000 Meters": [
+        {
+          "time": "16:49.6",
+          "time_seconds": 1009.6,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "20"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:49.60",
+          "time_seconds": 1009.6,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "20"
         }
       ]
     },
@@ -2595,6 +2657,15 @@
           "sport": "Outdoor Track & Field",
           "source": "trxc",
           "place": "14"
+        },
+        {
+          "time": "16:03.7",
+          "time_seconds": 963.7,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "3"
         }
       ],
       "1500 Meters": [
@@ -2617,6 +2688,17 @@
           "sport": "Outdoor Track & Field",
           "source": "tfrrs",
           "place": "12"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:03.66",
+          "time_seconds": 963.66,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "3"
         }
       ]
     },
@@ -4566,6 +4648,15 @@
           "sport": "Outdoor Track & Field",
           "source": "trxc",
           "place": "15"
+        },
+        {
+          "time": "16:06.2",
+          "time_seconds": 966.2,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "7"
         }
       ],
       "400 Meters": [
@@ -4966,6 +5057,17 @@
           "source": "tfrrs",
           "place": "7"
         }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:06.12",
+          "time_seconds": 966.12,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "7"
+        }
       ]
     },
     "Josslyn Gaona": {
@@ -5088,6 +5190,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "25"
+        },
+        {
+          "time": "19:22.0",
+          "time_seconds": 1162.0,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "1"
         }
       ],
       "400 Meters": [
@@ -5619,6 +5730,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "50"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "19:21.99",
+          "time_seconds": 1161.99,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "1"
         }
       ]
     },
@@ -6273,6 +6395,26 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "181"
+        },
+        {
+          "time": "21:32.0",
+          "time_seconds": 1292.0,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "20"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "21:31.93",
+          "time_seconds": 1291.93,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "20"
         }
       ]
     },
@@ -6619,6 +6761,15 @@
           "sport": "Outdoor Track & Field",
           "source": "tfrrs",
           "place": "21"
+        },
+        {
+          "time": "20:45.1",
+          "time_seconds": 1245.1,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "13"
         }
       ],
       "10,000": [
@@ -6630,6 +6781,17 @@
           "sport": "Outdoor Track & Field",
           "source": "tfrrs",
           "place": "15"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "20:45.06",
+          "time_seconds": 1245.06,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "13"
         }
       ]
     },
@@ -7603,6 +7765,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "264"
+        },
+        {
+          "time": "20:23.0",
+          "time_seconds": 1223.0,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "11"
         }
       ],
       "800 Meters": [
@@ -8139,6 +8310,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "1"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "20:22.96",
+          "time_seconds": 1222.96,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "11"
         }
       ]
     },
@@ -8799,6 +8981,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "38"
+        },
+        {
+          "time": "21:22.5",
+          "time_seconds": 1282.5,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "17"
         }
       ],
       "1500 Meters": [
@@ -9468,6 +9659,17 @@
           "sport": "Outdoor Track & Field",
           "source": "tfrrs",
           "place": "18"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "21:22.50",
+          "time_seconds": 1282.5,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "17"
         }
       ]
     },
@@ -11325,6 +11527,28 @@
           "source": "athletic.net",
           "place": "36"
         }
+      ],
+      "5000 Meters": [
+        {
+          "time": "21:33.3",
+          "time_seconds": 1293.3,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "21"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "21:33.27",
+          "time_seconds": 1293.27,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "21"
+        }
       ]
     },
     "Lauren McBride": {
@@ -11409,6 +11633,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "35"
+        },
+        {
+          "time": "22:03.8",
+          "time_seconds": 1323.8,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "25"
         }
       ],
       "1500 Meters": [
@@ -11668,6 +11901,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "10"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "22:03.74",
+          "time_seconds": 1323.74,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "25"
         }
       ]
     },
@@ -12190,6 +12434,15 @@
           "sport": "Outdoor Track & Field",
           "source": "tfrrs",
           "place": "17"
+        },
+        {
+          "time": "19:33.7",
+          "time_seconds": 1173.7,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "2"
         }
       ],
       "10000 Meters": [
@@ -12228,6 +12481,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "4"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "19:33.65",
+          "time_seconds": 1173.65,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "2"
         }
       ]
     },
@@ -12869,6 +13133,26 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "262"
+        },
+        {
+          "time": "17:28.7",
+          "time_seconds": 1048.7,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "36"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "17:28.70",
+          "time_seconds": 1048.7,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "36"
         }
       ]
     },
@@ -14110,6 +14394,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "40"
+        },
+        {
+          "time": "15:59.0",
+          "time_seconds": 959.0,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "2"
         }
       ],
       "10000 Meters": [
@@ -14121,6 +14414,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "75"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "15:58.96",
+          "time_seconds": 958.96,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "2"
         }
       ]
     },
@@ -14163,6 +14467,15 @@
           "sport": "Indoor Track & Field",
           "source": "athletic.net",
           "place": "1"
+        },
+        {
+          "time": "16:05.2",
+          "time_seconds": 965.2,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "5"
         }
       ],
       "8000 Meters Varsity": [],
@@ -14739,6 +15052,17 @@
           "sport": "Indoor Track & Field",
           "source": "athletic.net",
           "place": "36"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:05.19",
+          "time_seconds": 965.19,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "5"
         }
       ]
     },
@@ -18710,7 +19034,236 @@
           "place": "19"
         }
       ]
+    },
+    "Elijah Mendoza": {
+      "5000 Meters": [
+        {
+          "time": "16:47.9",
+          "time_seconds": 1007.9,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "19"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:47.84",
+          "time_seconds": 1007.84,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "19"
+        }
+      ]
+    },
+    "Jack Nester": {
+      "5000 Meters": [
+        {
+          "time": "17:20.8",
+          "time_seconds": 1040.8,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "32"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "17:20.79",
+          "time_seconds": 1040.79,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "32"
+        }
+      ]
+    },
+    "William Scroggs": {
+      "5000 Meters": [
+        {
+          "time": "16:54.5",
+          "time_seconds": 1014.5,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "22"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "16:54.47",
+          "time_seconds": 1014.47,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "22"
+        }
+      ]
+    },
+    "Alaina Hawker": {
+      "5000 Meters": [
+        {
+          "time": "20:17.2",
+          "time_seconds": 1217.2,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "8"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "20:17.12",
+          "time_seconds": 1217.12,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "8"
+        }
+      ]
+    },
+    "Ellison Heineke": {
+      "5000 Meters": [
+        {
+          "time": "20:42.1",
+          "time_seconds": 1242.1,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "12"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "20:42.08",
+          "time_seconds": 1242.08,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "12"
+        }
+      ]
+    },
+    "Natalie Nichols": {
+      "5000 Meters": [
+        {
+          "time": "20:09.9",
+          "time_seconds": 1209.9,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "6"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "20:09.85",
+          "time_seconds": 1209.85,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "6"
+        }
+      ]
+    },
+    "Addie Powers": {
+      "5000 Meters": [
+        {
+          "time": "23:56.2",
+          "time_seconds": 1436.2,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "35"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "23:56.14",
+          "time_seconds": 1436.14,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "35"
+        }
+      ]
+    },
+    "Olivia Ruiz": {
+      "5000 Meters": [
+        {
+          "time": "22:03.9",
+          "time_seconds": 1323.9,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "26"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "22:03.88",
+          "time_seconds": 1323.88,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "26"
+        }
+      ]
+    },
+    "Lacey Updike": {
+      "5000 Meters": [
+        {
+          "time": "21:27.1",
+          "time_seconds": 1287.1,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "18"
+        }
+      ],
+      "5k Run CC": [
+        {
+          "time": "21:27.06",
+          "time_seconds": 1287.06,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "18"
+        }
+      ]
+    },
+    "Dylan Gehl": {
+      "5k Run CC": [
+        {
+          "time": "16:05.64",
+          "time_seconds": 965.64,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual Prairie Stars Invitational",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "6"
+        }
+      ]
     }
   },
-  "last_updated": "2026-05-27T17:18:53.878913+00:00"
+  "last_updated": "2026-09-05T06:50:41.400403+00:00"
 }
