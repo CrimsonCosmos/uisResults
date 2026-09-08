@@ -19262,8 +19262,19 @@
           "source": "trxc",
           "place": "6"
         }
+      ],
+      "5000 Meters": [
+        {
+          "time": "16:05.7",
+          "time_seconds": 965.7,
+          "date": "Sep 04, 2026",
+          "meet": "11th Annual UIS Prairie Stars Invitational",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "6"
+        }
       ]
     }
   },
-  "last_updated": "2026-09-07T18:37:03.579840+00:00"
+  "last_updated": "2026-09-08T07:06:32.216536+00:00"
 }

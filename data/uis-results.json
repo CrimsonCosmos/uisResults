@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-09-07T18:37:03.600912+00:00",
+  "updated_at": "2026-09-08T07:06:32.238121+00:00",
   "date_range": {
-    "start": "2026-08-31",
-    "end": "2026-09-07"
+    "start": "2026-09-01",
+    "end": "2026-09-08"
   },
   "sports": [
     "Cross Country"
@@ -298,6 +298,27 @@
       "% from SR": "-",
       "NCAA Std": "14:15.00",
       "vs NCAA": "+12.7%",
+      "GLVC Rank": "NR",
+      "Sec Ahead": "-",
+      "Sec Behind": "-"
+    },
+    {
+      "Name": "Dylan Gehl",
+      "Type": "-",
+      "Sport": "Cross Country",
+      "Event": "5000 Meters",
+      "Time/Mark": "16:05.7",
+      "Place": "6",
+      "Date": "Sep 04, 2026",
+      "Meet": "11th Annual UIS Prairie Stars Invitational",
+      "Previous Best": "-",
+      "PR Date": "-",
+      "Previous SR": "-",
+      "SR Date": "-",
+      "% from PR": "-",
+      "% from SR": "-",
+      "NCAA Std": "14:15.00",
+      "vs NCAA": "+12.9%",
       "GLVC Rank": "NR",
       "Sec Ahead": "-",
       "Sec Behind": "-"
