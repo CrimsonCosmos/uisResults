@@ -726,6 +726,17 @@
           "source": "tfrrs",
           "place": "38"
         }
+      ],
+      "0k": [
+        {
+          "time": "25:52.7",
+          "time_seconds": 1552.7,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "195"
+        }
       ]
     },
     "Charlie Borlin": {
@@ -1048,6 +1059,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "25"
+        },
+        {
+          "time": "25:56.3",
+          "time_seconds": 1556.3,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "103"
         }
       ]
     },
@@ -1502,6 +1522,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "37"
+        },
+        {
+          "time": "29:46.6",
+          "time_seconds": 1786.6,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "265"
         }
       ]
     },
@@ -3508,6 +3537,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "33"
+        },
+        {
+          "time": "26:59.6",
+          "time_seconds": 1619.6,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "181"
         }
       ]
     },
@@ -5133,6 +5171,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "21"
+        },
+        {
+          "time": "25:34.9",
+          "time_seconds": 1534.9,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "66"
         }
       ]
     },
@@ -5819,6 +5866,17 @@
           "source": "tfrrs",
           "place": "20"
         }
+      ],
+      "0k": [
+        {
+          "time": "23:27.8",
+          "time_seconds": 1407.8,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "71"
+        }
       ]
     },
     "Kali Gaden": {
@@ -6503,6 +6561,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "40"
+        }
+      ],
+      "0k": [
+        {
+          "time": "27:19.0",
+          "time_seconds": 1639.0,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "222"
         }
       ]
     },
@@ -8432,6 +8501,17 @@
           "source": "tfrrs",
           "place": "28"
         }
+      ],
+      "0k": [
+        {
+          "time": "24:55.9",
+          "time_seconds": 1495.9,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "157"
+        }
       ]
     },
     "Matt Padilla": {
@@ -9042,6 +9122,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "17"
+        },
+        {
+          "time": "25:28.4",
+          "time_seconds": 1528.4,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "57"
         }
       ]
     },
@@ -9803,6 +9892,17 @@
           "source": "tfrrs",
           "place": "36"
         }
+      ],
+      "0k": [
+        {
+          "time": "25:28.6",
+          "time_seconds": 1528.6,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "184"
+        }
       ]
     },
     "River Derby": {
@@ -10537,6 +10637,17 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "233"
+        }
+      ],
+      "8k": [
+        {
+          "time": "27:05.9",
+          "time_seconds": 1625.9,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "190"
         }
       ]
     },
@@ -11692,6 +11803,17 @@
           "source": "tfrrs",
           "place": "44"
         }
+      ],
+      "0k": [
+        {
+          "time": "25:55.1",
+          "time_seconds": 1555.1,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "196"
+        }
       ]
     },
     "Lauren McBride": {
@@ -12066,6 +12188,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "42"
+        }
+      ],
+      "0k": [
+        {
+          "time": "27:06.4",
+          "time_seconds": 1626.4,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "219"
         }
       ]
     },
@@ -12657,6 +12790,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "21"
+        }
+      ],
+      "0k": [
+        {
+          "time": "24:45.4",
+          "time_seconds": 1485.4,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "148"
         }
       ]
     },
@@ -13329,6 +13473,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "39"
+        },
+        {
+          "time": "28:54.1",
+          "time_seconds": 1734.1,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "254"
         }
       ]
     },
@@ -14612,6 +14765,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "13"
+        },
+        {
+          "time": "25:50.8",
+          "time_seconds": 1550.8,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "92"
         }
       ]
     },
@@ -15261,6 +15423,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "26"
+        },
+        {
+          "time": "26:02.1",
+          "time_seconds": 1562.1,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "113"
         }
       ]
     },
@@ -16854,6 +17025,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "45"
+        },
+        {
+          "time": "29:47.8",
+          "time_seconds": 1787.8,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "266"
         }
       ]
     },
@@ -19276,6 +19456,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "30"
+        },
+        {
+          "time": "26:38.3",
+          "time_seconds": 1598.3,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "157"
         }
       ]
     },
@@ -19311,6 +19500,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "42"
+        },
+        {
+          "time": "28:49.1",
+          "time_seconds": 1729.1,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "251"
         }
       ]
     },
@@ -19394,6 +19592,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "34"
+        }
+      ],
+      "0k": [
+        {
+          "time": "26:11.0",
+          "time_seconds": 1571.0,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "201"
         }
       ]
     },
@@ -19513,6 +19722,17 @@
           "source": "tfrrs",
           "place": "39"
         }
+      ],
+      "0k": [
+        {
+          "time": "26:14.7",
+          "time_seconds": 1574.7,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "204"
+        }
       ]
     },
     "Dylan Gehl": {
@@ -19551,5 +19771,5 @@
       ]
     }
   },
-  "last_updated": "2026-09-24T18:13:04.727816+00:00"
+  "last_updated": "2026-10-10T18:14:11.513459+00:00"
 }
