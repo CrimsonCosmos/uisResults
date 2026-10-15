@@ -725,6 +725,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "38"
+        },
+        {
+          "time": "25:52.7",
+          "time_seconds": 1552.7,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "195"
         }
       ],
       "0k": [
@@ -5865,6 +5874,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "20"
+        },
+        {
+          "time": "23:27.8",
+          "time_seconds": 1407.8,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "71"
         }
       ],
       "0k": [
@@ -6561,6 +6579,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "40"
+        },
+        {
+          "time": "27:19.0",
+          "time_seconds": 1639.0,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "222"
         }
       ],
       "0k": [
@@ -8500,6 +8527,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "28"
+        },
+        {
+          "time": "24:55.9",
+          "time_seconds": 1495.9,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "157"
         }
       ],
       "0k": [
@@ -9891,6 +9927,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "36"
+        },
+        {
+          "time": "25:28.6",
+          "time_seconds": 1528.6,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "184"
         }
       ],
       "0k": [
@@ -11802,6 +11847,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "44"
+        },
+        {
+          "time": "25:55.1",
+          "time_seconds": 1555.1,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "196"
         }
       ],
       "0k": [
@@ -12188,6 +12242,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "42"
+        },
+        {
+          "time": "27:06.4",
+          "time_seconds": 1626.4,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "219"
         }
       ],
       "0k": [
@@ -12790,6 +12853,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "21"
+        },
+        {
+          "time": "24:45.4",
+          "time_seconds": 1485.4,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "148"
         }
       ],
       "0k": [
@@ -19592,6 +19664,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "34"
+        },
+        {
+          "time": "26:11.0",
+          "time_seconds": 1571.0,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "201"
         }
       ],
       "0k": [
@@ -19721,6 +19802,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "39"
+        },
+        {
+          "time": "26:14.7",
+          "time_seconds": 1574.7,
+          "date": "Oct 10, 2026",
+          "meet": "Lewis Crossover",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "204"
         }
       ],
       "0k": [
@@ -19771,5 +19861,5 @@
       ]
     }
   },
-  "last_updated": "2026-10-14T18:18:58.050280+00:00"
+  "last_updated": "2026-10-15T07:11:15.094872+00:00"
 }
