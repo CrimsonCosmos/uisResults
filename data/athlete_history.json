@@ -743,6 +743,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "225"
+        },
+        {
+          "time": "24:01.3",
+          "time_seconds": 1441.3,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "80"
         }
       ],
       "0k": [
@@ -754,6 +763,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "195"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "24:01.27",
+          "time_seconds": 1441.27,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "80"
         }
       ]
     },
@@ -1095,6 +1115,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "106"
+        },
+        {
+          "time": "24:50.7",
+          "time_seconds": 1490.7,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "22"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "24:50.68",
+          "time_seconds": 1490.68,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "22"
         }
       ]
     },
@@ -1567,6 +1607,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "316"
+        },
+        {
+          "time": "27:36.2",
+          "time_seconds": 1656.2,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "126"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "27:36.15",
+          "time_seconds": 1656.15,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "126"
         }
       ]
     },
@@ -2817,6 +2877,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "86"
+        },
+        {
+          "time": "24:58.2",
+          "time_seconds": 1498.2,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "24"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "24:58.14",
+          "time_seconds": 1498.14,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "24"
         }
       ]
     },
@@ -5243,6 +5323,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "88"
+        },
+        {
+          "time": "25:04.2",
+          "time_seconds": 1504.2,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "29"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "25:04.13",
+          "time_seconds": 1504.13,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "29"
         }
       ]
     },
@@ -5946,6 +6046,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "62"
+        },
+        {
+          "time": "22:17.3",
+          "time_seconds": 1337.3,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "31"
         }
       ],
       "0k": [
@@ -5957,6 +6066,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "71"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "22:17.23",
+          "time_seconds": 1337.23,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "31"
         }
       ]
     },
@@ -6660,6 +6780,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "254"
+        },
+        {
+          "time": "24:23.6",
+          "time_seconds": 1463.6,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "87"
         }
       ],
       "0k": [
@@ -6671,6 +6800,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "222"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "24:23.51",
+          "time_seconds": 1463.51,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "87"
         }
       ]
     },
@@ -7068,6 +7208,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "278"
+        },
+        {
+          "time": "23:29.7",
+          "time_seconds": 1409.7,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "62"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "23:29.67",
+          "time_seconds": 1409.67,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "62"
         }
       ]
     },
@@ -8626,6 +8786,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "146"
+        },
+        {
+          "time": "23:04.1",
+          "time_seconds": 1384.1,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "51"
         }
       ],
       "0k": [
@@ -8637,6 +8806,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "157"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "23:04.02",
+          "time_seconds": 1384.02,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "51"
         }
       ]
     },
@@ -9266,6 +9446,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "29"
+        },
+        {
+          "time": "23:58.8",
+          "time_seconds": 1438.8,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "4"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "23:58.75",
+          "time_seconds": 1438.75,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "4"
         }
       ]
     },
@@ -10044,6 +10244,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "205"
+        },
+        {
+          "time": "23:20.6",
+          "time_seconds": 1400.6,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "59"
         }
       ],
       "0k": [
@@ -10055,6 +10264,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "184"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "23:20.59",
+          "time_seconds": 1400.59,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "59"
         }
       ]
     },
@@ -10810,6 +11030,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "295"
+        },
+        {
+          "time": "25:31.4",
+          "time_seconds": 1531.4,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "48"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "25:31.38",
+          "time_seconds": 1531.38,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "48"
         }
       ]
     },
@@ -11982,6 +12222,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "310"
+        },
+        {
+          "time": "24:59.3",
+          "time_seconds": 1499.3,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "98"
         }
       ],
       "0k": [
@@ -11993,6 +12242,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "196"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "24:59.28",
+          "time_seconds": 1499.28,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "98"
         }
       ]
     },
@@ -12386,6 +12646,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "303"
+        },
+        {
+          "time": "25:15.9",
+          "time_seconds": 1515.9,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "101"
         }
       ],
       "0k": [
@@ -12397,6 +12666,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "219"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "25:15.82",
+          "time_seconds": 1515.82,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "101"
         }
       ]
     },
@@ -13006,6 +13286,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "131"
+        },
+        {
+          "time": "24:00.1",
+          "time_seconds": 1440.1,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "79"
         }
       ],
       "0k": [
@@ -13017,6 +13306,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "148"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "24:00.06",
+          "time_seconds": 1440.06,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "79"
         }
       ]
     },
@@ -13707,6 +14007,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "366"
+        },
+        {
+          "time": "26:47.3",
+          "time_seconds": 1607.3,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "107"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "26:47.28",
+          "time_seconds": 1607.28,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "107"
         }
       ]
     },
@@ -15008,6 +15328,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "59"
+        },
+        {
+          "time": "24:42.9",
+          "time_seconds": 1482.9,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "18"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "24:42.88",
+          "time_seconds": 1482.88,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "18"
         }
       ]
     },
@@ -15675,6 +16015,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "134"
+        },
+        {
+          "time": "25:03.3",
+          "time_seconds": 1503.3,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "27"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "25:03.27",
+          "time_seconds": 1503.27,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "27"
         }
       ]
     },
@@ -17286,6 +17646,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "400"
+        },
+        {
+          "time": "28:18.7",
+          "time_seconds": 1698.7,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "133"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "28:18.67",
+          "time_seconds": 1698.67,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "133"
         }
       ]
     },
@@ -19726,6 +20106,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "151"
+        },
+        {
+          "time": "25:09.1",
+          "time_seconds": 1509.1,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "33"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "25:09.04",
+          "time_seconds": 1509.04,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "33"
         }
       ]
     },
@@ -19829,6 +20229,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "184"
+        },
+        {
+          "time": "23:13.9",
+          "time_seconds": 1393.9,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "57"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "23:13.85",
+          "time_seconds": 1393.85,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "57"
         }
       ]
     },
@@ -19882,6 +20302,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "171"
+        },
+        {
+          "time": "23:25.4",
+          "time_seconds": 1405.4,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "61"
         }
       ],
       "0k": [
@@ -19893,6 +20322,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "201"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "23:25.38",
+          "time_seconds": 1405.38,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "61"
         }
       ]
     },
@@ -19985,6 +20425,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "231"
+        },
+        {
+          "time": "24:29.3",
+          "time_seconds": 1469.3,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "91"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "24:29.22",
+          "time_seconds": 1469.22,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "91"
         }
       ]
     },
@@ -20038,6 +20498,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "255"
+        },
+        {
+          "time": "23:56.4",
+          "time_seconds": 1436.4,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "77"
         }
       ],
       "0k": [
@@ -20049,6 +20518,17 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "204"
+        }
+      ],
+      "6k Run CC": [
+        {
+          "time": "23:56.33",
+          "time_seconds": 1436.33,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "77"
         }
       ]
     },
@@ -20093,6 +20573,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "170"
+        },
+        {
+          "time": "25:19.9",
+          "time_seconds": 1519.9,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "41"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "25:19.84",
+          "time_seconds": 1519.84,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "41"
         }
       ]
     },
@@ -20106,6 +20606,26 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "256"
+        },
+        {
+          "time": "25:56.5",
+          "time_seconds": 1556.5,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "74"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "25:56.45",
+          "time_seconds": 1556.45,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "74"
         }
       ]
     },
@@ -20119,9 +20639,29 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "275"
+        },
+        {
+          "time": "26:04.2",
+          "time_seconds": 1564.2,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "79"
+        }
+      ],
+      "8k Run CC": [
+        {
+          "time": "26:04.17",
+          "time_seconds": 1564.17,
+          "date": "Nov 07, 2026",
+          "meet": "GLVC XC Championships 2026",
+          "sport": "Outdoor Track & Field",
+          "source": "trxc",
+          "place": "79"
         }
       ]
     }
   },
-  "last_updated": "2026-10-30T19:00:07.886385+00:00"
+  "last_updated": "2026-11-07T18:29:12.056945+00:00"
 }
