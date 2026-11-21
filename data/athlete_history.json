@@ -796,6 +796,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "76"
+        },
+        {
+          "time": "33:01.5",
+          "time_seconds": 1981.5,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "75"
         }
       ],
       "400 Meters": [
@@ -1649,6 +1658,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "57"
+        },
+        {
+          "time": "33:48.1",
+          "time_seconds": 2028.1,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "111"
         }
       ],
       "400 Meters": [
@@ -4738,6 +4756,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "42"
+        },
+        {
+          "time": "33:04.7",
+          "time_seconds": 1984.7,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "77"
         }
       ],
       "5000 Meters": [
@@ -6055,6 +6082,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "31"
+        },
+        {
+          "time": "22:55.6",
+          "time_seconds": 1375.6,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "56"
         }
       ],
       "0k": [
@@ -7217,6 +7253,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "62"
+        },
+        {
+          "time": "24:26.7",
+          "time_seconds": 1466.7,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "128"
         }
       ],
       "6k Run CC": [
@@ -8795,6 +8840,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "51"
+        },
+        {
+          "time": "24:54.8",
+          "time_seconds": 1494.8,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "150"
         }
       ],
       "0k": [
@@ -8875,6 +8929,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "47"
+        },
+        {
+          "time": "31:44.6",
+          "time_seconds": 1904.6,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "19"
         }
       ],
       "5000 Meters": [
@@ -10253,6 +10316,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "59"
+        },
+        {
+          "time": "25:16.1",
+          "time_seconds": 1516.1,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "158"
         }
       ],
       "0k": [
@@ -13295,6 +13367,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "79"
+        },
+        {
+          "time": "23:55.4",
+          "time_seconds": 1435.4,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "112"
         }
       ],
       "0k": [
@@ -15288,6 +15369,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "75"
+        },
+        {
+          "time": "32:43.1",
+          "time_seconds": 1963.1,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "58"
         }
       ],
       "5k Run CC": [
@@ -15955,6 +16045,15 @@
           "sport": "Outdoor Track & Field",
           "source": "athletic.net",
           "place": "94"
+        },
+        {
+          "time": "33:45.9",
+          "time_seconds": 2025.9,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "109"
         }
       ],
       "3000 Meters": [
@@ -20127,6 +20226,17 @@
           "source": "trxc",
           "place": "33"
         }
+      ],
+      "10000 Meters": [
+        {
+          "time": "34:05.5",
+          "time_seconds": 2045.5,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "126"
+        }
       ]
     },
     "Jack Nester": {
@@ -20238,6 +20348,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "57"
+        },
+        {
+          "time": "24:38.7",
+          "time_seconds": 1478.7,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "137"
         }
       ],
       "6k Run CC": [
@@ -20311,6 +20430,15 @@
           "sport": "Cross Country",
           "source": "tfrrs",
           "place": "61"
+        },
+        {
+          "time": "25:38.0",
+          "time_seconds": 1538.0,
+          "date": "Nov 21, 2026",
+          "meet": "NCAA Division II Midwest Region Cross Country Championships",
+          "sport": "Cross Country",
+          "source": "tfrrs",
+          "place": "167"
         }
       ],
       "0k": [
@@ -20663,5 +20791,5 @@
       ]
     }
   },
-  "last_updated": "2026-11-13T20:46:43.185799+00:00"
+  "last_updated": "2026-11-21T20:22:58.422959+00:00"
 }
